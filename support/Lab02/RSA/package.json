@@ -1,0 +1,26 @@
+{
+  "name": "rsa-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:all": "tap --jobs=1 --timeout=600 \"test/\"",
+    "test:unit": "tap --timeout=600 \"test/unit/\"",
+    "compile": "tsc *.ts"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Rafael Belchior",
+    "email": "rafael.belchior@tecnico.ulisboa.pt",
+    "url": ""
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tap": "^14.10.7",
+    "typescript": "^3.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.20",
+    "tslint": "^6.1.2"
+  }
+}
