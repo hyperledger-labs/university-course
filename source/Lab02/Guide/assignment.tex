@@ -1,0 +1,297 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  2 \\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module I - Introduction} & \textbf{Issue Date:}  &  21 Sept 2020 \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Background: Cryptography \& Security} & \textbf{Due Date:} &  28 Sept 2020\\ 
+\hline
+\end{tabularx}}
+\rhead{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Preliminary Notes}
+This class provides background about crpytography and security. This laboratory is based on several sources \cite{sdist2017,rogaway2004,md2020}.
+
+
+%The reference section should be viewed as a ``additional readings reference'' - if you would like more information about the topic.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cryptography and Security}
+The goal of Cryptography is allow the communication between people, or computers, in a way that others cannot understand that communication. Whereas having a single dialect could serve that purpose, it is not scalable, nor safe.
+
+Cryptography is much older than computers, dated from as early as 400 BC, where Spartans used a cipher device called \emph{scytale} for military communication \cite{simmons}. A \emph{cipher} is an algorithm that is used to obfuscate information (or to encrypt information). Information is \emph{encrypted} using a key, as the parameter of the cipher. This allows the algorithm to be public. Historical ciphers are, for example, the Caesar cipher\footnote{https://cryptii.com/pipes/caesar-cipher}, the substitution cipher\footnote{https://planetcalc.com/7984/}, the Vigener cipher\footnote{https://www.dcode.fr/vigenere-cipher}. 
+
+Let us define notation to refer to ciphers and messages, and their keys.
+
+\theoremstyle{definition}
+\begin{definition}{Cryptogram C}
+
+$C = E_k(M)$, where C is the cryptogram (or encrypted message), $E_k$ is the key used for the encryption, and M is the original message. 
+\end{definition}
+
+\begin{definition}{Decrypted Message M}
+
+$M = E_k^{-1}(C)$, where M is the decrypted message, $K^{-1}$ is the inverse key, and C is the cryptogram. 
+\end{definition}
+
+In the context of cryptography, often techniques are separated into symmetric and asymetric cryptography.
+
+\subsection{Symmetric Cryptography}
+In \emph{symmetric cryptography}, a single key is used to cipher and decipher the message ($K = K^{-1}$). Figure \ref{fig:sc} illustrates communication between Alice and Bob. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/lab2_sc.pdf}
+    \caption{Symmetric cryptography. Alice sends a message to Bob. $K = K^{-1}$}
+    \label{fig:sc}
+\end{figure}
+
+In practise, there are some problems: the party generating the key must deliver it in a confidential way. The party receiving the key must assure they key received is the key intended to be sent, and it should be able to confirm it is the most recent. Moreover, there needs to be a key, for each pair of parties. 
+
+Typical examples of symmetric cryptography include the TEA algorithm, the Data Encription Standard (DES), Triple DES, Twofish, and the AES.
+
+\subsection{Asymmetric Cryptography}
+In \emph{asymmetric cryptography}, there are two keys: one is used to for cipher, and another to decipher. Normally, we call \emph{public key} to the key that ciphers ($K_u$), and \emph{private key} to the key that deciphers ($K_r$). We remark that it is also possible to cipher with the private key, and decipher with the public key. Figure \ref{fig:pc} illustrates this process.
+
+Contrarily to symmetric key cryptography, there is no need to assure confidentiality of the public key. The party that wants to communicate needs to publish the public key (assuring integrity and authenticity of it). There is no need to distribute a pair of keys per pair of parties.
+
+Many ciphers, such as \emph{RSA}, are not considered \emph{totally safe}, as it is possible for an attacker to discover the key. However, RSA is considered \emph{practically safe}, given that there is the need of a very large computational investment to find the key. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/lab2_pc.pdf}
+    \caption{Asymmetric cryptography. Alice obtains Bob's public key, and uses it to encrypt and send a message.}
+    \label{fig:pc}
+\end{figure}
+
+Typical examples of symmetric cryptography include eliptic curve algorithms, Diffie Hellman, and RSA.
+
+\subsection{Digital Signatures}
+The purpose of digital signatures is to assure \emph{integrity, authenticity, and non-repudiation} of information (e.g., messages, documents, transactions). Integrity regards preventing changes from the document. Authenticity allows to uniquely identify the subject that signed the document. Non-repudiation enforces accountability for the content created. In other words, the entity signing a document cannot deny the signature. 
+
+A signature of a piece of information (also called digest) is made through a hash function \cite{rogaway2004}. Typically, hash functions are very efficient. A hash function receives a text and returns a sequence of bits of fixed length such that it follows three properties:
+
+\theoremstyle{definition}
+\begin{definition}{Pre-image resistance:}
+It is computationally infeasible to find any input $M$ that hashes to a given output $D$. In other words, given $M$, it is computationally infeasible to find $M$ such that $H(M) = D$.
+
+\end{definition}
+
+
+This corresponds to saying that a hash function cannot be inverted. In other words, given a hash, it is difficult to calculate its original value.
+
+
+\theoremstyle{definition}
+\begin{definition}{Second Pre-image resistance:}
+It is computationally infeasible to find any second input which has the same output as any specified input, i.e., given $H(M)$, it is difficult to calculate $M' \neq M$ such that $H(M') = H(M)$.
+
+\end{definition}
+
+ 
+This corresponds to saying that it is difficult to find a different input that produces the same hash. 
+
+\theoremstyle{definition}
+\begin{definition}{Collision Resistance:}
+It is computationally infeasible to find any two distinct inputs $M$, $M'$, that hash to the same output $D$, i.e., such that $H(M) = H(M') = D$.
+ 
+
+\end{definition}
+
+Collision resistance implies second pre-image resistance, but does not guarantee pre-image resistance. Non invertible hash functions aim to create a unique digest. It is then desirable that hash functions are collision resistance, otherwise an attacker could try to find a different input that matches the same digest. Famous examples are the MD5 hash function (deprecated), MAC, HMAC, SHA256 \cite{conrad2016}. 
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/digital_signature_create.pdf}
+    \caption{Simple digital signature process}
+    \label{fig:ds_create}
+\end{figure}
+
+Figure \ref{fig:ds_create} depicts a simplified process underlying the creation of a secure message, ready to be transmitted. Alice creates a document, and calculates its digest using a hash function. After that, she encrypts the digest using a cipher. Finally, the document to be sent consists in the original message, plus an encrypted digest. The validation process is shown by Figure \ref{fig:ds_validate}: Bob retrieves the combination message and encrypted hash of the message. With the public key of the sender, Alice, Bob decrypts the digest of the message: create by Alice (authenticity and non-repudiation). After that, Bob recalculates the digest from M, and compares it with the sent digest. If they are the same, it means that the information did not change - and hence, we assure integrity. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/digital_signature_validate.pdf}
+    \caption{Simple digital signature process}
+    \label{fig:ds_validate}
+\end{figure}
+
+However, this solution may not work in all cases (see Exercise 2). 
+
+\subsection{ Authentication, authorization, and accounting}
+\emph{Authentication} aims to provide an answer to the question, ``who is the client?", or the subject that issues an access control request. It is concerned to identifying the subject that asks permission to realize a certain action on a certain object, in a specific context. \emph{Authorization} provides an answer to, ``what is the client allowed to do?". The \emph{Accounting}, on its turn, answers to the question, "what did the client do?". These fundamental security building blocks enable networks to have effective and dynamic security.
+
+Authentication can be performed in several ways: \begin{itemize}
+\item \textit{Shared-key}: A username is associated with a password. 
+\item \textit{One-time password}: a token is used to generate an access code valid for one access only. This process has to be synced with a token server (PIP). 
+\item \textit{Digital certificate}: emitted and signed by an authority. This certificate contains information about the entity it refers. It contains a private-public key pair, used for encrypting and decrypting the same message. 
+\item \textit{Biometric credential}: based on what the client is, such as a fingerprint.
+\end{itemize}
+
+The authorization phase takes place after authentication, and it verifies if a subject can perform an action on an object, based on access control policies. Accountability tracks all actions realized over a system: every access control request and corresponding decision. This allows to associated performed actions on objects to subjects. 
+
+\subsection{Asymetric Key Cryptography: RSA}
+RSA (Rivest–Shamir–Adleman) is one of the first public-key algorithms, used for secure data transmission.  RSA ciphers per blocks of dimension $k$, such that $2^k< N$. 
+
+One can divide RSA's excution into several steps:
+\begin{enumerate}
+    \item Key Generation
+    \item Encryption
+    \item Decryption
+\end{enumerate}
+
+The first step of RSA consists in key generation. Two keys are considered, the public key $K_u = (N,e)$ and the private key, $K_r = (N,d)$. We choose two prime numbers $p$ and $q$, such that $N = p.q$, and $Z = (p - 1).(q - 1)$. More concretely:
+\begin{itemize}
+    \item Choose primes $p$ and $q$, and $N = p.q$
+    \item Choose $e$ such that the greatest common divisor between $e$ and $(p-1).(q-1)$ is 1.
+    \item Calculate $d$ such that $e.d \mod (p - 1).(q - 1) = 1$. Restriction: $0 < d < (p - 1).(q - 1)$.
+    \item Communicate the public key $(N,e)$, and the private key $(N,d)$.
+\end{itemize}
+
+After keys are generated, text can be ciphered following a specific enconding, e.g., ASCII\footnote{https://www.ascii-code.com/} encoding, according to the following Figure \ref{fig:ascii}:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/ascii.png}
+    \caption{ASCII encoding}
+    \label{fig:ascii}
+\end{figure}
+
+Therefore, number 65 represents character `A'. The cryptogram can be calculated as follows: $C = M^e \mod N$. For decryption, a similar operation is performed, with the private key: $M = C^d \mod N$.
+
+In practise, to encode a large number, one can define $B <= N$, such that the message to be encrypted is divided into blocks of $B$ digits each one. The cryptogram is sent into blocks. The decryption phase is analogous: it decrypts the several blocks received into a single message. 
+
+For the attacker to discover $K_r$, he needs to know $Z$. To know $Z$, the attacker needs to discover $p$ and $q$. As $p$ and $q$ are prime numbers, it is computationally expensive to discover both, such that $p.q = n$. At the key generation step, one should destroy $p$ and $q$, so the public and private keys cannot be recalculated. Although RSA can be considered safe, it is important for the exponents to be very large numbers; if not, attacks are possible \cite{wiener90}.
+
+
+%Future work
+%\subsubsection{Digital Signatures: ECDSA algorithm}
+%ECDSA stands for “Elliptic Curve Digital Signature Algorithm” - a popular digital signature algorithm. 
+%To know more about ECDSA please consult the sources: \cite{ecdsa1,ecdsa2}
+
+
+\section{Hands on Crypto}
+
+\subsubsection*{Exercise 1: How many combinations can the MD5 and SHA256-3 algorithms generate? What is the likelihood of a hash collision with MD5? And with SHA256-3? Is SHA256-3 safer than MD5?}
+
+
+\subsubsection*{Exercise 2: Refer to Figures \ref{fig:ds_create} and \ref{fig:ds_validate}. Is this approach of signing and validating a document secure?}
+
+\subsubsection*{Exercise 3: Fork the course repository \footnote{https://github.com/hyperledger-labs/university-course}. Inspect the support code}
+
+Note: Code at university-course/support/Lab02/RSA.
+
+\subsubsection*{Exercise 4: Calculate the RSA keys associated with primes $p = 7$ and $q = 29$}
+
+Hint: you may use the support code to create a test case that helps you answering the following exercises.
+
+\subsubsection*{Exercise 5: Given that the public key $K_u = (N,e) = (143, 7)$ and the private key is $K_r = (N,d) = (143, 103)$, encrypt the following message: ``P''}
+
+
+\subsubsection*{Exercise 6: Decrypt the criptogram 80, given that $p = 3$ and $q = 31$ }
+
+
+%\subsubsection*{Exercise 7: Adapt the code to support text encrpytion in the ASCII format, and separation into different blocks}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT ENDS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\bibliographystyle{abbrv}
+\bibliography{lab2.bib}
+
+\end{document}                             % The required last line

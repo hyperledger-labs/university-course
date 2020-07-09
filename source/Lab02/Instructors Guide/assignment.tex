@@ -1,0 +1,153 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  2\\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module I - Introduction} & \textbf{Issue Date:}  &  21 Sept 2020 \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Background: Cryptography \& Security} & \textbf{Due Date:} &  28 Sept 2020\\ 
+\hline
+\end{tabularx}}
+\rhead{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Instructors Guide}
+This document provides a proposal of solution for LAB\#02, which concerns the an introduction to crypography and security. In particular, the RSA algorithm is introduced. Most of the solutions can be found at \cite{conrad2016,rogaway2004,md2020}. Note: You can also experiment with Hyperledger Ursa, a crypto library \footnote{https://github.com/hyperledger/ursa}, which supports symmetric encryption and digital signatures. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{RSA}
+\label{sec:rsa}
+
+\subsubsection*{Exercise 1: How many combinations can the MD5 and SHA256-3 algorithms generate? What is the likelihood of a hash collision with MD5? And with SHA256-3? Is SHA256-3 safer than MD5?}
+
+MD5 is a 128-bit cryptographic hash function, which means that digests are distributed over a 128-bit space. MD5 can output $2^{128}$ digests. Two files should have a $\frac{1}{2^{128}}$ change of collision. However, due to the birthday paradox, that probability would be $\frac{1}{2^{64}}$.
+
+SHA256-3 is a 256-bit cryptographic hash function, which means that digests are distributed over a 256-bit space. SHA256-3 can output $2^{256}$ different digests. 
+Two files should have a $\frac{1}{2^{256}}$ change of collision. However, due to the birthday paradox, that probability would be $\frac{1}{2^{128}}$.
+
+MD5 is considered to be vulnerable to collision attacks \cite{wang2005}.
+
+
+\subsubsection*{Exercise 2: Refer to Figures 3 and 4. Is this approach of signing and validating a document secure?}
+
+This approach is generally considered secure, given that Alice's public key is authentic (to prevent man-in-the-middle attacks), and that the hash function that creates the digest is secure. The key distribution should be done in a secure way. See public-key infrastructure, public key certificates, and the X.509 norm. 
+
+\subsubsection*{Exercise 4: Calculate the RSA keys associated with primes $p = 7$ and $q = 29$}
+Public key is $K_u = (N,e)$ and the private key, $K_r = (N,d)$.
+
+$N = p.q = 7.29 = 203$
+$Z = (p - 1).(q - 1) = 6.28 = 168$
+$e$ is chosen such that the greatest common divisor between e and 168 is be one. 
+$e = 5, 11, 13, 17, 19, ... 157, 163, 167$.
+$d = 101$, because 101 is the only number such that $e.d \mod (p - 1).(q - 1) = 1$. Restriction: $0 < d < (p - 1).(q - 1)$.
+The public key $K_u = (N,e)$ is $(203, 5)$ and the private key, $K_r = (N,d)$ is $(203,101)$.
+
+\subsubsection*{Exercise 5: Given that the public key $K_u = (N,e) = (143, 7)$, encrypt the following message: ``P''}
+P is 80 in ASCII encoding.
+$C = M^e \mod n = 80^7 mod 143 = 141$.
+
+\subsubsection*{Exercise 6: Decrypt the criptogram 80, given that $p = 3$ and $q = 31$ }
+$N = p.q = 3.31 = 93$.
+$d = 43$.
+The private key is, therefore, $K_r = (N,d) = (93,43)$.
+$M = C^d \mod n = 80^43 mod 93 = 87$.
+
+%\subsubsection*{Exercise 7: Adapt the code to support text encrpytion in the ASCII format, and separation into different blocks}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT ENDS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\bibliographystyle{IEEEtran}
+\bibliography{lab.bib}
+
+\end{document}                             % The required last line
