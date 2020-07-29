@@ -1,0 +1,1 @@
+docker rm -f $(docker ps -a | grep "blockchain-node-" | awk '{print $1}')
