@@ -1,4 +1,4 @@
-# Enterprise Blockchain Technologies - A university course on Hyperledger Fabric
+# Enterprise Blockchain Technologies - A university course on Hyperledger Fabric 🎓
 A Hyperledger Lab focused developing materials for a university course. 
 This repository contains work in progress.
 
@@ -27,7 +27,8 @@ The course is divided into two module: Module I introduces the technology (labs 
 
 ## Contribute
 
-Your contributions are very welcome! Please fork the GitHub repository and create a pull request.
+Your contributions are very welcome! 🎉🎉
+Please check the [contributing guide](https://github.com/hyperledger-labs/university-course/blob/master/CONTRIBUTING.md)
 
 ## List of contributors
 (add yourself if you wish)
