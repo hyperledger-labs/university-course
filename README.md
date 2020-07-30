@@ -48,6 +48,7 @@ Please check the [contributing guide](https://github.com/hyperledger-labs/univer
 ## List of contributors
 * Rafael Belchior <rafael.belchior (at) tecnico (dot) ulisboa (dot) pt>
 * Catarina Pedreira <catarina.pedreira (at) tecnico (dot) ulisboa (dot) pt>
+* Iulia Mihaiu <iulia.mihaiu@unitbv.ro>
 
 ## Context
 This project is part of [Hyperledger Labs](https://www.hyperledger.org/blog/2018/01/23/introducing-hyperledger-labs) and [Hyperledger Summer Internships](https://wiki.hyperledger.org/display/INTERN/Project+Plan+-+Build+a+university+course+on+Hyperledger+Fabric+using+Hyperledger+Umbra).
