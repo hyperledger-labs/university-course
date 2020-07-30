@@ -2,6 +2,8 @@
 A Hyperledger Lab focused developing materials for a university course. 
 This repository contains work in progress.
 
+<img src="./ebt.png" width="1000"> 
+
 ## Table of Contents 
 | Module 	| Lab Number 	| Topic                                     	| Contents                                                                                                                                                                                       	| Support files       	|
 |:------:	|:----------:	|-------------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|---------------------	|
@@ -48,7 +50,7 @@ Please check the [contributing guide](https://github.com/hyperledger-labs/univer
 ## List of contributors
 * Rafael Belchior <rafael.belchior (at) tecnico (dot) ulisboa (dot) pt>
 * Catarina Pedreira <catarina.pedreira (at) tecnico (dot) ulisboa (dot) pt>
-* Iulia Mihaiu <iulia.mihaiu@unitbv.ro>
+* Iulia Mihaiu <iulia.mihaiu (at) student (dot) unitbv (dot) ro>
 
 ## Context
 This project is part of [Hyperledger Labs](https://www.hyperledger.org/blog/2018/01/23/introducing-hyperledger-labs) and [Hyperledger Summer Internships](https://wiki.hyperledger.org/display/INTERN/Project+Plan+-+Build+a+university+course+on+Hyperledger+Fabric+using+Hyperledger+Umbra).
