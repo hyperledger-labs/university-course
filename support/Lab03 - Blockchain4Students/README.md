@@ -1,4 +1,5 @@
 # Blockchain4Students (B4S)
+<img src="./b4s.png" width="500"> 
 
 Blockchain4Students (B4S) is a simple blockchain with focus on understandability, tailored to teach blockchain technology.
 ## Requirements:
