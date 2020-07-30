@@ -36,5 +36,10 @@ To run other nodes: `python3 app.py -p ${node_port} -a ${miner_address} -ho ${ho
 ## Teardown
 To delete B4S-related containers, as well as generated private keys, run `./cleanup.sh`
 
-##Original Repository
- The original repository and contributions can be found [at Blockchain4Students](https://github.com/BlockChain4Students/blockchain_node)
+##Original Repository and Authors
+ The original repository can be found [at Blockchain4Students](https://github.com/BlockChain4Students/blockchain_node)
+ 
+ Original authors:
+ * Catarina Pedreira
+ * Rafael Soares
+ * Rafael Belchior
