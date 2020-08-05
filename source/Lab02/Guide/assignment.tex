@@ -109,12 +109,38 @@ This class provides background about crpytography and security. This laboratory 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Introduction}
+
+A big part of distributed systems is the communication between entities, which mostly happens over the internet. 
+This means that our communication is running trough channels open to the public that we as developers do not own nor have control over. 
+As such, we must build upon these insecure channels in order to obtain some useful properties, such as:
+
+\begin{itemize}
+    \item Confidentiality
+    \item Authentication
+    \item Non-Repudiation
+    \item Integrity
+    \item Freshness
+\end{itemize}
+
+And many others. To that end, we use \textbf{Cryptographic primitives} in order to ensure this properties. We will see how we can implement each of these properties over the course of this lab.
+
 \section{Cryptography and Security}
-The goal of Cryptography is allow the communication between people, or computers, in a way that others cannot understand that communication. Whereas having a single dialect could serve that purpose, it is not scalable, nor safe.
+The goal of Cryptography is to allow secure communication between people. Whereas having a single dialect could serve that purpose, it is neither scalable or safe.
 
-Cryptography is much older than computers, dated from as early as 400 BC, where Spartans used a cipher device called \emph{scytale} for military communication \cite{simmons}. A \emph{cipher} is an algorithm that is used to obfuscate information (or to encrypt information). Information is \emph{encrypted} using a key, as the parameter of the cipher. This allows the algorithm to be public. Historical ciphers are, for example, the Caesar cipher\footnote{https://cryptii.com/pipes/caesar-cipher}, the substitution cipher\footnote{https://planetcalc.com/7984/}, the Vigener cipher\footnote{https://www.dcode.fr/vigenere-cipher}. 
+Cryptography is much older than computers, dated back as early as 400 BC, where Spartans used a cipher device called \emph{scytale} for military communication \cite{simmons}. A \emph{cipher} is an algorithm that is used to obfuscate information (or to encrypt information). Information is \emph{encrypted} using a key, as the parameter of the cipher. This allows the algorithm to be public. Historical ciphers are, for example, the Caesar cipher\footnote{https://cryptii.com/pipes/caesar-cipher}, the substitution cipher\footnote{https://planetcalc.com/7984/}, the Vigener cipher\footnote{https://www.dcode.fr/vigenere-cipher}. 
 
-Let us define notation to refer to ciphers and messages, and their keys.
+
+
+\subsection{Confidentiality}
+
+The first main goal of cryptography was to hide information in order that only a selected few that knew a \textbf{secret} could read its contents. We call this \textbf{Confidentiality}. %Add the typical reference to WW2 and Enigma machine
+
+In this case, the secret used to hide information is called a key. Using the key to apply a certain operation to a message, we can alter the contents of the message in order to be incomprehensible to the common eye. To this incomprehensible message we call \textbf{Cipher}. 
+
+We can then use the key again in order to obtain the original message. This way, \textbf{only the ones with access to the key} can understand the content of the message.
+
+Let us define notation to refer to ciphers, messages and their keys.
 
 \theoremstyle{definition}
 \begin{definition}{Cryptogram C}
@@ -127,9 +153,9 @@ $C = E_k(M)$, where C is the cryptogram (or encrypted message), $E_k$ is the key
 $M = E_k^{-1}(C)$, where M is the decrypted message, $K^{-1}$ is the inverse key, and C is the cryptogram. 
 \end{definition}
 
-In the context of cryptography, often techniques are separated into symmetric and asymetric cryptography.
+In the context of cryptography, often techniques are separated into symmetric and asymmetric cryptography. Each type can give us different guarantees depending on our goal. We will start by looking at Symmetric Cryptography.
 
-\subsection{Symmetric Cryptography}
+\subsubsection{Symmetric Cryptography}
 In \emph{symmetric cryptography}, a single key is used to cipher and decipher the message ($K = K^{-1}$). Figure \ref{fig:sc} illustrates communication between Alice and Bob. 
 
 \begin{figure}[h]
@@ -139,16 +165,19 @@ In \emph{symmetric cryptography}, a single key is used to cipher and decipher th
     \label{fig:sc}
 \end{figure}
 
-In practise, there are some problems: the party generating the key must deliver it in a confidential way. The party receiving the key must assure they key received is the key intended to be sent, and it should be able to confirm it is the most recent. Moreover, there needs to be a key, for each pair of parties. 
+Symmetric cryptography is considered the fastest in terms of encryption and decryption speed, however it does not come without its drawbacks. 
+The first one is \textbf{sharing the key}. In order to communicate with each other, they must first know the shared secret (i.e the key) beforehand. This isn't a trivial problem, since if the two entities have never talked with each other (or might not even know who is the other entity), they may not have a way to securely share the key. 
 
-Typical examples of symmetric cryptography include the TEA algorithm, the Data Encription Standard (DES), Triple DES, Twofish, and the AES.
+The other one is \textbf{the number of keys} used to communicate between entities. We need one key to safely between 2 entities, however if we want a system with $N$ entities all wanting to communication with each other, we will need $N^2$ keys, which is not scalable to bigger environments.
 
-\subsection{Asymmetric Cryptography}
-In \emph{asymmetric cryptography}, there are two keys: one is used to for cipher, and another to decipher. Normally, we call \emph{public key} to the key that ciphers ($K_u$), and \emph{private key} to the key that deciphers ($K_r$). We remark that it is also possible to cipher with the private key, and decipher with the public key. Figure \ref{fig:pc} illustrates this process.
+Typical examples of symmetric cryptography include the TEA algorithm, the Data Encription Standard (DES), Triple DES, Twofish, Diffie Hellman and the AES.
 
-Contrarily to symmetric key cryptography, there is no need to assure confidentiality of the public key. The party that wants to communicate needs to publish the public key (assuring integrity and authenticity of it). There is no need to distribute a pair of keys per pair of parties.
 
-Many ciphers, such as \emph{RSA}, are not considered \emph{totally safe}, as it is possible for an attacker to discover the key. However, RSA is considered \emph{practically safe}, given that there is the need of a very large computational investment to find the key. 
+\subsubsection{Asymmetric Cryptography}
+In order to solve the problem of the number of keys, we can use \emph{asymmetric cryptography}.
+In \emph{asymmetric cryptography}, there are two keys: a \emph{public key} and a \emph{private key}. As the name implies, the \emph{public key} is meant to be public and out in the open, while the \emph{private key} should be kept by an entity and \textbf{never be shared}. The nice property about these keys is that messages encrypted with the public key can \textbf{only be decrypted by the private key}. The same goes for the private key, with messages encrypted with it only being decrypted with the public key.
+
+This give us a great advantage with key sharing. Since only we have our own private key, only we can decrypt any message encrypted with the public, which anyone can have. This brings down to only needing 2 keys per entity to communicate. So in a system with $N$ entities we only need $2N$ keys.
 
 \begin{figure}[h]
     \centering
@@ -157,16 +186,84 @@ Many ciphers, such as \emph{RSA}, are not considered \emph{totally safe}, as it 
     \label{fig:pc}
 \end{figure}
 
-Typical examples of symmetric cryptography include eliptic curve algorithms, Diffie Hellman, and RSA.
+Using the private key to encrypt content also give us some nice properties, which we will talk later in this lab.
 
-\subsection{Digital Signatures}
-The purpose of digital signatures is to assure \emph{integrity, authenticity, and non-repudiation} of information (e.g., messages, documents, transactions). Integrity regards preventing changes from the document. Authenticity allows to uniquely identify the subject that signed the document. Non-repudiation enforces accountability for the content created. In other words, the entity signing a document cannot deny the signature. 
+Apart from the key sharing advantage, it is much computational heavier to encrypt and decrypt messages, which may be undesirable if we want fast communication.
 
-A signature of a piece of information (also called digest) is made through a hash function \cite{rogaway2004}. Typically, hash functions are very efficient. A hash function receives a text and returns a sequence of bits of fixed length such that it follows three properties:
+Many ciphers, such as \emph{RSA}, are not considered \emph{totally safe}, as it is possible for an attacker to discover the key. However, RSA is considered \emph{practically safe}, given that there is the need of a very large computational investment to find the key. 
+Nevertheless, with this in mind, it is good practices to avoid overusing the private/public key pair.
+
+Typical examples of asymmetric cryptography include elliptic curve algorithms and RSA.
+
+\subsection{Authentication}
+
+Although these encryption methods can be used for confidentiality, it is important to note that \textbf{it is not their only purpose}. With the right system and preparation, they can also be used to provide \textbf{entity authentication}.
+
+\emph{Authentication} aims to provide an answer to the question, ``who is the client?", or the subject that issues an access control request. It is concerned to identifying the subject that asks permission to realize a certain action on a certain object, in a specific context.
+This is needed to give \emph{Authorization} to perform a certain action.
+
+In order to assure authentication, three properties must be present in a message:
+\begin{itemize}
+    \item Identification;
+    \item A proof of identity;
+    \item Freshness;
+    \item Integrity.
+\end{itemize}
+
+We will see how each one is important for authentication.
+
+\subsubsection{Identification}
+
+Identification is rather trivial. When sending a message to someone, we first need to identify ourselves to be able to be verified. Without it, we would not be able to distinguish between entities.
+
+\subsubsection{Proof of Identity}
+
+In order to authenticate ourselves, we need some form of \textbf{proof} that we are who we say we are. 
+This can be done in one of three ways:
+\begin{enumerate}
+    \item Something we \emph{know};
+    \item Something we \emph{are};
+    \item Something we \emph{have};
+\end{enumerate}
+
+\emph{Something we know} refers to things like passwords, which is information that only we as entities know and (supposedly) nobody else does.
+
+\emph{Something we are} refers to characteristics that are unique to us, specifically bio-metric information. This commonly includes eye scanners, fingerprint scanners and our face. 
+
+\emph{Something we have} refers to something like a physical badge, a smartphone or a \emph{cryptographic key}.
+Given the assumption that when a symmetric key was created it was shared correctly and safely, we can trust that someone that encrypts with that key is in fact authenticated and authorized to send messages. 
+
+In asymmetric encryption, this can only be assured by encrypting with the \emph{private key}, since the public key is public to all the network.
+
+However, encrypting with the private key gives us a nice property that is not present with symmetric keys, which is non-repudiation.
+
+\emph{Non-Repudiation} means that the message authorship cannot be disputed. With symmetric encryption, both entities have the same key and as such, from a third party view we wouldn't be able to distinguish which entity sent the message. With asymmetric encryption however, only one entity has the private key. As such, any message signed with it can only have come from that entity.
+
+\subsubsection{Freshness}
+
+We now have a way to prove our identity, however if we would send the same message with our proof over and over, a malicious user could copy our message and use it to authenticate himself as being us. This is called a \emph{replay attack}.
+
+This is possible because we have no way to verify the \emph{freshness} of the message, meaning how recent it is.
+
+We can add freshness in multiple ways:
+
+\begin{itemize}
+    \item \emph{Nonce}. Meaning \textbf{number only used once}, we can use it to avoid replay attacks by rejecting messages with a nonce that we have previously seen. The most common case of a nonce is a counter, which we increment every time we send a new message.
+    \item \emph{Timestamp}. There is not better way to verify if a message was recently sent by adding the timestamp with which was sent. This way, we only accept messages sent in the last $X$ minutes. Although it may look trivial to use, timestamps are discouraged, since it requires the clocks between nodes to be synchronized.
+    \item \emph{Challenge-Response}. When we want to authenticate, we first ask the entity with which we want to authenticate for a challenge, which can be anything from a number to a string. In order to show freshness, we must alter that challenge in some way, which will give us the response that we will send to the destiny entity. If verified correctly, we are authenticated. It is of note that this in itself can be considered an authentication technique, since answering the challenge is "something we know", although it is not very safe.
+\end{itemize}
+
+\subsubsection{Integrity}
+
+So we now have a way to prove our identity and can differentiate between old and new messages. However, we are still missing a piece. What stops an attacker from copying an authentication message, altering the Nonce to an unused value and sending that altered message? 
+
+We need a way to verify that the message itself was not altered during transmission, i.e to verify its \emph{Integrity}. We need something that is dependent on the content of the message such that if the message was altered in any way we are able to verify it.
+
+To this purpose, we use hash functions \cite{rogaway2004}. A hash function receives a text and returns a sequence of bits of fixed length such that it follows three properties:
 
 \theoremstyle{definition}
 \begin{definition}{Pre-image resistance:}
-It is computationally infeasible to find any input $M$ that hashes to a given output $D$. In other words, given $M$, it is computationally infeasible to find $M$ such that $H(M) = D$.
+It is computationally infeasible to find any input $M$ that hashes to a given output $D$. In other words, given $D$, it is computationally infeasible to find $M$ such that $H(M) = D$.
 
 \end{definition}
 
@@ -190,8 +287,26 @@ It is computationally infeasible to find any two distinct inputs $M$, $M'$, that
 
 \end{definition}
 
-Collision resistance implies second pre-image resistance, but does not guarantee pre-image resistance. Non invertible hash functions aim to create a unique digest. It is then desirable that hash functions are collision resistance, otherwise an attacker could try to find a different input that matches the same digest. Famous examples are the MD5 hash function (deprecated), MAC, HMAC, SHA256 \cite{conrad2016}. 
+Collision resistance implies second pre-image resistance, but does not guarantee pre-image resistance. Non invertible hash functions aim to create a unique digest. It is then desirable that hash functions are collision resistance, otherwise an attacker could try to find a different input that matches the same digest.
 
+Famous examples are the MD5 hash function (deprecated) and SHA family of functions (SHA256, SHA512) \cite{conrad2016}. 
+
+It is important to notice that if we insert a digest in a message unprotected, it gives us \textbf{no integrity}, because nothing stops an attacker from altering the message and recalculating the hash of the now altered message. As such, for it to be useful, it must be \emph{encrypted} so it cannot be altered. 
+
+We now have all the ingredients to make an authentication message. Using these building blocks, a message should look like this:
+
+$Message = (M, E_k(Digest), Freshness)$
+
+Where:
+\begin{itemize}
+    \item $M$ = Message to be sent;
+    \item $E_k$ = Key with which to authenticate; 
+    \item $Digest$ = H(M + Freshness);
+    \item $Freshness$ = Any form of previously mentioned freshness methods.
+\end{itemize}
+
+\subsubsection{Digital Signatures}
+When using a private key to sign the digest, we call this a \emph{Digital Signature}. Digital signatures are useful when we want to assure \emph{integrity, authenticity, and non-repudiation} of information (e.g., messages, documents, transactions).
 
 \begin{figure}[h]
     \centering
@@ -200,93 +315,50 @@ Collision resistance implies second pre-image resistance, but does not guarantee
     \label{fig:ds_create}
 \end{figure}
 
-Figure \ref{fig:ds_create} depicts a simplified process underlying the creation of a secure message, ready to be transmitted. Alice creates a document, and calculates its digest using a hash function. After that, she encrypts the digest using a cipher. Finally, the document to be sent consists in the original message, plus an encrypted digest. The validation process is shown by Figure \ref{fig:ds_validate}: Bob retrieves the combination message and encrypted hash of the message. With the public key of the sender, Alice, Bob decrypts the digest of the message: create by Alice (authenticity and non-repudiation). After that, Bob recalculates the digest from M, and compares it with the sent digest. If they are the same, it means that the information did not change - and hence, we assure integrity. 
+Figure \ref{fig:ds_create} depicts a simplified process underlying the creation of a secure message, ready to be transmitted. Alice creates a document, and calculates its digest using a hash function. After that, she encrypts the digest using a cipher. Finally, the document to be sent consists in the original message, plus an encrypted digest. The validation process is shown by Figure \ref{fig:ds_validate}: Bob retrieves the combination message and encrypted hash of the message. With the public key of the sender, Bob decrypts the digest of the message: created by Alice (authenticity and non-repudiation). After that, Bob recalculates the digest from M, and compares it with the sent digest. If they are the same, it means that the information did not change - and hence, we assure integrity. Note that this process does not include Freshness, as such it is vulnerable to \emph{replay attacks}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.4]{figures/digital_signature_validate.pdf}
-    \caption{Simple digital signature process}
+    \caption{Simple digital signature validation process}
     \label{fig:ds_validate}
 \end{figure}
 
-However, this solution may not work in all cases (see Exercise 2). 
-
-\subsection{ Authentication, authorization, and accounting}
-\emph{Authentication} aims to provide an answer to the question, ``who is the client?", or the subject that issues an access control request. It is concerned to identifying the subject that asks permission to realize a certain action on a certain object, in a specific context. \emph{Authorization} provides an answer to, ``what is the client allowed to do?". The \emph{Accounting}, on its turn, answers to the question, "what did the client do?". These fundamental security building blocks enable networks to have effective and dynamic security.
-
-Authentication can be performed in several ways: \begin{itemize}
-\item \textit{Shared-key}: A username is associated with a password. 
-\item \textit{One-time password}: a token is used to generate an access code valid for one access only. This process has to be synced with a token server (PIP). 
-\item \textit{Digital certificate}: emitted and signed by an authority. This certificate contains information about the entity it refers. It contains a private-public key pair, used for encrypting and decrypting the same message. 
-\item \textit{Biometric credential}: based on what the client is, such as a fingerprint.
-\end{itemize}
-
-The authorization phase takes place after authentication, and it verifies if a subject can perform an action on an object, based on access control policies. Accountability tracks all actions realized over a system: every access control request and corresponding decision. This allows to associated performed actions on objects to subjects. 
-
-\subsection{Asymetric Key Cryptography: RSA}
-RSA (Rivest–Shamir–Adleman) is one of the first public-key algorithms, used for secure data transmission.  RSA ciphers per blocks of dimension $k$, such that $2^k< N$. 
-
-One can divide RSA's excution into several steps:
-\begin{enumerate}
-    \item Key Generation
-    \item Encryption
-    \item Decryption
-\end{enumerate}
-
-The first step of RSA consists in key generation. Two keys are considered, the public key $K_u = (N,e)$ and the private key, $K_r = (N,d)$. We choose two prime numbers $p$ and $q$, such that $N = p.q$, and $Z = (p - 1).(q - 1)$. More concretely:
-\begin{itemize}
-    \item Choose primes $p$ and $q$, and $N = p.q$
-    \item Choose $e$ such that the greatest common divisor between $e$ and $(p-1).(q-1)$ is 1.
-    \item Calculate $d$ such that $e.d \mod (p - 1).(q - 1) = 1$. Restriction: $0 < d < (p - 1).(q - 1)$.
-    \item Communicate the public key $(N,e)$, and the private key $(N,d)$.
-\end{itemize}
-
-After keys are generated, text can be ciphered following a specific enconding, e.g., ASCII\footnote{https://www.ascii-code.com/} encoding, according to the following Figure \ref{fig:ascii}:
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.2]{figures/ascii.png}
-    \caption{ASCII encoding}
-    \label{fig:ascii}
-\end{figure}
-
-Therefore, number 65 represents character `A'. The cryptogram can be calculated as follows: $C = M^e \mod N$. For decryption, a similar operation is performed, with the private key: $M = C^d \mod N$.
-
-In practise, to encode a large number, one can define $B <= N$, such that the message to be encrypted is divided into blocks of $B$ digits each one. The cryptogram is sent into blocks. The decryption phase is analogous: it decrypts the several blocks received into a single message. 
-
-For the attacker to discover $K_r$, he needs to know $Z$. To know $Z$, the attacker needs to discover $p$ and $q$. As $p$ and $q$ are prime numbers, it is computationally expensive to discover both, such that $p.q = n$. At the key generation step, one should destroy $p$ and $q$, so the public and private keys cannot be recalculated. Although RSA can be considered safe, it is important for the exponents to be very large numbers; if not, attacks are possible \cite{wiener90}.
+There are other well established authentication protocols that the reader should be aware that do not follow this kind of process, specially for symmetric encryption, like the Message Authentication Code (MAC) family, which includes MAC, HMAC, CBC-MAC and many others.
 
 
 %Future work
-%\subsubsection{Digital Signatures: ECDSA algorithm}
-%ECDSA stands for “Elliptic Curve Digital Signature Algorithm” - a popular digital signature algorithm. 
-%To know more about ECDSA please consult the sources: \cite{ecdsa1,ecdsa2}
+% Add more schemes and images
+% Session keys
+% Perfect Forward Secrecy
+% Authenticated Diffie-Helman
+% Certificates
 
 
 \section{Hands on Crypto}
 
-\subsubsection*{Exercise 1: How many combinations can the MD5 and SHA256-3 algorithms generate? What is the likelihood of a hash collision with MD5? And with SHA256-3? Is SHA256-3 safer than MD5?}
+\subsection*{Confidentiality}
+\subsubsection*{Exercise 1: When should we use symmetric encryption? What about asymmetric?}
 
+\subsection*{Authentication}
+\subsubsection*{Exercise 2: Are we able to get Confidentiality without Authentication? What about the other way around?}
 
-\subsubsection*{Exercise 2: Refer to Figures \ref{fig:ds_create} and \ref{fig:ds_validate}. Is this approach of signing and validating a document secure?}
+\subsubsection*{Exercise 3: Why would we ever want Authentication without Confidentiality? What is the problem with encrypting the whole message?}
 
-\subsubsection*{Exercise 3: Fork the course repository \footnote{https://github.com/hyperledger-labs/university-course}. Inspect the support code}
+\subsubsection*{Exercise 4: Why is encrypting the hash for authentication enough for attackers to be unable to alter it?}
 
-Note: Code at university-course/support/Lab02/RSA.
+\subsubsection*{Exercise 5: Is it safe to not encrypt the freshness of a message? Can an attacker exploit anything by knowing the freshness? }
 
-\subsubsection*{Exercise 4: Calculate the RSA keys associated with primes $p = 7$ and $q = 29$}
+\subsubsection*{Exercise 6: What are the disadvantages of using each type of proof of identity? (Something we \emph{know, are and have})}
 
-Hint: you may use the support code to create a test case that helps you answering the following exercises.
+\subsubsection*{Exercise 7: Nowadays a lot of services are using Multi-factor authentication (meaning more than one way of authentication). What is the advantage of it?}
 
-\subsubsection*{Exercise 5: Given that the public key $K_u = (N,e) = (143, 7)$ and the private key is $K_r = (N,d) = (143, 103)$, encrypt the following message: ``P''}
+\subsection*{Freshness}
+\subsubsection*{Exercise 8: What is the possible disadvantage of using Nonces?}
 
+\subsubsection*{Exercise 9: How could we minimize this disadvantage?}
 
-\subsubsection*{Exercise 6: Decrypt the criptogram 80, given that $p = 3$ and $q = 31$ }
-
-
-%\subsubsection*{Exercise 7: Adapt the code to support text encrpytion in the ASCII format, and separation into different blocks}
-
-
+\subsubsection*{Exercise 10: Give an example of what could be considered a challenge-response}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % YOUR TEXT ENDS HERE

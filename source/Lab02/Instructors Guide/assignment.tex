@@ -94,7 +94,7 @@ literate={~} {$\sim$}{1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
 
 \section*{Instructors Guide}
-This document provides a proposal of solution for LAB\#02, which concerns the an introduction to crypography and security. In particular, the RSA algorithm is introduced. Most of the solutions can be found at \cite{conrad2016,rogaway2004,md2020}. Note: You can also experiment with Hyperledger Ursa, a crypto library \footnote{https://github.com/hyperledger/ursa}, which supports symmetric encryption and digital signatures. 
+This document provides a proposal of solution for LAB\#02, which concerns the an introduction to crypography and security. The questions made have the goal to amke the students consider and reach their own conclusions about the advantages, disadvantages and possible vulnerabilities of the various cryptographic properties.
 
 
 
@@ -104,44 +104,56 @@ This document provides a proposal of solution for LAB\#02, which concerns the an
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{RSA}
-\label{sec:rsa}
+\subsection*{Confidentiality}
+\subsubsection*{Exercise 1: When should we use symmetric encryption? What about asymmetric?}
 
-\subsubsection*{Exercise 1: How many combinations can the MD5 and SHA256-3 algorithms generate? What is the likelihood of a hash collision with MD5? And with SHA256-3? Is SHA256-3 safer than MD5?}
+A: We want to use symmetric encryption when we have a secure way to establish keys with the target entity, with  a short communication lifespan and when we communicate with a small number of entities. 
+We want to use asymmetric encryption when we dont have a secure platform to share/generate keys and will communicate with a wide number of people.
 
-MD5 is a 128-bit cryptographic hash function, which means that digests are distributed over a 128-bit space. MD5 can output $2^{128}$ digests. Two files should have a $\frac{1}{2^{128}}$ change of collision. However, due to the birthday paradox, that probability would be $\frac{1}{2^{64}}$.
+\subsection*{Authentication}
+\subsubsection*{Exercise 2: Are we able to get Confidentiality without Authentication? What about the other way around?}
 
-SHA256-3 is a 256-bit cryptographic hash function, which means that digests are distributed over a 256-bit space. SHA256-3 can output $2^{256}$ different digests. 
-Two files should have a $\frac{1}{2^{256}}$ change of collision. However, due to the birthday paradox, that probability would be $\frac{1}{2^{128}}$.
+A: Yes. When using asymmetric encryption, encrypting with the public key will give confidentiality but not authentication of the user. With regard to symmetric encryption, as we have seen previously in the lab, encrypting with a key is a step but not enough to guarantee secure authentication. 
 
-MD5 is considered to be vulnerable to collision attacks \cite{wang2005}.
+For the other way around, we can also get authentication without confidentiality. For secure authentication, we only need the digest of the message to be encrypted so it cannot be altered, keeping the rest of the message in plain text.
 
+\subsubsection*{Exercise 3: Why would we ever want Authentication without Confidentiality? What is the problem with encrypting the whole message?}
 
-\subsubsection*{Exercise 2: Refer to Figures 3 and 4. Is this approach of signing and validating a document secure?}
+A: Depending on the use case, it may be undesirable to encrypt the whole message, since the longer the message the more computationally heavy it is to decrypt it, specially when using asymmetric encryption. As such, if the information does not require to be confidential (like a post to a forum that would be public nevertheless), it is best to only \textbf{encrypt the necessary}.
 
-This approach is generally considered secure, given that Alice's public key is authentic (to prevent man-in-the-middle attacks), and that the hash function that creates the digest is secure. The key distribution should be done in a secure way. See public-key infrastructure, public key certificates, and the X.509 norm. 
+\subsubsection*{Exercise 4: Why is encrypting the hash for authentication enough for attackers to be unable to alter it?}
 
-\subsubsection*{Exercise 4: Calculate the RSA keys associated with primes $p = 7$ and $q = 29$}
-Public key is $K_u = (N,e)$ and the private key, $K_r = (N,d)$.
+A: If an attacker wants to alter the contents of a message, they need to change the hash as well. However, in order to change the hash, they need to know the key used to encrypt. Since one of the assumptions is that the keys are kept secret and only the authorized people have them, an attacker is unable to alter it. They CAN however use a past encrypted digest to their advantage, so if the system is not robust it may be a vulnerability.
 
-$N = p.q = 7.29 = 203$
-$Z = (p - 1).(q - 1) = 6.28 = 168$
-$e$ is chosen such that the greatest common divisor between e and 168 is be one. 
-$e = 5, 11, 13, 17, 19, ... 157, 163, 167$.
-$d = 101$, because 101 is the only number such that $e.d \mod (p - 1).(q - 1) = 1$. Restriction: $0 < d < (p - 1).(q - 1)$.
-The public key $K_u = (N,e)$ is $(203, 5)$ and the private key, $K_r = (N,d)$ is $(203,101)$.
+\subsubsection*{Exercise 5: Is it safe to not encrypt the freshness of a message? Can an attacker exploit anything by knowing the freshness? }
 
-\subsubsection*{Exercise 5: Given that the public key $K_u = (N,e) = (143, 7)$, encrypt the following message: ``P''}
-P is 80 in ASCII encoding.
-$C = M^e \mod n = 80^7 mod 143 = 141$.
+A: It depends on the robustness of the system. An attacker could possibly use the answers to challenge-response or nonce to their advantage and if not robustness is added, even re-utilize those answers. Nevertheless, assuming a robust system is implement, it should not be a problem.
 
-\subsubsection*{Exercise 6: Decrypt the criptogram 80, given that $p = 3$ and $q = 31$ }
-$N = p.q = 3.31 = 93$.
-$d = 43$.
-The private key is, therefore, $K_r = (N,d) = (93,43)$.
-$M = C^d \mod n = 80^43 mod 93 = 87$.
+\subsubsection*{Exercise 6: What are the disadvantages of using each type of proof of identity? (Something we \emph{know, are and have})}
 
-%\subsubsection*{Exercise 7: Adapt the code to support text encrpytion in the ASCII format, and separation into different blocks}
+A: 
+\begin{itemize}
+    \item Something we are (Biometric): It requires specialised hardware (although nowadays things like fingerprint sensors are getting much more common), we cannot give to another person (the same way we could give our login information to a friend) and it is not something we can change (i.e. if someone obtains a copy of our fingerprint we cannot alter it like we would be able to change a password). NOTE - Also fine tuning between false positives and false negatives, but we do not talk about it in the lab.
+    \item Something we know (passwords): It requires the entity to memorize the passwords used for each system and if weak are prone to brute force attacks.
+    \item Something we have (Phsyical and cryptographic keys): With physical we need to carry it around everywhere, which can be a burden if a lot of systems use it. With cryptographic keys they get weaker the more we use it, so they need to be renewed from time to time.
+\end{itemize}
+
+\subsubsection*{Exercise 7: Nowadays a lot of services are using Multi-factor authentication (meaning more than one way of authentication). What is the advantage of it?}
+
+A: Being the use of passwords or pins the most common way of authentication, it has become weaker with the advancements of brute-force and dictionary attacks. As such, by combining multiple methods of authentication, even if a password was stolen or leaked they would still lack a piece to authenticate as ourselves.
+
+\subsection*{Freshness}
+\subsubsection*{Exercise 8: What is the possible disadvantage of using Nonces?}
+
+A: In order to use nonces, the target entity must remember all the nonce values it has seen from previous messages from all entities it knows. This can become a big burden in terms of memory consumption.
+
+\subsubsection*{Exercise 9: How could we minimize this disadvantage?}
+
+A: By adding timestamps as well as nonces, we can do a system in which each Nonce is kept for a certain time period. This way, we can garbage collect previous Nonces that are outside of the time window and attackers wouldnt be able to replay attack because the timestamp associated with the message would be outside of the maximum time window allowed.
+
+\subsubsection*{Exercise 10: Give an example of what could be considered a challenge-response}
+
+A: For example, being given a number as a challenge and having to return the next one as response. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
