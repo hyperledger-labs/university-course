@@ -52,7 +52,7 @@ stringstyle=\color{cyan}\ttfamily,
 commentstyle=\color{green}\itshape,
 moredelim=[s][\color{blue}\bfseries]{C:}{\>}
 }
-
+\newcommand{\comment}[1]{}
 \lstdefinestyle{Bash} {%
 language=bash,
 breaklines=true,
@@ -334,6 +334,45 @@ There are other well established authentication protocols that the reader should
 % Authenticated Diffie-Helman
 % Certificates
 
+\comment{
+\subsection{Asymetric Key Cryptography: RSA}
+RSA (Rivest–Shamir–Adleman) is one of the first public-key algorithms, used for secure data transmission.  RSA ciphers per blocks of dimension $k$, such that $2^k< N$. 
+
+One can divide RSA's excution into several steps:
+\begin{enumerate}
+    \item Key Generation
+    \item Encryption
+    \item Decryption
+\end{enumerate}
+
+The first step of RSA consists in key generation. Two keys are considered, the public key $K_u = (N,e)$ and the private key, $K_r = (N,d)$. We choose two prime numbers $p$ and $q$, such that $N = p.q$, and $Z = (p - 1).(q - 1)$. More concretely:
+\begin{itemize}
+    \item Choose primes $p$ and $q$, and $N = p.q$
+    \item Choose $e$ such that the greatest common divisor between $e$ and $(p-1).(q-1)$ is 1.
+    \item Calculate $d$ such that $e.d \mod (p - 1).(q - 1) = 1$. Restriction: $0 < d < (p - 1).(q - 1)$.
+    \item Communicate the public key $(N,e)$, and the private key $(N,d)$.
+\end{itemize}
+
+After keys are generated, text can be ciphered following a specific enconding, e.g., ASCII\footnote{https://www.ascii-code.com/} encoding, according to the following Figure \ref{fig:ascii}:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/ascii.png}
+    \caption{ASCII encoding}
+    \label{fig:ascii}
+\end{figure}
+
+Therefore, number 65 represents character `A'. The cryptogram can be calculated as follows: $C = M^e \mod N$. For decryption, a similar operation is performed, with the private key: $M = C^d \mod N$.
+
+In practise, to encode a large number, one can define $B <= N$, such that the message to be encrypted is divided into blocks of $B$ digits each one. The cryptogram is sent into blocks. The decryption phase is analogous: it decrypts the several blocks received into a single message. 
+
+For the attacker to discover $K_r$, he needs to know $Z$. To know $Z$, the attacker needs to discover $p$ and $q$. As $p$ and $q$ are prime numbers, it is computationally expensive to discover both, such that $p.q = n$. At the key generation step, one should destroy $p$ and $q$, so the public and private keys cannot be recalculated. Although RSA can be considered safe, it is important for the exponents to be very large numbers; if not, attacks are possible \cite{wiener90}.
+}
+
+%Future work
+%\subsubsection{Digital Signatures: ECDSA algorithm}
+%ECDSA stands for “Elliptic Curve Digital Signature Algorithm” - a popular digital signature algorithm. 
+%To know more about ECDSA please consult the sources: \cite{ecdsa1,ecdsa2}
 
 \section{Hands on Crypto}
 
@@ -360,6 +399,29 @@ There are other well established authentication protocols that the reader should
 
 \subsubsection*{Exercise 10: Give an example of what could be considered a challenge-response}
 
+\comment{
+
+\subsubsection*{Exercise 1: How many combinations can the MD5 and SHA256-3 algorithms generate? What is the likelihood of a hash collision with MD5? And with SHA256-3? Is SHA256-3 safer than MD5?}
+
+
+\subsubsection*{Exercise 2: Refer to Figures \ref{fig:ds_create} and \ref{fig:ds_validate}. Is this approach of signing and validating a document secure?}
+
+\subsubsection*{Exercise 3: Fork the course repository \footnote{https://github.com/hyperledger-labs/university-course}. Inspect the support code}
+
+Note: Code at university-course/support/Lab02/RSA.
+
+\subsubsection*{Exercise 4: Calculate the RSA keys associated with primes $p = 7$ and $q = 29$}
+
+Hint: you may use the support code to create a test case that helps you answering the following exercises.
+
+\subsubsection*{Exercise 5: Given that the public key $K_u = (N,e) = (143, 7)$ and the private key is $K_r = (N,d) = (143, 103)$, encrypt the following message: ``P''}
+
+
+\subsubsection*{Exercise 6: Decrypt the criptogram 80, given that $p = 3$ and $q = 31$ }
+
+
+%\subsubsection*{Exercise 7: Adapt the code to support text encrpytion in the ASCII format, and separation into different blocks}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % YOUR TEXT ENDS HERE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
