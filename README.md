@@ -10,7 +10,7 @@ This repository contains work in progress.
 |    I   	|   [Lab 01](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab01)   	|    Fundamentals on Distributed Systems    	| -Introduction on distributed systems<br><br>-Introduction on state machine replication<br><br>-Introduction on consensus<br><br>-RAFT algorithm                                                	|                     	|
 |    I   	|   [Lab 02](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab02)   	| Fundamentals on Cryptography and Security 	| -Background on Cryptography: symmetric and asymmetric cryptography, and digital signatures<br><br>-Background on Security: authentication, authorization, accountability<br><br>-RSA algorithm 	| [RSA implementation](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab02/RSA/)  	|
 |    I   	|   [Lab 03](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab03)   	|           A Primer on Blockchain          	| -Introduction to blockchain<br><br>-Public vs private blockchains                                                                                                                              	| [Blockchain4Students](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab03%20-%20Blockchain4Students) 	|
-
+|    I      |  [Lab 04](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab04)     | Introduction to Hyperledger Fabric            | -The Hyperledger Ecosystem <br><br> -A Technical Viewpoint on Fabric <br><br> -A Use Case for Education: Blockchain4Students QUC
 
 ## Course Motivation & Overview
 
