@@ -139,6 +139,20 @@ Examples: Hyperledger Fabric, Hyperledger Indy, Hyperledger Burrow, Hyperledger 
 \subsection{Comparison}
 Public and private blockchains are essencially different in nature. Inside each category, blockchains are also very different: their consensus, networking, data, and application layers can differ substantially, leading to a wide-range of choices. This leads to fragmentation, where some blockchains are immature (not stable). While this can be a big problem, research in blockchain interoperability attenuates this \cite{belchior2020}. 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.45]{figures/PublicVsPrivate.png}
+    \caption{Comparison between public and private blockchain}
+    \label{fig:bcs}
+\end{figure}
+
+% Source of picture: https://101blockchains.com/private-blockchain-vs-consortium-blockchain/#prettyPhoto
+
+
+Figure \ref{fig:bcs} depicts two blockchains: Hyperledger Fabric, a permissioned blockchain; and Bitcoin, a permissionless
+
+In Hyperledger Fabric, the consensus is based on endorsement policies. In Fabric, a client (C) sends a transaction proposal to the peer nodes (P), and obtains a signed transaction, called an endorsement (steps 1 and 2). An orderer validates the endorsements and builds a block with valid transactions, appending it to the ledger (steps 3 and 4). In Bitcoin, the consensus is based on the notion of Proof-of-Work (PoW), a cryptographic puzzle that mining nodes need to solve in order to build a valid block. This corresponds roughly to Fabric’s steps 1-3. After a node finds a solution to PoW, it then can propose a block of transactions to be appended to the ledger (step 4).
+
 \begin{figure}
     \centering
     \includegraphics[scale=0.4]{figures/Fig1.pdf}
@@ -146,14 +160,9 @@ Public and private blockchains are essencially different in nature. Inside each 
     \label{fig:bcs}
 \end{figure}
 
-Figure \ref{fig:bcs} depicts two blockchains: Hyperledger Fabric, a permissioned blockchain; and Bitcoin, a permissionless
-
-In Hyperledger Fabric, the consensus is based on endorsement policies. In Fabric, a client (C) sends a transaction proposal to the peer nodes (P), and obtains a signed transaction, called an endorsement (steps 1 and 2). An orderer validates the endorsements and builds a block with valid transactions, appending it to the ledger (steps 3 and 4). In Bitcoin, the consensus is based on the notion of Proof-of-Work (PoW), a cryptographic puzzle that mining nodes need to solve in order to build a valid block. This corresponds roughly to Fabric’s steps 1-3. After a node finds a solution to PoW, it then can propose a block of transactions to be appended to the ledger (step 4).
-
 
 \section{Blockchain4Students}
-A very reliable way to learn blockchain is to build one. Blockchain4Students is a blockchain\footnote{https://github.com/BlockChain4Students/blockchain\_node} written in the Python programming language specifically tailored to be easily understandable, and thus be a reliable basis for blockchain teaching. Let's dive deeper into the blockchain world by exploring Blockchain4Students.
-
+A very reliable way to learn blockchain is to build one. Blockchain4Students is a blockchain\footnote{https://github.com/hyperledger-labs/university-course/tree/master/support/Lab03\%20-\%20Blockchain4Students} written in the Python programming language specifically tailored to be easily understandable, and thus be a reliable basis for blockchain teaching. Let's dive deeper into the blockchain world by exploring Blockchain4Students.
 
 \section{Hands on Blockchain}
 %explain our prototype, show code
