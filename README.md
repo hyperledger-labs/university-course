@@ -15,6 +15,7 @@ This repository contains work in progress.
 ## Course Motivation & Overview
 
 Provide a reliable basis for university students to learn blockchain through Hyperledger Fabric, and, optionally, other Hyperledger technologies.
+This course requires teaching staff that can teach the theory, and provide support on the laboratory classes.
 
 This course is a 7.5 ECTS master level course that assumes 3 hours of theory per week + 1.5 weeks of practical classes (laboratory) per week. 
 This course implements the laboratory clsases.
