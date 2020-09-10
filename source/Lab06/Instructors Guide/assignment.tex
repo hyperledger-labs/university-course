@@ -1,0 +1,129 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  6\\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module II - Hyperledger Fabric} & \textbf{Issue Date:}  & - \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Hyperledger Fabric: Full-Stack dAp} & \textbf{Due Date:} &  - \\ 
+\hline
+\end{tabularx}}
+\rhead{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Instructors Guide}
+The majority of this laboratory was inspired on the implementation of JusticeChain\cite{belchior2019_audits}. Part of this laboratory was inspired in sources elaborated by KC Tam\footnote{https://medium.com/@kctheservant}.
+
+\section{Exercises}
+
+
+%How to add the students grades in order to not only provide reputation on answering the QUCs, but also on their grades (like Qualichain).
+
+\subsubsection*{The \texttt{network.sh} script can be reproduced step by step\footnote{https://medium.com/@kctheservant/add-a-peer-to-an-organization-in-test-network-hyperledger-fabric-v2-2-4a08cb901c98}\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/tutorial/commercial_paper.html}. Reproduce the process described on the B4S network.}
+
+\subsubsection*{Suppose that we want to add a new peer node to the network. Referring to Figure 3, which steps are to be taken?}
+
+A: 
+
+Step 2: generate crypto material for the peer
+Step 4: create a docker compose file containing this peer
+Step 5c: join this new peer to the existing channel
+Step 6b: install chaincode to that peer
+
+\subsubsection*{In the deployCC.sh script, what is the difference between chaincodeInvoke and chaincodeInvokeInit?}
+
+A: chaincodeInvokeInit is a convention that was widely used on Fabric 1.4 (as every instance of the blockchain needed a transaction to initialize the ledger). In Fabric 2.x, there is no need of this step. In practise, chaincodeInvoke and chaincodeInvokeInit are used to test if there are no error with the deployment, as they call different methods on the org.b4s.quc smart contract. However, the peer command called is exactly the same (peer chaincode invoke). 
+
+\subsubsection*{What are some dangers of using the web app as an centralized party to access the blockhain?}
+A: The transactions are issued accordingly to the arguments passed by the web app. If the web app is not open-source, we may not know what is being passed to the blockchain.
+
+
+\subsubsection*{What are the differences of this project to a production environment?}
+A: Some of them: A backoffice may exist, where organizations could add/reomve channels, participants, and peer nodes, in a distributed setting. The frontend could dinamically load user credentials: users could use a card with their credentials to sign credentials, without the system having to hold them. The cripto material is generated by different organizations and not shared. There might be different web applications and interfaces, depending on the organizations. There is chaincode access control (for example, only specific users may be able to access certain functions).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{IEEEtran}
+\bibliography{lab.bib}
+
+\end{document}                             % The required last line

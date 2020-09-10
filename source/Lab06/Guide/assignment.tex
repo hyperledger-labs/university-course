@@ -1,0 +1,557 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{caption}
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{threat}{Threat}[]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  6 \\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module II - Hyperledger Fabric} & \textbf{Issue Date:}  &  - \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Hyperledger Fabric: Full-Stack dApp} & \textbf{Due Date:} &  - \\ 
+\hline
+\end{tabularx}}
+\rhead{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+\newtheorem{mydef}{Definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Preliminary Notes}
+The majority of this laboratory was inspired on the implementation of JusticeChain\cite{belchior2019_audits}. Part of this laboratory was inspired in sources elaborated by KC Tam\footnote{https://medium.com/@kctheservant}.
+
+Working on the blockchain ecosystem includes two major  components: smart contract (chaincode) development, and operations (infrastructure). We will learn how to create the chaincode to implement the system B4S QUC.  
+
+Contrarily to previous laboratories, this laboratory does not have exercises at the end of this guide. Instead, you will take a look at the code and experiment with our system while you navigate through this guide.
+To do so, please clone the repository at, using the command:
+{git clone}
+%The reference section should be viewed as a ``additional readings reference'' - if you would like more information about the topic.
+This lab uses carbon.sh to create some figures.
+
+You will learn
+\begin{enumerate}
+    \item What is the process behind creating a blockchain network
+    \item How does a web app related to the blockchain
+    \item An example of a complete, full-stack decentralized application running Fabric 2.2
+\end{enumerate}
+
+Let us recall the architecture of our application:
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/b4s_architecture.pdf}
+    \caption{B4S architecture}
+    \label{fig:b4s}
+\end{figure}
+
+As discussed on the last lab, we can envision B4S as a full-stack system, in which the database is a blockchain. A user interface communicates with a blockchain client, which is a server. This server can act on behalf of an organization, issuing transactions against a peer node, that redirects it to a chaincode container. This container holds several smart contracts (user, logistics, quc). Each smart contract is divided into the basic entities (User, Feedback), and useful abstractions that help us developing chaincode (State, Statelist). This is illustrated in Figure \ref{fig:b4s}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Blockchain Network}
+
+Our network is composed by 2 organizations, each one with one peers, one CA, one couchDB instance. A channel mychannel (in our case, it is called b4s) connects all components. One orderer orders transactions of the network, as illustrated by the next Figure:
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/network.png}
+    \caption{Network Architecture. Source: https://medium.com/@kctheservant/add-a-peer-to-an-organization-in-test-network-hyperledger-fabric-v2-2-4a08cb901c98}
+    \label{fig:architecture}
+\end{figure}
+
+Let us see in more detail what happens at the \texttt{network-starter.sh}, and \texttt{network.sh} scripts.
+
+\subsection{Deploying the network}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{figures/steps.png}
+    \caption{Network starter script steps. Source: https://medium.com/@kctheservant/add-a-peer-to-an-organization-in-test-network-hyperledger-fabric-v2-2-4a08cb901c98}
+    \label{fig:steps}
+\end{figure}
+
+On the B4S folder, when the \texttt{network-starter.sh} script is called, it performs some cleanup, and calls the \texttt{network.sh} script twice, located on the \texttt{test-network} folder. The first call is to instantiate the network, while the second calls installs the chaincode:
+
+\begin{minted}{bash}
+#Cleanup previous deployments
+./network.sh down
+
+#Instantiate network
+./network.sh up createChannel -ca -s couchdb
+
+#Deploy chaincode
+./network.sh deployCC -l javascript
+\end{minted}
+
+Figure \ref{fig:steps} denote the necessary steps to start the network. Please open the \texttt{network.sh} script for inspection. As the flags given to the script are up and createChannel, the functions networkUp and createChannel are called. 
+
+Firstly, the necessary cryptographic material has to be generated, in one of two ways: cryptogen or Fabric CA. Fabric CA is the best way to generate the necessary files, as it is tailored to be used in production. It allows to generate new components or new users for an organization. This is achieved in the \texttt{registerEnroll.sh} script, and then the createOrgs function:
+
+\begin{minted}{bash}
+echo "##########################################################"
+    echo "##### Generate certificates using Fabric CA's ############"
+    echo "##########################################################"
+
+    IMAGE_TAG=$IMAGETAG_CA docker-compose -f $COMPOSE_FILE_CA up -d 2>&1
+
+    . organizations/fabric-ca/registerEnroll.sh
+
+    sleep 10
+
+    echo "##########################################################"
+    echo "############ Create Org1 Identities ######################"
+    echo "##########################################################"
+
+    createOrg1
+
+    echo "##########################################################"
+    echo "############ Create Org2 Identities ######################"
+    echo "##########################################################"
+
+    createOrg2
+
+    echo "##########################################################"
+    echo "############ Create Orderer Org Identities ###############"
+    echo "##########################################################"
+
+    createOrderer
+
+  fi
+
+  echo
+  echo "Generate CCP files for Org1 and Org2"
+  ./organizations/ccp-generate.sh
+\end{minted}
+
+For example, to register the students union president, on behalf of org1, the registerEnroll script calls the Fabric CA client:
+
+\begin{minted}[breaklines]{bash}
+
+    echo "================ ORG1 IDENTITIES =========================="
+
+        echo "## REGISTER studentUnionPresident"
+fabric-ca-client register -d --id.name studentUnionPresident --id.affiliation org1 --id.attrs '"hf.Registrar.Roles=peer,client"' --id.attrs hf.Revoker=true --id.attrs 'participantType=entity:ecert,entityId=1:ecert,organizationName=studentUnionTecnicoLisboa' --id.secret pw --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+        echo "## ENROLL studentUnionPresident"
+	fabric-ca-client enroll -u https://studentUnionPresident:pw@localhost:7054 --enrollment.attrs "participantType,entityId,organizationName" --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.example.com/users/studentUnionPresident@org1.example.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
+\end{minted}
+
+This step is essencial for access control within the blockchain. Note how when the client is being registered, we are recording different attributes: \texttt{id.name, id.affiliation, id.attrs, participantType, entityId, organizationName}. Those attributes are going to belong to the X.509 certificate issued to them, which can be later inspected by chaincode. This means that we have a reliable way of identifying participants on the chain, and restricting who can access specific functions. For example, we can set up our chaincode in a way that only participants with the attribute participantType=university can call the chaincode function createUniversity.
+
+After the necessary files are created, the network is bootstrapped, by using Docker. Essencially, the script calls the \texttt{docker-compose \$\{COMPOSE\_FILES\} up -d} command, where the variable COMPOSE\_FILES holds the necessary docker files. The \texttt{docker-compose-test-net.yaml} and \texttt{docker-compose-couch.yaml} are used to create the peers, orderers, CA, and CouchDB images.
+
+After that, the channel is created, via the \texttt{createChannel} script. It uses the configtxgen tool to generate two channel artifacts: the genesis block, and the first transaction. Those artifacts are configurable through the file configtx.yaml, located under config. After that, the channel is created via the command \texttt{peer channel create}, and both organizations join, by issuing \texttt{peer channel join}. 
+
+We now have a working blockchain! But for being usefull, we need to start...
+
+\subsection{Deploying Chaincode}
+
+Chaincode has a specific lifecycle, following a well-defined sequence of steps until it is usable:
+
+\begin{enumerate}
+\item Package chaincode: this step takes an input the source files of the chaincode (those on the chaincode directory), and creates a file (.tar.gz) with them, along with metadata
+\item Install chaincode: installs the chaincode package on the peers
+\item Approve chaincode definition: each organization approves the code that was installed 
+\item Commit chaincode definition to channel: when the lifecycle endorsement policy (in our case, all have to endorse the installed chaincode), an organization commits the new chaincode version.
+\end{enumerate}
+
+This process takes place at the \texttt{deployCC.sh} script, inside the \texttt{scripts} folder. In step one, the chaincode is packed:
+
+\begin{minted}[breaklines]{bash}
+# Step 1
+peer lifecycle chaincode package b4s.tar.gz
+
+# Step 2 - for each org
+peer lifecycle chaincode install b4s.tar.gz
+
+# Step 3 - for each org
+peer lifecycle chaincode approveformyorg [...]
+
+# Step 4 -for each org
+peer lifecycle chaincode commit [...]
+\end{minted}
+
+Each step comprises different inputs, that can be analyzed during the lab. After the respective verifications, the script tests invoking a particular smart contracts (via \texttt{chaincodeInvokeInit} and \texttt{chaincodeInvoke}). 
+
+\section{Blockchain Client}
+We now have a blockchain up and running, which we can interact with using the command line interface (see previous Lab). However, this is not useful for enterprises, organizations, and communities that want to use blockchain technology. To facilitate the interaction with the blockchain, we need to build a Blockchain Client, for each organization involved. This blockchain client is a web server that interacts with the blockchain via the fabric-sdk. On top of this web server, we deploy a user interface, allowing to end-users to interact with the network. Those end users are issued credentials (cryptographic materials discussed before), via the Fabric CA, which are then stored in a wallet. Users utilize their credentials to issue transactions on the blockchain, via their organization's peer node.
+
+Let's get started!
+
+\subsection{Setting up}
+First, we need to add our user identities to their respective wallets. Under the B4S folder, you have a directory called organizations. In a real world deployment, each sub-folder (students-union and university) would belong exclusively to a single stakeholder. Moreover, the crypto materials are generated only for them. On the B4S folder, run the script \texttt{init.sh}. Analyze this script. It essentially installs the necessary dependencies, adds the credentials to the wallet, and issues a transaction on the blockchain, for both organizations. For the students-union:
+
+\begin{minted}[breaklines]{bash}
+echo '====== ON BEHALF OF A STUDENTS UNION ======'
+npm install
+node renamePK
+node addToWallet
+\end{minted}
+
+For the university, a last step is conducted, the creation of a university.
+\begin{minted}[breaklines]{bash}
+echo '====== ON BEHALF OF UNIVERSITY ======'
+npm install
+node renamePK
+node addToWallet
+node showIdentity
+node createUniversity
+\end{minted}
+
+
+The result of the first and second scripts (node renamePK and node addToWallet) creates a new folder, \texttt{identity}, under each organization. Analyze the generated contents. The contents are .id files, which hold the certificates generated by the CA:
+
+\begin{minted}[breaklines]{json}
+
+{
+  "credentials": {
+    "certificate": "-----BEGIN CERTIFICATE-----[...]\n-----END CERTIFICATE-----\n",
+    "privateKey": "-----BEGIN PRIVATE KEY-----[...]-----END PRIVATE KEY-----\n"
+  },
+  "mspId": "Org1MSP",
+  "type": "X.509",
+  "version": 1
+}
+\end{minted}
+
+The script showIdentity issues a transaction against the blockchain requesting for some information.
+
+Analyze the code of \texttt{showIdentity.js}, under \texttt{support/Lab05/b4s/organization/university}:
+
+\begin{minted}[breaklines]{javascript}
+
+const { Wallets, Gateway } = require('fabric-network');
+const University = require('../../../../chaincode/lib/logistics/university');
+[...]
+
+/ A wallet stores a collection of identities for use
+    const wallet = await Wallets.newFileSystemWallet('../identity/org2/wallet');
+
+    // A gateway defines the peers used to access Fabric networks
+    const gateway = new Gateway();
+\end{minted}
+
+First, we import the Wallet and Gateway classes from the Fabric SDK, in order to interact with the wallet, and the blockchain, respectively. We are also using the University class we created. 
+
+Now, we need to connect to Fabric, via the user whose credentials were used by the CA. When we generated the connection profile for the user, it was saved on the folder Identity.
+
+\begin{minted}[breaklines]{javascript}
+// Specify userName for network access
+        const userName = 'universityTecnicoLisboa';
+
+        // Load connection profile; will be used to locate a gateway
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org2.yaml', 'utf8'));
+
+
+\end{minted}
+
+We now connect to Fabric:
+\begin{minted}[breaklines]{javascript}
+
+        await gateway.connect(connectionProfile, connectionOptions);
+
+\end{minted}
+
+
+... to the desired channel...
+\begin{minted}[breaklines]{javascript}
+        const network = await gateway.getNetwork('mychannel');
+\end{minted}
+
+
+... obtain the smart contract we need to use...
+\begin{minted}[breaklines]{javascript}
+        const contract = await network.getContract('b4s','org.b4s.logistics');
+
+\end{minted}
+
+.. and submit the createUniversity transaction!
+\begin{minted}[breaklines]{javascript}
+
+        const universityBytes = await contract.submitTransaction('createUniversity', 'TecnicoLisboa', 'Portugal');
+
+\end{minted}
+
+
+
+Finally, we retrieve the response from Fabric into a human-readable format:
+
+\begin{minted}[breaklines]{javascript}
+        let university = University.fromBuffer(universityBytes);
+        console.log(university)
+
+
+\end{minted}
+
+Now, analyze the code of \texttt{createUniversity.js}, under \texttt{support/Lab05/b4s/organization/university}. You will notice that it is very similar to showIdentity, only a line changes:
+\begin{minted}[breaklines]{javascript}
+        const response = await contract.submitTransaction('showIdentity');
+\end{minted}
+
+That is right, only the transaction type that is called changes.
+
+
+This procedure applies for all possible transactions defined by a smart contract. We first connect to the network and channel, obtain the smart contract, and submit a transaction with our credentials. But for a large organization, it would be very cumbersome to maintain a script for each employee, and for each transaction type. That is why we can encapsulate this complexity into a web app.
+
+
+
+\subsection{B4S WebApp}
+Now, for each organization, there is a web app, that takes the generated credentials, and interacts with the network. The idea is the end users to interact with the blockchain in a simple way: the web app does the same than the scripts above. 
+
+Under \texttt{b4s/organization}, there are two organizations depicted: students-union corresponds to org1, having a wallet that supports two users. University corresponds to org2. Go to the university folder, and then to b4s-client. To start the client, run npm run start. 
+
+The blockchain client is up and running! The ideal situation now would be to have a user interface in which we could interactively issue transactions to the blockchain. For testing purposes, we will issue GET or POST requests to a specific endpoint, to verify that the requests are translated to transactions. Verify the credentials loaded by the b4s-client, by requesting a GET to /logistics/myIdentity:
+\begin{minted}[breaklines]{bash}
+
+curl -X GET http://127.0.0.1:3001/logistics/myIdentity
+\end{minted}
+
+The response should be similar:
+\begin{minted}[breaklines]{bash}
+rafael@x:~/Projects/university-course/support/Lab05/b4s/organization/university/b4s_client$ npm run start
+
+> logger@0.0.0 start /home/rafael/Projects/university-course/support/Lab05/b4s/organization/university/b4s_client
+> node app
+
+Server running at http://127.0.0.1:3001/
+Connecting to Fabric
+Use network channel: mychannel.
+Use org.b4s chaincode
+identity:  {
+  participantType: 'university',
+  auditorId: null,
+  organizationName: 'universityTecnicoLisboa',
+  loggerId: null,
+  adminId: null,
+  hfEnrollmentID: null,
+  getID: 'x509::/C=US/ST=North Carolina/O=Hyperledger/OU=client/OU=org2/CN=universityTecnicoLisboa::/C=US/ST=North Carolina/O=Hyperledger/OU=Fabric/CN=fabric-ca-server',
+  getMSPID: 'Org2MSP'
+}
+GET /logistics/myIdentity 200 2657.232 ms - 77
+
+\end{minted}
+
+You can check that the transaction was successful by analyzing the peer logs, as well as the logs of the chaincode container. Execute \texttt{docker logs peer0.org1.example.com}, and then 
+
+\begin{minted}[breaklines]{bash}
+docker logs  dev-peer0.org1.example.com-b4s_1-[SPECIFIC-ID]
+\end{minted}
+
+replacing SPECIFIC-ID by the ID of your container (you can check this by issuing docker logs, and searching for dev-peer...).
+The peer0.org1 container shows:
+\begin{minted}[breaklines]{bash}
+2020-09-10 10:59:48.490 UTC [kvledger] CommitLegacy -> INFO 0cd [mychannel] Committed block [15] with 1 transaction(s) in 34ms (state_validation=0ms block_and_pvtdata_commit=3ms state_commit=29ms) commitHash=[8810dfd0a66bdb305e0932ca3ed80af47472ccdabfc8db02cef23d449fef3f0d]
+\end{minted}
+
+
+
+
+The chaincode container shows:
+\begin{minted}[breaklines]{bash}
+Show identity called by:  x509::/C=US/ST=North Carolina/O=Hyperledger/OU=client/OU=org2/CN=universityTecnicoLisboa::/C=US/ST=North Carolina/O=Hyperledger/OU=Fabric/CN=fabric-ca-server
+2020-09-10T10:51:56.134Z info [c-api:lib/handler.js]                              [mychannel-c0ad8972] Calling chaincode Invoke() succeeded. Sending COMPLETED message back to peer 
+\end{minted}
+
+
+Which corresponds to the console.log done at the chaincode (see showIdentity from the logistics-contract).
+
+This request is semantically equivalent to the script showIdentity. In fact, the client just loads this script, and manages the credentials for you.  
+
+
+
+Now, we want to perform more complex transactions. For instance, we can create a university by requesting a POST to /logistics/createUniversity, containing the necessary arguments. 
+\begin{minted}[breaklines]{bash}
+
+curl -X POST -F 'universityId=123' -F 'regionId=Portugal' http://127.0.0.1:3001/logistics/createUniversity
+\end{minted}
+
+The webapp console returns:
+
+\begin{minted}[breaklines]{bash}
+
+===============
+University {
+  class: 'org.b4s.university',
+  key: '"123":"Portugal"',
+  currentState: null,
+  universityId: '123',
+  regionId: 'Portugal'
+}
+Transaction complete.
+POST /logistics/createUniversity 200 2605.641 ms - 122
+
+\end{minted}
+
+Let's also create two students, by issuing:
+\begin{minted}[breaklines]{bash}
+curl -X POST -F 'studentId=012345' -F 'universityId=123' -F 'courses=course1'  http://127.0.0.1:3001/users/createStudent
+\end{minted}
+
+
+
+That's it! Notice that there is also a b4s-client for students-union, under their directory. You can repeat this experiment, but notice that the students client only contains the myIdentity endpoint. We are now leveraging a user interface from the University institution to render the results from the getAllStudents endpoint, which retrieves a full list of enrolled students. Go to /organizations/university/user-interface. To install dependencies, run npm install. After that, bootstrap the user interface by running npm run serve. (Note, if this step does not work, install the Vue Client\footnote{https://vuejs.org/v2/guide/installation.html}). It is out of the scope of this course to learn about Vue.js, but you can check the code at University-frontend.vue, under src/Views to inspect how it works. Essentially, it makes a request to http://localhost:3001/users/getAllStudents, which has credentials loaded, and parses the request.
+
+Open your browser at localhost:8080, and try out to retrieve the students list.
+
+That's it! These are the basics about Hyperledger Fabric. 
+
+
+
+
+\section{Clean up}
+On the B4S folder, run: \texttt{./network-clean}. This calls \texttt{network.sh down}, that tears down the whole infrastructure, as removes all stopped containers.
+
+For each organization, you may run the script remove\_wallet.sh, under the \texttt{utils} folder. This deletes the created credentials. 
+
+
+
+
+
+
+%\subsection{CA}
+
+%\subsection{Channels}
+%Hyperledger Fabric allows an organization to simultaneously participate in multiple, separate blockchain networks via channels. By joining multiple channels, an organization can participate in a so-called network of networks. Channels provide an efficient sharing of infrastructure while maintaining data and communications privacy. They are independent enough to help organizations separate their work traffic with different counterparties, but integrated enough to allow them to coordinate independent activities when necessary.
+%\section{Off-Chain Components}
+
+%\subsection{Blockchain Client}
+%https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/application.html
+
+%\subsection{User Interface}
+%This corresponds to the blockchain client user interface.
+
+
+%https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/application.html
+
+
+%https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/connectionprofile.html
+
+
+%https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/connectionoptions.html
+
+%seguintes 2
+
+%
+% https://hyperledger-fabric.readthedocs.io/en/release-2.2/tutorial/commercial_paper.html
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT ENDS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Exercises}
+
+
+%How to add the students grades in order to not only provide reputation on answering the QUCs, but also on their grades (like Qualichain).
+
+\subsubsection*{The \texttt{network.sh} script can be reproduced step by step\footnote{https://medium.com/@kctheservant/add-a-peer-to-an-organization-in-test-network-hyperledger-fabric-v2-2-4a08cb901c98}\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/tutorial/commercial\_paper.html}. Reproduce the process described on the B4S network.}
+
+\subsubsection*{Suppose that we want to add a new peer node to the network. Referring to Figure \ref{fig:steps}, which steps are to be taken?}
+
+\subsubsection*{In the deployCC.sh script, what is the difference between chaincodeInvoke and chaincodeInvokeInit?}
+
+\subsubsection*{What are some dangers of using the web app as an centralized party to access the blockhain?}
+
+
+\subsubsection*{What are the differences of this project to a production environment?}
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{lab.bib}
+
+\end{document}                             % The required last line
