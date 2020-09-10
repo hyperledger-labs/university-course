@@ -1,0 +1,28 @@
+{
+    "name": "B4S_Chaincode",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+        "node": ">=12",
+        "npm": ">=6"
+    },
+    "author": "Rafael Belchior",
+    "scripts": {
+        "lint": "eslint .",
+        "createDocs": "jsdoc * -d ../docs",
+        "pretest": "npm run lint",
+        "test": "nyc mocha test --recursive",
+        "start": "fabric-chaincode-node start",
+        "mocha": "mocha test --recursive"
+    },
+    "engineStrict": true,
+    "license": "Apache-2.0",
+    "dependencies": {
+        "fabric-contract-api": "^2.2.0",
+        "fabric-shim": "^2.2.0"
+    },
+    "devDependencies": {
+        "jsdocs": "^1.0.0"
+    }
+}
