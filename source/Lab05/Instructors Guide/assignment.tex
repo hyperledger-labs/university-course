@@ -1,0 +1,142 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  5\\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module II - Hyperledger Fabric} & \textbf{Issue Date:}  & - \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Hyperledger Fabric: Infrastructure and Chaincode} & \textbf{Due Date:} &  - \\ 
+\hline
+\end{tabularx}}
+\rhead{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Instructors Guide}
+
+
+The majority of this laboratory was inspired on the implementation of JusticeChain\cite{belchior2019_audits}.
+
+\subsubsection*{How to provide extra differentiation for teaching quality?}
+
+Different levels of excellence awrads (e.g. quc $\geq$ 8, quc $\geq$ 8.5; quc = 9
+
+\subsubsection*{One of the critiques to QUCs is that a professors score depends on his or her popularity. How to decrease this risk?}
+
+Have a set of questions directed to ascertain a professors popularity (eg. how much does the professor care about the students; how does the prof empatise with the class, etc). If a student rates a professors popularity too high, his QUC score might need to be normalized. The same if the popularity is too low. 
+
+\subsubsection*{What is the scalability of B4S QUC, given that Hyperledger Fabric can only contain a limited number of peer nodes and orgs?}
+
+A: Recent experiments show that Fabric can accomodate 32 organizations, in a total of 128 peer nodes\footnote{https://www.ibm.com/blogs/blockchain/2019/04/does-hyperledger-fabric-perform-at-scale/}. If each orgnaization represents an university ecosystem, and each university has 3 peer nodes (university, professor, student), then at least 32 universities can be fit into a small system.  
+
+\subsubsection*{When is a transaction considered valid in this ecosystem?}
+
+A:  Fabric only accepts a transaction as valid given that it collected enough endorser signatures (as stipulated in the endorsement policy). Common policies are ALL or at least 1.
+
+
+\subsubsection*{Imagine that the T-QUC chaincode is split into T-QUC Management and Actor Management chaincodes. Wwhat are the pros and cons of this approach?}
+
+ Pros: better chaincode management, by trying to isolate classes not directly related (universities, professors and students do not depend on the QUCs).  However, as the data is losely related, there are issues we need to be aware.
+Cons: The need to manage two chaincodes in terms of operations and chaincode development. In fact, ``if a smart contract needs to access another chaincode world state, it can do this by performing a chaincode-to-chaincode invocation`''.  \footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/chaincodenamespace.html}. Control is passed between chaincode using the invokeChaincode() API.
+
+\subsubsection*{To get information about the channel in which the peers are connected, run {docker exec peer0.org1.example.com peer channel getinfo -c mychannel}. What do you see?}
+
+A: Blockchain info: {"height":6,"currentBlockHash":"hiLTR1dF+bk3EkUNusE7q1pkh939cQzu5pgQrUlrK1M=","previousBlockHash":"iHUt4lRf5wMJa/O70xuRbGRT2RG3RvdvWXGW8s0j9Uc="}
+
+Current block number, current block hash and previous block hash. 
+
+\subsubsection*{Analyze the chaincode container logs, as well as the peer logs. What do you see?}
+
+A: You can see the result of the execution by analyzing the docker container logs: \emph{docker logs 1a336c331f4a}, and \emph{docker logs peer0.org1.example.com}.
+Peer: operations regarding the orderer, and endorsement of transactions, as well as receiving requests to execute chaincode. The chaincode container contains the logs of the chaincode (logs errors and console.log()). The peer returns if the invocation was successful or not. 
+
+\subsubsection*{Instead of the chaincode receiving a unique Id as a parameter, we could generate it on the smart contract itself (e.g., let uniqueId = uuidv4()). This way, the issuer may not tamper or control the generated IDs. Why is this a bad idea?}
+
+A: You will obtain the error \emph{Error: could not assemble transaction: ProposalResponsePayloads do not match} because all peers are endorsing the transaction. As the uuidv4() method is not deterministic, each peer generates a different ID. This causes a mismatch that does not respect the endorsement policy -- leading to the transaction failure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{IEEEtran}
+\bibliography{lab.bib}
+
+\end{document}                             % The required last line
