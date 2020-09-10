@@ -1,0 +1,623 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{caption}
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{threat}{Threat}[]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~\$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  5 \\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module II - Hyperledger Fabric} & \textbf{Issue Date:}  &  - \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Hyperledger Fabric: Infrastructure and Chaincode} & \textbf{Due Date:} &  - \\ 
+\hline
+\end{tabularx}}
+\rhead{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+\newtheorem{mydef}{Definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Preliminary Notes}
+
+
+The majority of this laboratory was inspired on the implementation of JusticeChain\cite{belchior2019_audits}.
+
+
+
+Working on the blockchain ecosystem includes two major components: smart contract (chaincode) development, and operations (infrastructure). We will learn how to create the chaincode to implement the system B4S QUC.  
+
+Contrarily to previous laboratories, you will take a look at the code and experiment with our system while you navigate through this guide.
+To do so, please clone the repository at, using the command:
+{git clone https://github.com/hyperledger-labs/university-course}, and navigate to support/Lab05
+%The reference section should be viewed as a ``additional readings reference'' - if you would like more information about the topic.
+This lab uses carbon.sh to create some figures.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The B4S QUC System}
+<
+Figure \ref{fig:actors} illustrates the different actors in this system.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig1.pdf}
+    \caption{Actors in a B4S QUC blockchain}
+    \label{fig:actors}
+\end{figure}
+
+
+However, since Fabric can only hold a limited number of peer nodes, and for privacy purposes, both students and professors use proxies in the communications. In other words, students interact with B4S QUC via their students union of their university, while professors  
+do the same via their department, as illustrated in Figure 2.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig2.pdf}
+    \caption{Blockchain and Blockchain Client components in a B4S QUC blockchain}
+    \label{fig:actors_detailed}
+\end{figure}
+
+The students union and departments web applications are not hosted by the blockchain (we call those components off-chain components). The students and professors are, therefore, blockchain users that use the students' union peer node, and the professors department peer node. 
+
+Next, we focus on each component of our system, namely the chaincode, the off-chain components (application, user interface), and the infrastructure.
+
+\subsection{States and transactions}
+ A state is composed by the stored attributes. Let’s analyze our use case in a little more detail. B4S QUC participants such as students and professors from Técnico Lisboa use transactions to achieve their business objectives.
+ 
+  A Fabric state is implemented as a key/value pair, in which the value encodes the object properties in a format that captures the objects' multiple properties, typically JSON. The ledger database can support advanced query operations against these properties, which is very helpful for sophisticated object retrieval. A key can be simple (formed by, for example, the id of a feedback item), or composed (the concatenation of the feedback item id + student id). A key therefore identifies unequivocally a state.  We model a state like this in the following manner:
+ \begin{verbatim}
+OBJECT KEY
+FIELD: VALUE
+FIELD: VALUE
+FIELD: VALUE
+...
+FIELD: VALUE
+\end{verbatim}
+ 
+Let’s examine the an example of a feedback item:
+
+\begin{verbatim}
+FeedbackItem 011a8b02-e9b7-4023-9be6-4814abf5664c
+Creator: Student 
+Course ID: 197b067b-44fc-43b1-8f8c-1658de7ec185 0808f130-1ba8-4712-991a-250080e2e44c 
+FeedbackParameter#1: 5
+FeedbackParameter#2: 9
+FeedbackParameter#3: 2
+Produced QUC: null
+Current State: Completed
+\end{verbatim}
+
+The creator of a feedback item may be a student or a professor. Each feedback item is uniquely identified by a Universally unique identifier  v4 (UUIDv4) string. Essentially, a UUID is a mechanism to identify information, composed by a 128-bit string. The probability to find a duplicate within 103 trillion version-4 UUIDs is one in a billion. FeedbackParameters are the QUC parameters, which we omit for simplicity (an example would be: Professor\_Arrives\_In\_Time).  The produced QUC attribute refers to the QUC in which that feedback item participated. As the feedback hasn't  been processed, no QUC was generated with that feedback item. 
+
+We can differentiate on four types of feedback: feedback from students towards a course; feedback from students towards the teaching staff; feedback from professors toward the course; feedback from the students representative towards courses and teaching staff. However, for illustration and brevity, we focus on the feedback from a student towards a course. Several feedback items are used to produce a QUC score, which refers to a course and its teaching staff:
+
+
+\begin{verbatim}
+QUC c38eea64-f494-49d0-8245-3966f02d8e4a
+University: University 0177545f-2730-496d-8971-6204ff804979
+Teaching Staff: Professor d023fff3-1613-47db-a4ab-b91925ae1a36, Professor 90ea3765-1355-45a9-bc6e-3069520c372b
+Course ID: Course b143ef55-64b7-41b5-b91b-0b8161f98ef6
+
+Course QUC Scores:
+    QUC Score#1: 8
+    QUC Score#2: 4
+    QUC Score#3: 8
+    [...]
+Teaching Staff QUC Scores:
+    [...]
+General Score: 6
+
+Current State: Created
+\end{verbatim}
+
+
+An example of a state for a course is:
+
+\begin{verbatim}
+Course b143ef55-64b7-41b5-b91b-0b8161f98ef6
+University: University 0177545f-2730-496d-8971-6204ff804979
+Teaching Staff: Professor d023fff3-1613-47db-a4ab-b91925ae1a36, Professor 90ea3765-1355-45a9-bc6e-3069520c372b
+Students: [...]
+Metadata: [...]
+Current State: Created
+\end{verbatim}
+
+A course is taught by teaching staff, which later can also provide feedback from the course. The Students allows a student to prove that they were enrolled in that course - and thus being able to provide feedback. 
+
+An example of student representation is:
+\begin{verbatim}
+Student eefe83c5-555b-4804-a027-182afd6957df
+University: University 0177545f-2730-496d-8971-6204ff804979
+
+\end{verbatim}
+
+Students unions track their students ID, allowing to trace the real identity of a student, in case of legal dispute.
+
+An example of professor representation is:
+\begin{verbatim}
+Professor 43009bef-7c5d-4000-8861-4b2c7805a4e5
+University: University 0177545f-2730-496d-8971-6204ff804979
+Courses: Course b143ef55-64b7-41b5-b91b-0b8161f98ef6
+QUCs: [...]]
+
+\end{verbatim}
+
+QUCs are the list of QUC items that refer that professor.
+
+
+Hyperledger Fabric distributed ledger contains a world state (value of all objects), and a blockchain that records the history of all transactions that resulted in the current world state. Fabric only accepts a transaction as valid given that it collected enough endorser signatures.
+
+Feedback items are then conceptual objects of value, modeled as states, whose lifecycle transitions are described by transactions. An effective analysis of states and transactions is an essential starting point for a successful implementation.
+
+We can represent the life cycle of a feedback item using a state transition diagram:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig3.pdf}
+    \caption{State transition diagram for the feedback item lifecycle. States are changed via transactions, issued by different actors.}
+    \label{fig:feedback_item_lc}
+\end{figure}
+
+A feedback item is created by either a student or a professor via a createFeedback transaction, issued via the students union or professors department, respectively. The course is taught during the semester. After it is completed, a fillFeedback transaction can be issued, marking feedback as completed. Finally, when QUC scores are being produced, processFeedback is called, marking the feedback as processed (accounting for producing a QUC score).
+
+We can represent the life cycle of a course using a state transition diagram:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig4.pdf}
+    \caption{State transition diagram for the course lifecycle.}
+    \label{fig:course_lf}
+\end{figure}
+
+The lifecycle of a course comprises its creation by the university or a professor (createCourse), its normal operation and its finishing (courseCompleted), and its evaluation (evaluateCourse). The university calls evaluateCourse when it is deemed to be finished. At that time, feedback items are processed, and a QUC score is calculated, for both the course and its teaching staff.
+The state diagram describes how feedback items and courses change over time, and how specific transactions govern the life cycle transitions. 
+
+The QUC score is created when after a course is deemed complete, and after the deadline for the QUCs filling is achieved.
+
+The relationship between all objects stored on the ledger is as follows:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig5.pdf}
+    \caption{Mental model of the concepts involved in B4S QUC}
+    \label{fig:mental_model}
+\end{figure}
+
+In Hyperledger Fabric, smart contracts implement transaction logic that transition objects between their different states. The different states of feedback items, courses, etc, are actually held in the ledger world state, as illustrated in the next figure:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{figures/fig6.pdf}
+    \caption{A state representing a course is created as a result of a createCourse transaction. State transitions occur as a result of different transactions.}
+    \label{fig:course_lf_2}
+\end{figure}
+
+ 
+You’re now in a great place to translate these ideas into a smart contract. Don’t worry if your programming is a little rusty, we’ll provide tips and pointers to understand the code. 
+
+\subsection{Simplifications}
+To simplify our use case, we perform some simplifications:
+
+\begin{itemize}
+    \item  only consider students' feedback on a course (professors feedback can be implemented in a similar way
+    \item we assume that for QUC calculation purposes, there is only one parameter ``feedbackParameters'', which represents all the necessary components for feedback
+    \item we use a simplified network, \emph{test-network}, with two organizations: university and students. This network is based on the test-network from fabric-samples\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/tutorial/commercial\_paper.html} \footnote{https://github.com/hyperledger/fabric-samples}(see Figure \ref{fig:network}.
+\end{itemize}
+
+As an exercise, you might complete some parts of this project, market with \texttt{TODO EXERCISE}
+ 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/commercial_paper.diagram.testnet.png}
+    \caption{Our network, compressed of Org1, Org2 and an orderer.}
+    \label{fig:network}
+\end{figure}
+
+
+\subsection{Smart Contracts \& Chaincode}
+
+
+
+Smart contracts are the core of a blockchain. They allow to generate new information that is appended to the ledger. Every smart contract has a name that uniquely identifies it within a chaincode. Applications access a particular smart contract within a chaincode using its contract name. Essentially, smart contracts are high level abstractions, encapsulated by chaincode, made available to developers. 
+
+A chaincode is a generic container for deploying code to a Hyperledger Fabric blockchain network. It groups smart contracts and can also be used for low level programming of the Fabric network. Thus, smart contracts manage transactions, whereas chaincode governs the management of smart contracts.
+
+
+%https://hyperledger-fabric.readthedocs.io/en/release-2.2/_images/develop.diagram.20.png
+
+%desc haincode A has three smart contracts defined within it, whereas chaincode B has four smart contracts. See how the chaincode name is used to fully qualify a particular smart contract.
+
+%mod
+In most cases, a chaincode will only have one smart contract defined within it. However, it can make sense to keep related smart contracts together in a single chaincode.
+
+\subsubsection{Chaincode organization}
+In our case we have one chaincode: \emph{T-QUC}. The T-QUC chaincode manages courses, feedback items, an QUCs, and manages the creation, and operations regarding the different actors on the network (universities, students, and professors). 
+
+The T-QUC chaincode contains several smart contracts:
+\begin{itemize}
+    \item Course + University (Logistics Smart Contract)
+    \item QUC + Feedback Items (QUC Smart Contract)
+        \item Student + Professor (Users Smart Contract)
+
+\end{itemize}
+
+For simplicity, we focus on the students feedback (the professors feedback can be implemented in a very similar fashion).
+%
+
+\subsubsection{Developing Chaincode}
+
+Chaincode development can be seen as object-oriented programming, with some useful abstractions. Our abstraction regarding the blockchain is implemented through the State and Statelist classes. In short, the blockchain only cares about key-value pairs - that composes the world state of the blockchain. However, we want to group types of objects (lets say Students, Professors, or Universities), by giving each key a proper identifier (a prefix). The correlated states (lets say the state of Student 1 and Student 2) are further grouped into a Statelist. This allows easy querying of the world state. 
+
+Open \emph{state.js}, inside the directory \emph{ledger-api} with your favorite editor. A state is just a reference to a key on the blockchain that holds a certain value. The key might be simple (single value), or composed (a combination of values, separated by ``:''). We support composed keys, supported by the \emph{makeKey} method:
+\begin{minted}[breaklines]{javascript}
+    
+        this.key = State.makeKey(keyParts);
+        
+        ...
+        
+        static makeKey(keyParts) {
+            return keyParts.map(part => JSON.stringify(part)).join(':');
+        }
+\end{minted}
+
+Furthermore, the State class provides useful methods for serializing and deserializing the information. In other words, the information is passed to the ledger in the JSON format (the value corresponding to a key). It is desirable that when we query or retrieve information from the ledger we obtain an object from a certain class, not plain JSON.
+
+Now, focus on \emph{statelist.js}. Here is where the magic happens: 1) adding information to the blockchain; 2) updating a state; 3) obtaining a state; 4) querying the blockchain.
+
+For instance, the following method adds a new state to the blockchain. Note that this method is exactly equal to \emph{updateState}, because the primitive \emph{putState} adds or updates a state, if the state does not or does already exist, respectively. It is desirable to differentiate them because they are semantically different. Basically, to add a new state, we retrieve the key stored in the State, serialize the data, and call the blockchain API.
+
+\begin{minted}[breaklines]{javascript}
+    async addState(state) {
+        let key = this.ctx.stub.createCompositeKey(this.name, state.getSplitKey());
+        let data = State.serialize(state);
+        await this.ctx.stub.putState(key, data);
+    }
+
+\end{minted}
+
+Now, the existing classes (Course, University, QUC, Feedback, Professor, Student) are just specialized states, with their own attributes and methods. For instance, the Course has methods to change an attribute called current state, which can be either Created, Completed, or Evaluated (see Figure \ref{fig:course_lf_2}):
+\begin{minted}[breaklines]{javascript}
+const State = require('../../ledger-api/state.js');
+
+const courseState = {
+    CREATED: 0,
+    COMPLETED: 1,
+    EVALUATED: 2
+};
+
+//course item
+class Course extends State {
+
+    constructor(obj) {
+        //Creator ID corresponds to the university ID
+        super(Course.getClass(), [obj.universityId, obj.courseId]);
+        this.currentState = courseState.CREATED;
+        this.courseId = obj.courseId;
+        this.teachingStaff = obj.teachingStaff;
+        this. students = obj.students;
+        Object.assign(this, obj);
+    }
+
+    setStateToCompleted()   {
+        this.currentState = courseState.COMPLETED;
+    }
+    
+    [...]
+        static fromBuffer(buffer) {
+        return course.deserialize(buffer);
+    }
+
+    toBuffer() {
+        return Buffer.from(JSON.stringify(this));
+    }
+
+    static deserialize(data) {
+        return State.deserializeClass(data, Course);
+    }
+
+    /**
+     * Factory method to create a course Item
+     */
+    static createInstance(courseId, universityId, teachingStaff, students) {
+        return new Course({ courseId, universityId, teachingStaff, students });
+    }
+
+    static getClass() {
+        return "org.b4s.course";
+    }
+
+\end{minted}
+
+Now, the other crucial piece is the corresponding lists: in the course case, the course-list. Whereas a course is a state, a course-list is a state-list. In the list, we are defining the logic of interacting with the chain, something like a middleware layer in the backend of a centralized webapp. For example, the course-list contains a method \emph{getAllCourses}, which uses the \emph{getQueryResults} method from the state-list:
+\begin{minted}[breaklines]{javascript}
+    async getAllCourses() {
+            let query = {
+                "selector": {
+                    "class": "org.b4s.course"
+                }
+            };
+
+            let prepared_query = JSON.stringify(query);
+            return await this.getQueryResults(prepared_query);
+    }
+
+\end{minted}
+
+Finally, we develop our smart contracts on top of these objects 
+%aquii
+
+
+For more information, refer to the commercial paper example\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/tutorial/commercial\_paper.html}, as well as fabric-samples\footnote{https://github.com/hyperledger/fabric-samples}.
+
+
+
+\subsubsection{Wrap up}
+Confused? Do not worry. A blockchain is a complex system. For leveraging a blockchain system, an equilibrium between decentralized and centralized components has to be achieved. We can envision B4S as a full-stack system, in which the database is a blockchain. A user interface communicates with a blockchain client, which is a server. This server can act on behalf of an organization, issuing transactions against a peer node, that redirects it to a chaincode container. This container holds several smart contracts (user, logistics, quc). Each smart contract is divided into the basic entities (User, Feedback), and useful abstractions that help us developing chaincode (State, Statelist). This is illustrated in Figure \ref{fig:b4s}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figures/b4s_architecture.pdf}
+    \caption{B4S architecture}
+    \label{fig:b4s}
+\end{figure}
+
+
+\section{Setting up B4S}
+\subsection{Install prerequisites}
+This project has several prerequisites. Please refer to the \emph{README.md} for instructions. 
+
+For a straightforward setup, clone the repository at \texttt{https://github.com/hyperledger-labs/university-course/tree/master/support/Lab05}. Go to the B4S folder, by running \texttt{cd b4s}. Install the prerequesites by running \texttt{./install-prerequesites}. In case of any problem, refer to the \emph{Troubleshooting} section of the \emph{README.md}. 
+
+
+All issues should be reported at: https://github.com/hyperledger-labs/university-course/issues, with the label \emph{lab-question}, and an extra lab referring to this lab number. 
+
+\subsection{Instantiate the network}
+On the b4s directory, run \texttt{./network-starter}. This script calls \emph{network} and \emph{deployCC} scripts, present on the \emph{test-network} directories. Do not worry about the details of these scripts. We will cover infrastructure on the next lab.
+
+The execution should return no errors. After it is completed, run \emph{docker ps}. Notice that it created a network composed of 2 organizations, 2 peers, 1 orderer, 2 CAs, and 2 couchdb databases.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.08]{figures/output_docker_ps.png}
+    \caption{Result of running the \emph{docker ps} command, showing the created infrastructure}
+    \label{fig:docker}
+\end{figure}
+
+\subsection{Interact with the network}
+Congratulations! You have a working Hyperledger Fabric v2.2 blockchain running on your computer. Now, we shall interact with it. 
+
+Start by examining the first chaincode container, by running \emph{docker logs CONTAINER\_ID}. In my case, I should run \emph{docker logs 1a336c331f4a}, as illustrated in Figure \ref{fig:docker}. 
+
+You shall obtain a similar output:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.08]{figures/docker_logs_chaincode.png}
+    \caption{Result of running the \emph{docker logs 1a336c331f4a} command.}
+    \label{fig:docker_chaincode}
+\end{figure}
+
+%To interact with the network as the university entity, go to \texttt{Lab05/b4s/organization/university}, and run \texttt{./university.sh}. This loads the necessary environment variables to interact with the corresponding peer that belongs to the university organization (organization 2). Conversely, to interact with the network as the student entity, go to \texttt{Lab05/b4s/organization/students-union}, and run \texttt{./students.sh}. This loads the necessary environment variables to interact with the corresponding peer that belongs to organization 1.
+
+To interact with the students-union peer, you need to interact with peer0 from organization 1, whereas if you want to interact with the university peer, you need to interact with peer0 from organization 2.
+To get information about the channel in which the peers are connected, run \texttt{docker exec peer0.org1.example.com peer channel getinfo -c mychannel}.
+
+Another way is to load the configuration environment variables. To do this, from the \emph{b4s} folder, run (also see section \emph{Interacting with the network}, from the README.md:
+
+\begin{minted}{bash}
+source organization/university/university.sh
+\end{minted}
+
+Right now, you can issue commands on behalf of the university peer. 
+
+\subsection{Issuing Transactions}
+
+You can see the result of the execution by analyzing the docker container logs: \emph{docker logs 1a336c331f4a}, and \emph{docker logs peer0.org1.example.com}.
+
+Let us issue a transaction against the QUC smart contract. For that, we need information regarding our certificates, in which the ABSOLUTE\_PATH variable is the absolute path on your local machine to the lab (careful copying the code, because the buffer might contain invalid characters:
+
+
+\begin{minted}[ 
+breaklines,
+breakafter=test-network
+ mathescape,
+ linenos,
+ numbersep=5pt,
+ numbersep=5pt,
+ xleftmargin=0pt]{bash}
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com  --tls true --cafile ABSOLUTE_PATH/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles ABSOLUTE_PATH/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles ABSOLUTE_PATH/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:start", "Args":[]}' --waitForEvent
+\end{minted}
+
+For instance, the full command would be:
+\begin{minted}[ 
+breaklines,
+breakafter=test-network
+ mathescape,
+ linenos,
+ numbersep=5pt,
+ numbersep=5pt,
+ xleftmargin=0pt]{bash}
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:start", "Args":[]}' --waitForEvent
+\end{minted}
+
+Try, and issue another transaction:
+\begin{minted}[ 
+breaklines,
+breakafter=test-network
+ mathescape,
+ linenos,
+ numbersep=5pt,
+ numbersep=5pt,
+ xleftmargin=0pt]{bash}
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:showIdentity", "Args":[]}' --waitForEvent
+\end{minted}
+
+What did you notice? This transaction obtains and returns information about the party calling the transaction. Inspect the logs: \emph{docker logs 1a336c331f4a}. You can now see that the transaction was processed successfully.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.08]{figures/chaincode_response_1.png}
+    \caption{Logs of one of the chaincode containers, after issuing \emph{showIdentity}}
+    \label{fig:cr_1}
+\end{figure}
+
+Finally, let us create a university! Run:
+\begin{minted}[ 
+breaklines,
+breakafter=test-network
+ mathescape,
+ linenos,
+ numbersep=5pt,
+ numbersep=5pt,
+ xleftmargin=0pt]{bash}
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.logistics:createUniversity", "Args":["tecnicoLisboa", "Portugal"]}' --waitForEvent
+\end{minted}
+
+Observe the output and the chaincode logs.
+You just created your first asset on a blockchain. You can check it on the CouchDB user interface, which holds the world state. To access it, on your browser, go to: 
+\begin{minted}{bash}
+http://localhost:5984/_utils/#database/mychannel_b4s/_all_docs
+\end{minted}
+
+You should see the created object:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{figures/couchdb.png}
+    \caption{CouchDB user interface, b4s channel}
+    \label{fig:cdb}
+\end{figure}
+
+\subsection{Clean Up}
+
+In the next class, we will explore in more detail the network topology, operations (start the network, monitor the network), the smart contract lifecycle in Fabric v2.x, and off-chain blockchain components (this is, the blockchain client application and user interfaces that allows end-users to interact with the blockchain). This will help you understand Fabric as a whole.
+
+Do not forget the network, which is running and consuming resources! To delete the network, go to the b4s folder, and run: \texttt{./network-clean}.
+
+
+\section{Exercises}
+
+
+%How to add the students grades in order to not only provide reputation on answering the QUCs, but also on their grades (like Qualichain).
+
+\subsubsection*{How to provide extra differentiation for teaching quality?}
+
+Different levels of excellence awards (e.g. quc $\geq$ 8, quc $\geq$ 8.5; quc = 9
+
+\subsubsection*{One of the critiques to QUCs is that a professors score depends on his or her popularity. How to decrease this risk?}
+
+
+\subsubsection*{What is the scalability of B4S QUC, given that Hyperledger Fabric can only contain a limited number of peer nodes and orgs?}
+
+
+\subsubsection*{When is a transaction considered valid in this ecosystem?}
+
+\subsubsection*{Imagine that the T-QUC chaincode is split into T-QUC Management and Actor Management chaincodes. Wwhat are the pros and cons of this approach?}
+
+
+\subsubsection*{To get information about the channel in which the peers are connected, run {docker exec peer0.org1.example.com peer channel getinfo -c mychannel}. What do you see?}
+
+
+
+\subsubsection*{Analyze the chaincode container logs, as well as the peer logs. What do you see?}
+
+
+\subsubsection*{Instead of the chaincode receiving a unique Id as a parameter, we could generate it on the smart contract itself (e.g., let uniqueId = uuidv4()). This way, the issuer may not tamper or control the generated IDs. Why is this a bad idea?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT ENDS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\bibliographystyle{abbrv}
+\bibliography{lab.bib}
+
+\end{document}                             % The required last line
