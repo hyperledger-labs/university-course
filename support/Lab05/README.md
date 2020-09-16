@@ -56,7 +56,12 @@ At the university organization (present in b4s/organization/university), run: ``
 
 QUC smart contract:
 
-Warning: You must update the paths on the following functions to the absolute path of the course. It will be marked on the functions with USER_PATH.
+WARNING: You must update the paths on the following functions to the absolute path of the course. It will be marked on the functions with USER_PATH.
+
+WARNING: You may need to give privileged access to some folders in order to work.
+Specifically you must do:
+sudo chmod -R 775 /university-course/support/Lab05/test-network/organizations/
+
 
 For the start function:
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile USER_PATH/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:instantiate", "Args":[]}' --waitForEvent
