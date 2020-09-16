@@ -16,8 +16,7 @@ Git, Curl
 
 Docker and Docker Compose https://www.docker.com/
 
-Images and binaries, run ``curl -sSL https://raw.githubusercontent.com/hyperledger/fabric/master/scripts/bootstrap.sh | bash -s -- 2.2.0 1.4.8
-``. Copy the contents of fabric/samples/bin to JusticeChain_Fabric/bin, in case there is a newer version.
+Images and binaries, run ``curl -sSL https://bit.ly/2ysbOFE | bash -s``. Copy the contents of fabric/samples/bin to Lab05/bin, in case there is a newer version.
 
 [Check this link for more info](https://hyperledger-fabric.readthedocs.io/en/latest/prereqs.html)
 
@@ -53,21 +52,24 @@ This script creates the network (peers, orderer), their respective cryptographic
 
 
 ## Interact with the blockchain
-At the university organization, run: ``source university.sh``
+At the university organization (present in b4s/organization/university), run: ``source university.sh``
 
 QUC smart contract:
+
+Warning: You must update the paths on the following functions to the absolute path of the course. It will be marked on the functions with USER_PATH.
+
 For the start function:
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:start", "Args":[]}' --waitForEvent
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile USER_PATH/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:instantiate", "Args":[]}' --waitForEvent
 
 For the showIdentity function:
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:showIdentity", "Args":[]}' --waitForEvent
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile USER_PATH/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.quc:showIdentity", "Args":[]}' --waitForEvent
 
 For the createUniversity function:
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles /home/rafael/Projects/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.logistics:createUniversity", "Args":["tecnicoLisboa", "Portugal"]}' --waitForEvent
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls true --cafile USER_PATH/university-course/support/Lab05/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n b4s --peerAddresses localhost:7051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt --peerAddresses localhost:9051 --tlsRootCertFiles USER_PATH/university-course/support/Lab05/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt -c '{"function":"org.b4s.logistics:createUniversity", "Args":["tecnicoLisboa", "Portugal"]}' --waitForEvent
 
 
 ## Stop B4S
-To stop justicechain, run: ``docker stop $(docker ps -a -q)``. If you wish to restart it, run: ``docker start $(docker ps -a -q)``.
+To stop B4S, run: ``docker stop $(docker ps -a -q)``. If you wish to restart it, run: ``docker start $(docker ps -a -q)``.
 
 ##Remove B4S
 Go to the b4s folder.
