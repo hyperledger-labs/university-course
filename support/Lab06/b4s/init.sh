@@ -12,9 +12,9 @@ npm install
 . initUniversity.sh
 
 #Blockchain Client dependencies for students-union
-cd "${DIR}/organization/students-union/b4s-client"
+cd "${DIR}/organization/students-union/b4s_client"
 npm install
 
 #Blockchain Client dependencies for university
-cd "${DIR}/organization/university/b4s-client"
+cd "${DIR}/organization/university/b4s_client"
 npm install
