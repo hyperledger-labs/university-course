@@ -109,12 +109,13 @@ The majority of this laboratory was inspired on the implementation of JusticeCha
 Working on the blockchain ecosystem includes two major  components: smart contract (chaincode) development, and operations (infrastructure). We will learn how to create the chaincode to implement the system B4S QUC.  
 
 Contrarily to previous laboratories, this laboratory does not have exercises at the end of this guide. Instead, you will take a look at the code and experiment with our system while you navigate through this guide.
-To do so, please clone the repository at, using the command:
-{git clone}
+To do so, please clone the repository, using the command:
+{git clone https://github.com/hyperledger-labs/university-course}
 %The reference section should be viewed as a ``additional readings reference'' - if you would like more information about the topic.
+
 This lab uses carbon.sh to create some figures.
 
-You will learn
+You will learn:
 \begin{enumerate}
     \item What is the process behind creating a blockchain network
     \item How does a web app related to the blockchain
@@ -131,7 +132,7 @@ Let us recall the architecture of our application:
     \label{fig:b4s}
 \end{figure}
 
-As discussed on the last lab, we can envision B4S as a full-stack system, in which the database is a blockchain. A user interface communicates with a blockchain client, which is a server. This server can act on behalf of an organization, issuing transactions against a peer node, that redirects it to a chaincode container. This container holds several smart contracts (user, logistics, quc). Each smart contract is divided into the basic entities (User, Feedback), and useful abstractions that help us developing chaincode (State, Statelist). This is illustrated in Figure \ref{fig:b4s}.
+As discussed on the last lab, we can envision B4S as a full-stack system, in which the database is a blockchain. A user interface communicates with a blockchain client, which is a server. This server can act on behalf of an organization, issuing transactions against a peer node, that redirects it to a chaincode container. This container holds several smart contracts (user, logistics, quc), which are divided into the basic entities (User, Feedback) and useful abstractions that help us develop chaincode (State, Statelist). This is illustrated in Figure \ref{fig:b4s}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,7 +143,7 @@ As discussed on the last lab, we can envision B4S as a full-stack system, in whi
 
 \section{Blockchain Network}
 
-Our network is composed by 2 organizations, each one with one peers, one CA, one couchDB instance. A channel mychannel (in our case, it is called b4s) connects all components. One orderer orders transactions of the network, as illustrated by the next Figure:
+Our network is composed by 2 organizations, each one with one Peer, one CA and one CouchDB instance. A channel mychannel (in our case, it is called b4s) connects all components. One Orderer orders transactions of the network, as illustrated in Figure \ref{fig:architecture}.
 
 
 \begin{figure}[h]
@@ -176,9 +177,9 @@ On the B4S folder, when the \texttt{network-starter.sh} script is called, it per
 ./network.sh deployCC -l javascript
 \end{minted}
 
-Figure \ref{fig:steps} denote the necessary steps to start the network. Please open the \texttt{network.sh} script for inspection. As the flags given to the script are up and createChannel, the functions networkUp and createChannel are called. 
+Figure \ref{fig:steps} denote the necessary steps to start the network. Please open the \texttt{network.sh} script for inspection. As the flags given to the script are \texttt{up} and \texttt{createChannel}, the functions \texttt{networkUp} and \texttt{createChannel} are called. 
 
-Firstly, the necessary cryptographic material has to be generated, in one of two ways: cryptogen or Fabric CA. Fabric CA is the best way to generate the necessary files, as it is tailored to be used in production. It allows to generate new components or new users for an organization. This is achieved in the \texttt{registerEnroll.sh} script, and then the createOrgs function:
+Firstly, the necessary cryptographic material has to be generated, in one of two ways: cryptogen or Fabric CA. Fabric CA is the best way to generate the necessary files, as it is tailored to be used in production. It allows us to generate new components or new users for an organization. This is achieved in the \texttt{registerEnroll.sh} script, and then the \texttt{createOrgs} function:
 
 \begin{minted}{bash}
 echo "##########################################################"
@@ -216,7 +217,7 @@ echo "##########################################################"
   ./organizations/ccp-generate.sh
 \end{minted}
 
-For example, to register the students union president, on behalf of org1, the registerEnroll script calls the Fabric CA client:
+For example, to register the students union president, on behalf of org1, the \texttt{registerEnroll} script calls the Fabric CA client:
 
 \begin{minted}[breaklines]{bash}
 
@@ -228,23 +229,25 @@ fabric-ca-client register -d --id.name studentUnionPresident --id.affiliation or
 	fabric-ca-client enroll -u https://studentUnionPresident:pw@localhost:7054 --enrollment.attrs "participantType,entityId,organizationName" --caname ca-org1 -M ${PWD}/organizations/peerOrganizations/org1.example.com/users/studentUnionPresident@org1.example.com/msp --tls.certfiles ${PWD}/organizations/fabric-ca/org1/tls-cert.pem
 \end{minted}
 
-This step is essencial for access control within the blockchain. Note how when the client is being registered, we are recording different attributes: \texttt{id.name, id.affiliation, id.attrs, participantType, entityId, organizationName}. Those attributes are going to belong to the X.509 certificate issued to them, which can be later inspected by chaincode. This means that we have a reliable way of identifying participants on the chain, and restricting who can access specific functions. For example, we can set up our chaincode in a way that only participants with the attribute participantType=university can call the chaincode function createUniversity.
+This step is essencial for access control within the blockchain. Note how when the client is being registered, we are recording different attributes: \texttt{id.name, id.affiliation, id.attrs, participantType, entityId, organizationName}. Those attributes are going to belong to the X.509 certificate issued to them, which can be later inspected by chaincode. This means that we have a reliable way of identifying participants on the chain and restricting who can access specific functions. For example, we can set up our chaincode in a way that only participants with the attribute \texttt{participantType=university} can call the chaincode function \texttt{createUniversity}.
 
-After the necessary files are created, the network is bootstrapped, by using Docker. Essencially, the script calls the \texttt{docker-compose \$\{COMPOSE\_FILES\} up -d} command, where the variable COMPOSE\_FILES holds the necessary docker files. The \texttt{docker-compose-test-net.yaml} and \texttt{docker-compose-couch.yaml} are used to create the peers, orderers, CA, and CouchDB images.
+After the necessary files are created, the network is bootstrapped, by using Docker. Essencially, the script calls the \texttt{docker-compose \$\{COMPOSE\_FILES\} up -d} command, where the variable COMPOSE\_FILES holds the necessary docker files. 
 
-After that, the channel is created, via the \texttt{createChannel} script. It uses the configtxgen tool to generate two channel artifacts: the genesis block, and the first transaction. Those artifacts are configurable through the file configtx.yaml, located under config. After that, the channel is created via the command \texttt{peer channel create}, and both organizations join, by issuing \texttt{peer channel join}. 
+The \texttt{docker-compose-test-net.yaml} and \texttt{docker-compose-couch.yaml} are used to create the Peers, Orderers, CA and CouchDB images.
 
-We now have a working blockchain! But for being usefull, we need to start...
+After that, the channel is created, via the \texttt{createChannel} script. It uses the configtxgen tool to generate two channel artifacts: the genesis block and the first transaction. Those artifacts are configurable through the file \texttt{configtx.yaml}, located under \texttt{config}. After that, the channel is created via the command \texttt{peer channel create}, and both organizations join, by issuing \texttt{peer channel join}. 
+
+We now have a working blockchain! But for it to be useful, we need to start...
 
 \subsection{Deploying Chaincode}
 
 Chaincode has a specific lifecycle, following a well-defined sequence of steps until it is usable:
 
 \begin{enumerate}
-\item Package chaincode: this step takes an input the source files of the chaincode (those on the chaincode directory), and creates a file (.tar.gz) with them, along with metadata
-\item Install chaincode: installs the chaincode package on the peers
+\item Package chaincode: this step takes as input the source files of the chaincode (those on the chaincode directory), and creates a file (.tar.gz) with them, along with metadata
+\item Install chaincode: installs the chaincode package on the Peers
 \item Approve chaincode definition: each organization approves the code that was installed 
-\item Commit chaincode definition to channel: when the lifecycle endorsement policy (in our case, all have to endorse the installed chaincode), an organization commits the new chaincode version.
+\item Commit chaincode definition to channel: when the lifecycle endorsement policy is achieved (in our case, all entities have to endorse the installed chaincode), an organization commits the new chaincode version.
 \end{enumerate}
 
 This process takes place at the \texttt{deployCC.sh} script, inside the \texttt{scripts} folder. In step one, the chaincode is packed:
@@ -266,7 +269,7 @@ peer lifecycle chaincode commit [...]
 Each step comprises different inputs, that can be analyzed during the lab. After the respective verifications, the script tests invoking a particular smart contracts (via \texttt{chaincodeInvokeInit} and \texttt{chaincodeInvoke}). 
 
 \section{Blockchain Client}
-We now have a blockchain up and running, which we can interact with using the command line interface (see previous Lab). However, this is not useful for enterprises, organizations, and communities that want to use blockchain technology. To facilitate the interaction with the blockchain, we need to build a Blockchain Client, for each organization involved. This blockchain client is a web server that interacts with the blockchain via the fabric-sdk. On top of this web server, we deploy a user interface, allowing to end-users to interact with the network. Those end users are issued credentials (cryptographic materials discussed before), via the Fabric CA, which are then stored in a wallet. Users utilize their credentials to issue transactions on the blockchain, via their organization's peer node.
+We now have a blockchain up and running, which we can interact with using the command line interface (see previous Lab). However, this is not useful for enterprises, organizations, and communities that want to use blockchain technology. To facilitate the interaction with the blockchain, we need to build a Blockchain Client for each organization involved. This Blockchain Client is a web server that interacts with the blockchain via the fabric-sdk. On top of this web server, we deploy a user interface, allowing end-users to interact with the network. Those end users are issued credentials (cryptographic materials discussed before), via the Fabric CA, which are then stored in a wallet. Users utilize their credentials to issue transactions on the blockchain, via their organization's peer node.
 
 Let's get started!
 
@@ -306,9 +309,11 @@ The result of the first and second scripts (node renamePK and node addToWallet) 
 }
 \end{minted}
 
-The script showIdentity issues a transaction against the blockchain requesting for some information.
+The script \texttt{showIdentity} issues a transaction against the blockchain requesting for some information.
 
-Analyze the code of \texttt{showIdentity.js}, under \texttt{support/Lab05/b4s/organization/university}:
+Analyze the code of \texttt{showIdentity.js}, under:
+
+\texttt{support/Lab06/b4s/organization/university/utils}
 
 \begin{minted}[breaklines]{javascript}
 
@@ -323,7 +328,7 @@ const University = require('../../../../chaincode/lib/logistics/university');
     const gateway = new Gateway();
 \end{minted}
 
-First, we import the Wallet and Gateway classes from the Fabric SDK, in order to interact with the wallet, and the blockchain, respectively. We are also using the University class we created. 
+First, we import the Wallet and Gateway classes from the Fabric SDK, in order to interact with the wallet and the blockchain, respectively. We are also using the University class we created. 
 
 Now, we need to connect to Fabric, via the user whose credentials were used by the CA. When we generated the connection profile for the user, it was saved on the folder Identity.
 
@@ -375,7 +380,11 @@ Finally, we retrieve the response from Fabric into a human-readable format:
 
 \end{minted}
 
-Now, analyze the code of \texttt{createUniversity.js}, under \texttt{support/Lab05/b4s/organization/university}. You will notice that it is very similar to showIdentity, only a line changes:
+Now, analyze the code of \texttt{createUniversity.js}, under 
+
+\texttt{support/Lab06/b4s/organization/university/utils}. 
+
+You will notice that it is very similar to \texttt{showIdentity}, only a line changes:
 \begin{minted}[breaklines]{javascript}
         const response = await contract.submitTransaction('showIdentity');
 \end{minted}
@@ -383,16 +392,16 @@ Now, analyze the code of \texttt{createUniversity.js}, under \texttt{support/Lab
 That is right, only the transaction type that is called changes.
 
 
-This procedure applies for all possible transactions defined by a smart contract. We first connect to the network and channel, obtain the smart contract, and submit a transaction with our credentials. But for a large organization, it would be very cumbersome to maintain a script for each employee, and for each transaction type. That is why we can encapsulate this complexity into a web app.
+This procedure applies for all possible transactions defined by a smart contract. We first connect to the network and channel, obtain the smart contract and submit a transaction with our credentials. But for a large organization, it would be very cumbersome to maintain a script for each employee and for each transaction type. That is why we can encapsulate this complexity into a web app.
 
 
 
 \subsection{B4S WebApp}
-Now, for each organization, there is a web app, that takes the generated credentials, and interacts with the network. The idea is the end users to interact with the blockchain in a simple way: the web app does the same than the scripts above. 
+Now, for each organization, there is a web app that takes the generated credentials and interacts with the network. The idea is for the end users to interact with the blockchain in a simple way: the web app does the same than the scripts above. 
 
-Under \texttt{b4s/organization}, there are two organizations depicted: students-union corresponds to org1, having a wallet that supports two users. University corresponds to org2. Go to the university folder, and then to b4s-client. To start the client, run npm run start. 
+Under \texttt{b4s/organization}, there are two organizations depicted: students-union corresponds to org1, having a wallet that supports two users. University corresponds to org2. Go to the \texttt{university} folder, and then to \texttt{b4s-client}. To start the client, run \texttt{npm run start}. 
 
-The blockchain client is up and running! The ideal situation now would be to have a user interface in which we could interactively issue transactions to the blockchain. For testing purposes, we will issue GET or POST requests to a specific endpoint, to verify that the requests are translated to transactions. Verify the credentials loaded by the b4s-client, by requesting a GET to /logistics/myIdentity:
+The blockchain client is up and running! The ideal situation now would be to have a user interface in which we could interactively issue transactions to the blockchain. For testing purposes, we will issue GET or POST requests to a specific endpoint, to verify that the requests are translated to transactions. Verify the credentials loaded by the b4s-client, by requesting a GET to /logistics/myIdentity in a new terminal:
 \begin{minted}[breaklines]{bash}
 
 curl -X GET http://127.0.0.1:3001/logistics/myIdentity
@@ -429,7 +438,7 @@ You can check that the transaction was successful by analyzing the peer logs, as
 docker logs  dev-peer0.org1.example.com-b4s_1-[SPECIFIC-ID]
 \end{minted}
 
-replacing SPECIFIC-ID by the ID of your container (you can check this by issuing docker logs, and searching for dev-peer...).
+replacing SPECIFIC-ID by the ID of your container (you can check this by issuing the command \textttt{docker container ls} and searching for the Container ID of dev-peer0.org1...).
 The peer0.org1 container shows:
 \begin{minted}[breaklines]{bash}
 2020-09-10 10:59:48.490 UTC [kvledger] CommitLegacy -> INFO 0cd [mychannel] Committed block [15] with 1 transaction(s) in 34ms (state_validation=0ms block_and_pvtdata_commit=3ms state_commit=29ms) commitHash=[8810dfd0a66bdb305e0932ca3ed80af47472ccdabfc8db02cef23d449fef3f0d]
@@ -447,7 +456,7 @@ Show identity called by:  x509::/C=US/ST=North Carolina/O=Hyperledger/OU=client/
 
 Which corresponds to the console.log done at the chaincode (see showIdentity from the logistics-contract).
 
-This request is semantically equivalent to the script showIdentity. In fact, the client just loads this script, and manages the credentials for you.  
+This request is semantically equivalent to the script \textttt{showIdentity}. In fact, the client just loads this script, and manages the credentials for you.  
 
 
 
@@ -481,7 +490,7 @@ curl -X POST -F 'studentId=012345' -F 'universityId=123' -F 'courses=course1'  h
 
 
 
-That's it! Notice that there is also a b4s-client for students-union, under their directory. You can repeat this experiment, but notice that the students client only contains the myIdentity endpoint. We are now leveraging a user interface from the University institution to render the results from the getAllStudents endpoint, which retrieves a full list of enrolled students. Go to /organizations/university/user-interface. To install dependencies, run npm install. After that, bootstrap the user interface by running npm run serve. (Note, if this step does not work, install the Vue Client\footnote{https://vuejs.org/v2/guide/installation.html}). It is out of the scope of this course to learn about Vue.js, but you can check the code at University-frontend.vue, under src/Views to inspect how it works. Essentially, it makes a request to http://localhost:3001/users/getAllStudents, which has credentials loaded, and parses the request.
+That's it! Notice that there is also a b4s-client for students-union, under their directory. You can repeat this experiment, but notice that the students client only contains the myIdentity endpoint. We are now leveraging a user interface from the University institution to render the results from the getAllStudents endpoint, which retrieves a full list of enrolled students. Go to /organizations/university/user-interface. To install dependencies, \textttt{run npm install}. After that, bootstrap the user interface by running \textttt{npm run serve}. (Note, if this step does not work, install the Vue Client\footnote{https://vuejs.org/v2/guide/installation.html}). It is out of the scope of this course to learn about Vue.js, but you can check the code at University-frontend.vue, under src/Views to inspect how it works. Essentially, it makes a request to http://localhost:3001/users/getAllStudents, which has credentials loaded, and parses the request.
 
 Open your browser at localhost:8080, and try out to retrieve the students list.
 
