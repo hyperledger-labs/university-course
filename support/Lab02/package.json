@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:all": "tap --jobs=1 --timeout=600 \"test/\"",
-    "test:unit": "tap --timeout=600 \"test/unit/\"",
+    "test:all": "tap --jobs=1 --timeout=600 \\\"test/\\\"",
+    "test:unit": "tap --timeout=600 \\\"test/unit/\\\"",
     "compile": "tsc *.ts"
   },
   "keywords": [],
