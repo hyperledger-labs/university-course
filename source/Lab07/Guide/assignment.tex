@@ -1,0 +1,472 @@
+\documentclass[12pt,a4paper]{article}
+% AUTHOR: Rafael Belchior
+% Thanks to Prof. RUI SANTOS CRUZ for providing the template
+%
+\usepackage{helvet} 
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{a4wide}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{minted}
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{threat}{Threat}[]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SELECT ONE OF THE FOLLOWING PACKAGES FOR THE LANGUAGE 
+\usepackage[english]{babel}
+% \usepackage[portuges]{babel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage[absolute]{textpos}
+\usepackage{tabularx} 
+\usepackage{tabulary}                 
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\pagestyle{fancy}
+\headsep=50pt
+\setlength{\headheight}{50pt}
+\usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+
+% Clever Referencing of document parts
+\usepackage{cleveref}
+
+\lstdefinestyle{commandline} {%
+language={[WinXP]command.com},
+breaklines=true,
+%aboveskip=\baselineskip,
+belowskip=\baselineskip,
+showstringspaces=false,
+backgroundcolor=\color{LightGray},
+basicstyle=\small\color{black}\ttfamily,
+showstringspaces=false,
+keywordstyle=\color{cyan}\bfseries,
+stringstyle=\color{cyan}\ttfamily,
+commentstyle=\color{green}\itshape,
+moredelim=[s][\color{blue}\bfseries]{C:}{\>}
+}
+
+\lstdefinestyle{Bash} {%
+language=bash,
+breaklines=true,
+belowskip=\baselineskip,
+backgroundcolor=\color{LightGray},
+showstringspaces=false,
+keywordstyle=\color{black}\bfseries,
+basicstyle=\small\color{black}\ttfamily,
+stringstyle=\color{editorOcher}\ttfamily,
+commentstyle=\color{cyan}\itshape,
+otherkeywords={xcode-select, mkdir,rm},
+moredelim=[s][\color{red}]{~$},
+literate={~} {$\sim$}{1}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE FILL THE ADEQUATE DATA IN THE TABLE REPLACING
+% THE VALUES EXEMPLIFIED
+\lhead{}
+{\renewcommand{\arraystretch}{1.1}
+\fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
+\hline 
+% In the following line change Course Name: PPIII, PPB
+\textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  7 \\
+\hline
+% In the following line insert your Name and IST ID
+\multicolumn{2}{|l|}{Module II - Hyperledger Fabric} & \textbf{Issue Date:}  &  - \\ 
+\hline
+% In the following line insert the Activity CODE and Title (abridged)
+%\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
+\multicolumn{2}{|l|}{Advanced Topics: Hyperledger Umbra} & \textbf{Due Date:} &  - \\ 
+\hline
+\end{tabularx}}
+\rhead{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DO NOT CHANGE THIS BLOCK
+\begin{document}
+\textblockorigin{-34pt}{-12pt}
+\begin{textblock*}{10cm}(2cm,1cm)
+\includegraphics[width=6cm]{hyperledger.png}
+\end{textblock*}
+\newtheorem{mydef}{Definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
+
+\section*{Preliminary Notes}
+We now introduce the Hyperledger Umbra (Umbra)\footnote{https://github.com/hyperledger-labs/umbra} project, a project initiated as an Hyperledger Internship. This laboratory has been created with the cooperation of Raphael Rosa, creator, and maintainer of Umbra. Please, mind the official documentation page for eventual questions\footnote{https://umbra-labs.readthedocs.io/en/latest/intro.html}, and the official channels to communicate issues\footnote{https://github.com/hyperledger-labs/umbra/issues}. Beware with copying -paste the commands in this lab to the terminal: the buffer might contain invalid characters that corrupt the command. We recommend writing the command instead of copying it.
+
+During this laboratory, start building an answer to the following question: \textbf{What are the advantages and disadvantages of Umbra, regarding the evolution of enterprise blockchain technologies?}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT STARTS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Hyperledger Umbra Overview}
+The simulation research internship during the summer of 2018 led to the creation of the Hyperledger Umbra Lab (Umbra). Due to the overall difficulty of getting Hyperledger blockchain frameworks running under the Shadow simulation tool, work on the Umbra lab has slowed to a crawl. A different network emulation tool called Mininet was proposed as an alternative to using Shadow, and it has the potential to drastically reduce the startup cost of getting a network emulation tool running Hyperledger blockchains.
+
+\subsection{Scope}
+Umbra is a platform employing Mininet and plugins for Hyperledger distributed ledgers to run under emulation in a lab environment.
+
+It is intended to be an ongoing project to provide a research tool for understanding and improving the Hyperledger blockchain platforms and conducting future research in consensus algorithms, scalability, security, etc.
+
+
+\subsection{How does it Work}
+
+
+Umbra works with the support of virtualization technologies, containers (Docker), and programmable switches (Open vSwitch). Using containernet, it deploys an underlying network that serves as the infrastructure for the blockchain platform of choice (e.g., Iroha, Fabric, Indy, etc.) to be executed as the overlay application network. Nodes and links can be configured with resource constraint rules (e.g., CPU, memory, bandwidth, latency, etc.). Besides, umbra allows events (e.g., transactions, chaincode invoke, etc.) to be scheduled targeting the blockchain platform using plugins. Umbra is supporting by Mininet.
+
+Mininet was developed for fast prototyping of emulated programmable networks on a laptop. Later there were different extensions proposed on top of it, such as maxinet enabling experiments in distributed clusters of servers and containernet enabling the experimentation with Docker containers. Mininet was developed for high fidelity and later on extended to support the features proposed by Maxinet. Containernet was built on top of mininet version 2.2.0, therefore inheriting its most recent enhancements. Umbra elaborates its architecture on top of the upgrades proposed by containernet. As being evaluated, possible contributions to containernet will be performed to enhance it with the most recent features provided by Docker (i.e., current docker-py API) and mininet (i.e., currently in version 2.3).
+
+
+\section{Getting Started With Hyperledger Umbra}
+To get started with Umbra, please go to the official Umbra's repository\footnote{https://github.com/raphaelvrosa/umbra}, and clone it (tag umbra-course). Alternatively, you can fork it and then clone it.
+
+
+Umbra is developed and tested in Ubuntu 20.04. The hardware requirements needed for umbra will depend on the scale of the experiments to be played with it (e.g., number of nodes in a blockchain topology, amount of events triggered into the topology, the topology resource settings, etc.). It is recommended for a simple setup to have available at least: 4 logical CPU cores, 8 GB of RAM, and 10GB of storage.
+
+
+\subsection{Installing Hyperledger Umbra}
+To install Hyperledger Umbra, first, we need to install prerequisites. Please run: 
+\begin{verbatim}
+sudo apt install make
+\end{verbatim}
+
+To obtain Umbra's code, run:
+\begin{verbatim}
+git clone https://github.com/raphaelvrosa/umbra
+\end{verbatim}
+
+Go to the projects' folder:
+\begin{verbatim}
+cd umbra
+\end{verbatim}
+
+Given the installation of the umbra requirements, the commands below install umbra.
+\begin{verbatim}
+sudo make install
+\end{verbatim}
+
+ALTERNATIVELY, Umbra can also be installed using a Vagrant virtual machine, either using qemu-kvm/libvirt or virtualbox as providers, as stated below:
+\begin{verbatim}
+sudo make vagrant-run-libvirt # Installs umbra in a virtual machine using qemu-kvm/libvirt, and turn it up
+sudo make vagrant-run-virtualbox # Installs umbra in a virtual machine using virtualbox, and turn it up
+
+\end{verbatim}
+
+\subsection{Generating the experiments}
+Having umbra installed, it is possible to experiment with it using the provided examples, inside examples/ folder. To do this, run:
+
+
+\begin{verbatim}
+cd examples
+\end{verbatim}
+
+
+Now, let us examine the file ``local-2orgs.py'', under the \emph{fabric} folder, which sets up a configuration file that defines a network with two organizations. At the core, this script builds a network configuration (fuction build), and logs the procedure, by importing a logger:
+
+\begin{minted}[breaklines]{python}
+    setup_logging()
+    builds()
+\end{minted}
+
+Next, focus on the first lines of the same file:
+
+\begin{minted}[breaklines]{python}
+
+
+# Then, import the configtx definitions, which are going
+# to be used by each one of the orgs policies, and also
+# for the whole construction of the configtx.yml file.
+# Each experiment/topology can have its own configtx custom definitions.
+
+from base_configtx.configtx_2orgs import (
+    org1_policy,
+    org2_policy,
+    orderer_policy,
+    configtx,
+)
+\end{minted}
+
+This code sample imports pre-defined policies to generate a two-org Fabric network. The next steps happen throughout the file: 
+
+
+\begin{minted}[breaklines, linenos]{python}
+
+    fab_topo = FabricTopology("local-2orgs", chaincode_dir=chaincode_dir)
+    
+    experiment = Experiment("local-2orgs")
+    experiment.set_topology(fab_topo)
+    
+    fab_topo.add_network("s1", envid="umbra-default")
+
+    fab_topo.add_org("org1", domain, policies=org1_policy)
+    fab_topo.add_peer(
+        "peer0", "org1", anchor=True, profile="nodes", image_tag=image_tag
+    )
+    
+    [...]
+    
+    fab_topo.configtx(configtx)
+    p1 = "TwoOrgsOrdererGenesis.Consortiums.SampleConsortium.Organizations"
+    p2 = "TwoOrgsOrdererGenesis.Orderer.Organizations"
+    p3 = "TwoOrgsChannel.Application.Organizations"
+    fab_topo.set_configtx_profile(p1, ["org1", "org2"])
+    fab_topo.set_configtx_profile(p2, ["orderer"])
+    fab_topo.set_configtx_profile(p3, ["org1", "org2"])
+    
+    # The interconnection of umbra orgs/orderer to the network must be defined.
+    # When an org is connected to a network, all its peers/CAs are connected to the network too.
+    fab_topo.add_org_network_link("org1", "s1", "links")
+    fab_topo.add_org_network_link("org2", "s1", "links")
+    fab_topo.add_org_network_link("orderer", "s1", "links")
+    
+    node_resources = fab_topo.create_node_profile(cpus=1, memory=1024, disk=None)
+    link_resources = fab_topo.create_link_profile(bw=1, delay="2ms", loss=None)
+    
+    experiment.save()
+
+    
+\end{minted}
+
+Line 1 defines a Fabric topology by setting its name (local-2orgs) and chaincode directory. The topology is the definition of a Fabric network comprising the orgs, peers, CAs, and orderers. This is the building base of an Experiment (lines 2 and 3), along with Events.
+
+Environments in umbra are the places (i.e., baremetal servers and/or virtual machines) where the components of umbra are executed, and consequently, the topology itself. An environment can be remote or local (remote parameter set to true or false). All the proper settings regarding the reachability of the nodes, network, environment are handled by umbra. The network must be associated with the environment where it is going to be placed/executed. All the nodes connected to the network will be deployed in the environment where the network is placed.
+    
+Eventually, an org is added (line 8), as well as its peers (line 9), orderer, and CA (see example). For each organization, two peer nodes and a CA is added to the topology. An orderer is added as well, with a predefined policy, \emph{orderer\_policy}.
+
+The script loads the \emph{configtx} file, a specification that contains the definition of the profiles to be used by the network to generate the fabric topology artifacts (lines 15-21). An interesting aspect about Umbra is that we can define the links between an org and the network, so later we can alter them. We can define resources allocated for each node (line 29) and network parameters (line 30). In future experiments, this allows us to understand what happens if a node experiences a degradation in terms of performance or network resources (e.g., bandwidth). Finally, the experiment is persisted in the form of a configuration file that Umbra can parse (line 32).
+
+To generate this configuration, run:
+
+\begin{verbatim}
+    python3 examples/fabric/local-2orgs.py
+
+\end{verbatim}
+According to the official documentation, ``The command will compile the experiment's definition (and its artifacts) and save it in /tmp/umbra/. The configuration is saved under a folder of its referenced blockchain project, with the name used to define the experiment, and in a JSON format. For instance, the command above configuration will produce a folder /local-2orgs inside the folder /tmp/umbra/fabric/. In the folder /tmp/umbra/fabric/local-2orgs/ a file named local-2orgs.json is the one that defines all the configuration of the experiment compiles. This file references all the generated topology (nodes and links) and their respective resource profiles and artifacts (e.g., certificates, crypto keys, genesis block).''
+
+
+This configuration can be loaded by Umbra, as we will see in the next section.
+
+\subsection{Running Umbra}
+
+Running the configurations
+Start the umbra-cli component:
+\begin{verbatim}
+    umbra-cli --uuid umbra-cli --address 127.0.0.1:9988
+
+\end{verbatim}
+
+You should see the following output on your terminal:
+
+
+\begin{minted}[breaklines, linenos]{shell}
+
+rafael@x:~/Projects/umbra$     umbra-cli --uuid umbra-cli --address 127.0.0.1:9988
+
+                <<< Welcome to Umbra >>>                
+
+:umbra> 
+\end{minted}
+
+
+Executing the command above a command-line interface (CLI) prompt will start. To exit it, just type CTRL+D. Using the umbra-cli all the interactions with an umbra experiment and its environments are possible. The uuid and address fields are needed because umbra-cli uses those parameters to receive status logs from umbra-broker.
+
+In umbra-cli, load your configuration:
+
+\begin{verbatim}
+    umbra-cli> load /tmp/umbra/fabric/local-2orgs/local-2orgs.json
+
+\end{verbatim}
+
+The expected response is:
+\begin{minted}[breaklines, linenos]{shell}
+:umbra> load /tmp/umbra/fabric/local-2orgs/local-2orgs.json
+
+-> task: Loading configuration file at /tmp/umbra/fabric/local-2orgs/local-2orgs.json
+-> result: Configuration loaded
+
+:umbra> 
+
+\end{minted}
+
+
+Loading the configuration means umbra-cli is ready to work with it, meaning the installation of umbra in the defined configuration environments, the start of the umbra components needed in each environment, and the topology's instantiation its events as programmed by the experiment. Likewise, the tear-down of the topology, stop of the components, and uninstall of umbra in the environments can be executed with umbra-cli.
+
+In umbra-cli, install the environments of your configuration:
+\begin{verbatim}
+    umbra-cli> install
+
+\end{verbatim}
+
+
+The expected response is:
+\begin{minted}[breaklines, linenos]{shell}
+:umbra> install
+
+: Installing :
+
+-> task: Installing Umbra at environment umbra-default
+[sudo] password for rafael: 
+-> result: Install Umbra in environment umbra-default Ok
+
+:umbra> 
+
+
+\end{minted}
+
+
+The install command means umbra is going to reach all the environments defined by the configuration, included umbra-default, and install umbra and the dependencies needed to run the experiment in the configuration's assigned environments. For instance, if an experiment requires fabric dependencies, all the fabric container images will be downloaded in the environment(s) needed to run the configuration.
+
+In umbra-cli, start the components of your configuration:
+
+\begin{verbatim}
+    umbra-cli> start
+
+\end{verbatim}
+
+
+The expected response is:
+\begin{minted}[breaklines, linenos]{shell}
+:umbra> start
+
+: Starting :
+
+-> task: Starting component 'umbra-broker' in environment umbra-default
+-> result: Started component 'umbra-broker' in environment umbra-default Ok
+
+
+-> task: Starting component 'umbra-monitor' in environment umbra-default
+-> result: Started component 'umbra-monitor' in environment umbra-default Ok
+
+
+-> task: Starting component 'umbra-scenario' in environment umbra-default
+-> result: Started component 'umbra-scenario' in environment umbra-default Ok
+
+:umbra> 
+
+
+\end{minted}
+
+When the start is called, all the components in all the environments are initiated. Each of those components is a process (e.g., umbra-monitor, umbra-scenario, umbra-broker) with an UUID and address.
+
+In umbra-cli, begin the experiment:
+
+\begin{verbatim}
+    umbra-cli> begin
+
+\end{verbatim}
+
+
+The expected response is:
+\begin{minted}[breaklines, linenos]{shell}
+
+:umbra> begin
+
+: Beginning :
+
+-> task: Experiment Begin
+-> result: Umbra Experiment Ok
+
+:umbra> 
+
+\end{minted}
+
+The beginning of an experiment means the instantiation of the topology, and the triggering of its events went fine. Here, the experiment indicates that the topology was created.
+
+Congratulations! You have an entire Fabric network running over Umbra.
+
+\subsection{Shutting Down Umbra}
+
+
+In umbra-cli, after performing the topology and the events' instantiation and the events, it is possible to end the experiment. The command below indicates umbra-broker to tear down the instantiated topology and stop monitoring its components (environments and containers).
+
+\begin{verbatim}
+    umbra-cli> end
+
+\end{verbatim}
+
+In umbra-cli, stop the components of your configuration:
+
+\begin{verbatim}
+    umbra-cli> stop
+
+\end{verbatim}
+
+Stop means all the components will be finished in their execution environment.
+
+
+Type ctrl+d to exit umbra-cli:
+
+\begin{verbatim}
+    umbra-cli>  <ctrl+d>
+
+\end{verbatim}
+
+If all went fine, this should be what you saw:
+\begin{minted}[breaklines, linenos]{shell}
+:umbra> end
+
+: Ending :
+
+-> task: Experiment End
+-> result: Ended Umbra Experiment
+
+:umbra> stop
+
+: Stopping :
+
+-> task: Stopping component 'umbra-broker' in environment umbra-default
+[sudo] password for rafael: 
+-> result: Stopped component 'umbra-broker' in environment umbra-default Ok
+
+
+-> task: Stopping component 'umbra-monitor' in environment umbra-default
+-> result: Stopped component 'umbra-monitor' in environment umbra-default Ok
+
+
+-> task: Stopping component 'umbra-scenario' in environment umbra-default
+-> error: Stopped component 'umbra-scenario' in environment umbra-default Error
+
+:umbra> <CTRL+D>
+
+        <<< See you soon! Cheers, Umbra >>>             
+
+
+\end{minted}
+
+
+\subsection{Exercises} 
+
+
+\subsubsection*{What are the advantages and disadvantages of Umbra, regarding the evolution of enterprise blockchain technologies?}
+
+
+
+\subsubsection*{Creating a topology with Umbra}
+Setup an Umbra topology with 3 orgs, 2 peers each, one orderer, and one CA per org. The endorsement policy should be at least two orgs.
+
+Hint:
+Create a Python file called \emph{local-3orgs.py}, and start from the studied file.
+Duplicate the file configtx\_2orgs.py under fabric/base\_configtx, and rename it to configtx\_3orgs.py.
+Adapt it to your needs. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YOUR TEXT ENDS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\bibliographystyle{abbrv}
+%\bibliography{lab.bib}
+
+\end{document}                             % The required last line
