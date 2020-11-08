@@ -118,6 +118,19 @@ To contribute code, documentation, and others, please check the [contributing gu
 * Raphael Rosa (Raphaelvrosa) via the Hyperledger Umbra project
 * banoris via the Hyperledger Umbra project
 
+## A list of university-level blockchain courses:
+
+| Focus               	| Course Name                                     	| University                	| Country      	|
+|---------------------	|-------------------------------------------------	|---------------------------	|--------------	|
+| Private  	| Enterprise Blockchain Technologies              	| Técnico Lisboa*           	| Portugal 🇵🇹  	|
+| Public   	| [CS 481A3 BLOCKCHAIN PRINCIPLES AND APPLICATIONS](https://www.cs.colostate.edu/~cs458/#/) 	| Colorado State University 	| USA 🇺🇸       	|
+|     Public                	|       [Blockchain-based Systems Engineering](https://github.com/sebischair/bbse)                                          	|    Technical University of Munich                        	|    Germany 🇩🇪          	|
+
+* created by Rafael Belchior, Ph.D. student and Teaching Assitant at Técnico Lisboa
+
+Legend:
+
+Focus: **Public** Blockchains / **Private** Blockchains / Both
 
 ## Acknowledgements
 
