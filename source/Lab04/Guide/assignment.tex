@@ -2,7 +2,7 @@
 % AUTHOR: Rafael Belchior
 % Thanks to Prof. RUI SANTOS CRUZ for providing the template
 %
-\usepackage{helvet} 
+\usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{a4wide}
 \usepackage{ucs}
@@ -26,8 +26,8 @@
 \usepackage{hyperref}
 \usepackage{cite}
 \usepackage[absolute]{textpos}
-\usepackage{tabularx} 
-\usepackage{tabulary}                 
+\usepackage{tabularx}
+\usepackage{tabulary}
 \usepackage{fancyhdr}
 \usepackage[table]{xcolor}
 \pagestyle{fancy}
@@ -77,16 +77,16 @@ literate={~} {$\sim$}{1}
 \lhead{}
 {\renewcommand{\arraystretch}{1.1}
 \fancyhead[C]{\begin{tabularx}{1.0\textwidth}{|l|X|l|l|}
-\hline 
+\hline
 % In the following line change Course Name: PPIII, PPB
 \textbf{EB 20/21} & \textbf{Enterprise Blockchain Technologies} & \textbf{Number:}  &  4 \\
 \hline
 % In the following line insert your Name and IST ID
-\multicolumn{2}{|l|}{Module I - Introduction} & \textbf{Issue Date:}  &  - \\ 
+\multicolumn{2}{|l|}{Module I - Introduction} & \textbf{Issue Date:}  &  - \\
 \hline
 % In the following line insert the Activity CODE and Title (abridged)
 %\textbf{WP n.} (99) & (Subject) & \textbf{Group:} & (99) \\
-\multicolumn{2}{|l|}{Background: Introduction to Hyperledger Fabric} & \textbf{Due Date:} &  - \\ 
+\multicolumn{2}{|l|}{Background: Introduction to Hyperledger Fabric} & \textbf{Due Date:} &  - \\
 \hline
 \end{tabularx}}
 \rhead{}}
@@ -102,8 +102,8 @@ literate={~} {$\sim$}{1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%,sdist2017
 
 \section*{Preliminary Notes}
-We now introduce the Hyperledger Fabric blockchain, an enterprise grade permissioned distributed ledger platform that offers modularity and versatility for a broad set of industry use cases. 
-This laboratory is based on several sources \cite{belchior2019_thesis, fabric}. 
+We now introduce the Hyperledger Fabric blockchain, an enterprise-grade permissioned distributed ledger platform that offers modularity and versatility for a broad set of industry use cases.
+This laboratory is based on several sources \cite{belchior2019_thesis, fabric}.
 
 
 %The reference section should be viewed as a ``additional readings reference'' - if you would like more information about the topic.
@@ -111,106 +111,106 @@ This laboratory is based on several sources \cite{belchior2019_thesis, fabric}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % YOUR TEXT STARTS HERE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Hyperledger Ecosystem}
-Hyperledger is an open source community. Hyperledger stewards the development of frameworks, tools and libraries for enterprise-grade blockchain deployments.
-It hosts Hyperledger Fabric, Sawtooth, Indy, as well as tools like Hyperledger Caliper, and Hyperledger Explorer. There are also tools hpsted at Hyperledger Labs \footnote{https://www.hyperledger.org/blog/2018/01/23/introducing-hyperledger-labs}, an open collaboration space, made by blockchain enthusiasts, that can benefit the Hyperledger ecosystem. An example is Hyperledger Umbra\footnote{https://github.com/hyperledger-labs/umbra}, allowing to run Hyperdger blockchains under Mininet for the purposes of testing scalability and consensus mechanisms.
+\section{ Hyperledger Ecosystem}
+Hyperledger is an open-source community. Hyperledger stewards the development of frameworks, tools, and libraries for enterprise-grade blockchain deployments.
+It hosts Hyperledger Fabric, Sawtooth, Indy, and tools like Hyperledger Caliper and Hyperledger Explorer. There are also tools hosted at Hyperledger Labs \footnote{https://www.hyperledger.org/blog/2018/01/23/introducing-hyperledger-labs}, an open collaboration space made by blockchain enthusiasts, that can benefit the Hyperledger ecosystem. An example is Hyperledger Umbra\footnote{https://github.com/hyperledger-labs/umbra}, allowing to run Hyperdger blockchains under Mininet for the purposes of testing scalability and consensus mechanisms.
 
 
 \begin{figure}[h]
 
-    \includegraphics[scale=0.09]{figures/hl.png}
-    \centering
- \caption{Hyperledger Greenhouse}
-    \label{fig:hl}
+\includegraphics[scale=0.09]{figures/hl.png}
+\centering
+\caption{Hyperledger Greenhouse}
+\label{fig:hl}
 \end{figure}
 
-``Hyperledger launched in 2016 with a technical and organizational governance structure and 30 founding corporate members. Initially, the Hyperledger Technical Steering Committee welcomed two business blockchain framework codebases into incubation: Hyperledger Fabric, a codebase combining work by Digital Asset, libconsensus from Blockstream and OpenBlockchain from IBM; and Hyperledger Sawtooth, developed at Intel’s incubation group. Of the 70+ open source organizations the Linux Foundation has launched, Hyperledger holds the distinction as the fastest growing''\footnote{https://www.hyperledger.org/about}.
+``Hyperledger launched in 2016 with a technical and organizational governance structure and 30 founding corporate members. Initially, the Hyperledger Technical Steering Committee welcomed two business blockchain framework codebases into incubation: Hyperledger Fabric, a codebase combining work by Digital Asset, libconsensus from Blockstream, and OpenBlockchain from IBM; and Hyperledger Sawtooth, developed at Intel’s incubation group. Of the 70+ open source organizations the Linux Foundation has launched, Hyperledger holds the distinction as the fastest-growing''\footnote{https://www.hyperledger.org/about}.
 
-\section{The Hyperledger Fabric Blockchain}
-\emph{Hyperledger Fabric (Fabric)}\footnote{https://www.hyperledger.org/use/fabric,https://hyperledger-fabric.readthedocs.io/en/release-2.2/} \cite{fabric} is a private blockchain framework, backed by the Linux Foundation and IBM, which is the main study object of this course. Hyperledger Fabric is a successful open-source project founded in 2016, counting with more than 13k commits, more than 250 contributors, and 10k stars in Github.\footnote{https://github.com/hyperledger/fabric} 
+\section{ Hyperledger Fabric Blockchain}
+\emph{Hyperledger Fabric (Fabric)}\footnote{https://www.hyperledger.org/use/fabric,https://hyperledger-fabric.readthedocs.io/en/release-2.2/} \cite{fabric} is a private blockchain framework, backed by the Linux Foundation and IBM, which is the main study object of this course. Hyperledger Fabric is a successful open-source project founded in 2016, counting with more than 13k commits, more than 250 contributors, and 10k stars in Github.\footnote{https://github.com/hyperledger/fabric}
 
 Learning all about Hyperledger Fabric can open multiple windows of career prospects. Some of the top jobs trending in the United States of America are that of a Hyperledger Developer, Blockchain Engineer, Blockchain Solutions Architect, Project Manager, and jobs associated with web development (blockchain clients). ``As a qualified Hyperledger developer with good work experience, your salary package can fall anywhere between \$122–179k. But if you’re just starting out, it might vary between \$80–110k'' \footnote{https://medium.com/the-capital/how-to-become-a-hyperledger-developer-in-2020-bb19151e2a8}.
 
-Hyperledger Fabric is also greatly popular in the academia. A search on Google Scholar with the terms ``Hyperledger Fabric'' returned 6,440 results (as of August 2020). Only in 2020, 1,710 papers were written. 
+Hyperledger Fabric is also greatly popular in academia. A search on Google Scholar with the terms ``Hyperledger Fabric'' returned 6,440 results (August 2020). Only in 2020, 1,710 papers were written.
 
-Hyperledger Fabric is then a great resource to initiate your venture into the blockchain world, and at the same time learning about cryptography and distributed systems. 
+Hyperledger Fabric is then a great resource to initiate your venture into the blockchain world and learn about cryptography and distributed systems.
 
-\subsection{A Technical View on Fabric}
+\subsection{A Technical Viewpoint on Fabric}
 Along this section, we introduce Fabric and its components, how they are related, and how they work as a whole. Please be mindful of the contents learned during Lab1, Lab2, and Lab3.
 
 \subsection{Consensus}
 
-Organizations group \emph{nodes (or peers, or peer nodes)} who form independent trust domains, i.e., peers from the same organization trust each other. Several organizations can form a \textit{consortium} -- a group of non-trusting organizations that want to achieve a business goal. 
+Organizations group \emph{nodes (or peers, or peer nodes)} who form independent trust domains, i.e., peers from the same organization trust each other. Several organizations can create a \textit{consortium} -- a group of non-trusting organizations that want to achieve a business goal.
 
-Fabric allows for different kinds of participants in the network, which facilitates the \emph{execute-order-validate} paradigm for distributed execution of chaincode. Endorsement peers (\emph{endorsers}) execute (\emph{endorse}) the smart contracts (\emph{chaincode}) and return blockchain clients the validation output of submitted transactions,  which contain the endorsement peers' signatures. This process allows parallel execution and addresses non-deterministic code. 
+Fabric allows for different kinds of participants in the network, which facilitates the \emph{execute-order-validate} paradigm for distributed execution of chaincode. Endorsement peers (\emph{endorsers}) execute (\emph{endorse}) the smart contracts (\emph{chaincode}) and return blockchain clients the validation output of submitted transactions,  which contain the endorsement peers' signatures. This process allows parallel execution and addresses non-deterministic code.
 
 \begin{figure}[h]
 
-    \includegraphics[scale=0.6]{figures/execute_order_validate.png}
-    \centering
- \caption{Execute-Order-Validate paradigm \cite{execute_order_validate}}
-    \label{fig:hf}
+\includegraphics[scale=0.6]{figures/execute_order_validate.png}
+\centering
+\caption{Execute-Order-Validate paradigm \cite{execute_order_validate}}
+\label{fig:hf}
 \end{figure}
 
 To achieve consensus, Fabric uses a permissioned voting-based scheme, which achieves low-latency. The \emph{endorsement policy} defines the voting-based scheme to be used by peers and, consequently, the weight of each peer regarding the validity of a transaction. In essence, the endorsement policies gather approvals for the execution of each transaction.
 
-Apart from the consensus, Fabric needs to order blocks of transactions that can be proposed by different peers. The consensus on the block order is pluggable, i.e., using Kafka's Zookeeper (in previous 1.x.x Fabric versions) or RAFT (as in 2.x.x), both crash fault tolerant consensus mechanisms. Plugability allows the developer to adapt the consensus to the requirements of the environment. The consensus algorithms currently implemented to achieve consensus deterministically. This way, forks as in the Bitcoin network are prevented. Fabric can utilize different consensus protocols that do not require a native cryptocurrency, which reduces attack vectors and performance issues due to expensive operations, for instance, the ones required by proof of work. 
-Hyperledger Fabric added a novel way to deal with privacy and confidentiality, through its \textit{channel} architecture and private data feature\footnote{https://hyperledger-fabric.readthedocs.io/en/release-1.4/private-data/private-data.html}.
+Apart from the consensus, Fabric needs to order blocks of transactions proposed by different peers. The consensus on the block order is pluggable, i.e., using Kafka's Zookeeper (in previous 1.x.x Fabric versions) or RAFT (as in 2.x.x), both crash fault-tolerant consensus mechanisms. Plugability allows the developer to adapt the consensus to the requirements of the environment. The consensus algorithms are currently implemented to achieve consensus deterministically. This way, forks as in the Bitcoin network are prevented. Fabric can utilize different consensus protocols that do not require a native cryptocurrency, which reduces attack vectors and performance issues due to expensive operations, for instance, the ones required by proof of work.
+Hyperledger Fabric added a novel way to deal with privacy and confidentiality through its \textit{channel} architecture and private data feature\footnote{https://hyperledger-fabric.readthedocs.io/en/release-1.4/private-data/private-data.html}.
 
-In conclusion, the consensus in Fabric is not limited to the agreed-upon order of a batch of transactions between peers, but rather, it is also the result of the execute-order-validate process that takes place during a transaction's flow from its proposal to its commitment on each peer's ledger. 
+In conclusion, the consensus in Fabric is not limited to the agreed-upon order of a batch of transactions between peers. Rather, it is also the result of the execute-order-validate process during a transaction's flow from its proposal to its commitment to each peer's ledger.
 
 \subsection{Chaincode}
 
-Blockchain developers can write chaincode using a mainstream programming language, such as Javascript, GoLang or Java. Chaincode allows to implement various use cases. For instance, although Fabric does not have a built-in cryptocurrency, it is possible to create an underlying token with chaincode, which can represent assets or rights to perform specific actions. Such assets can be exchanged between network participants, through transactions. 
+Blockchain developers can write chaincode using a mainstream programming language, such as Javascript, GoLang, or Java. Chaincode allows for implementing various use cases. For instance, although Fabric does not have a built-in cryptocurrency, it is possible to create an underlying token with chaincode, representing assets or rights to perform specific actions. Such assets can be exchanged between network participants through transactions.
 
 
 
 \begin{figure}[h]
 
-    \includegraphics[scale=0.6]{figures/hf.png}
-    \centering
- \caption{Hyperledger Fabric}
-    \label{fig:hf}
+\includegraphics[scale=0.6]{figures/hf.png}
+\centering
+\caption{Hyperledger Fabric}
+\label{fig:hf}
 \end{figure}
 
-Chaincode is a key element in a Fabric network, as it dictates the rules to be followed by member participants. It is run in Docker containers, and is, thereby, isolated from the shared ledger.
+Chaincode is a critical element of a Fabric network, as it dictates the rules to be followed by member participants. It is run in Docker containers and is, thereby, isolated from the shared ledger.
 
-There are two types of chaincode: \emph{application chaincode}, that executes the application logic and communicates with the peers using \textit{gRPC messages}, and \emph{system chaincode}, ran on the \textit{configuration channel}. System chaincode assures the correction of chaincode execution (for example, that the endorsement policies are respected). Chaincode can be deployed dynamically, and it is usually  running concurrently on the network.  It runs directly on the peers' processes. The configuration channel stores the definition of MSPs (membership service providers), configuration about the consensus, ordering service parameters, and rules on how the channel configuration is tweakable. Chaincode executes transaction proposals against world state data. World state is a concept that represents the latest value for a key stored by a blockchain. By providing direct access to the latest value of these keys, there is no need to traverse the entire transaction log and calculate its values. Each peer contains a ledger component, formed by the \textit{block store}, which stores blocks containing transactions and the \textit{peer transaction manager (PTM)}. There is a different ledger for each channel, as channels enforce chaincode and data isolation.
+There are two types of chaincode: \emph{application chaincode}, that executes the application logic and communicates with the peers using \textit{gRPC messages}, and \emph{system chaincode}, ran on the \textit{configuration channel}. System chaincode assures chaincode execution correction (for example, that the endorsement policies are respected). Chaincode can be deployed dynamically, and it is usually running concurrently on the network.  It runs directly on the peers' processes. The configuration channel stores the definition of MSPs (membership service providers), configuration about the consensus, ordering service parameters, and rules on how the channel configuration is tweakable. Chaincode executes transaction proposals against world state data. The world state is a concept that represents the latest value for a key stored by a blockchain. By providing direct access to these keys' latest value, there is no need to traverse the entire transaction log and calculate its values. Each peer contains a ledger component, formed by the \textit{block store}, which stores blocks containing transactions and the \textit{peer transaction manager (PTM)}. There is a different ledger for each channel, as channels enforce chaincode and data isolation.
 
 
 \subsection{Peer nodes}
 Fabric defines on its model several kinds of peer nodes:
 \begin{itemize}
-    \item \emph{Committing peer (or simply peer)}. Each peer maintains the current snapshot of the current state of the ledger, as a key-value store. Such peers cannot invoke chaincode functions. 
-    \item \emph{Endorser peer}. Endorser peers have chaincode installed. When they receive a transaction proposal, they simulate the transaction execution on isolated containers. Based on that simulation, such peers prepare a transaction proposal that is then sent to the orderer peer. The existence of endorser peers avoids sequential execution of transactions by all peers.
-    \item \emph{Orderer peer}. Orderers receive endorsed transactions and assemble them into blocks. After grouping transactions, orderers assure consensus, by propagating such blocks to committing peers, where they are validated and then committed to the shared ledger. Orderer peers record valid and invalid transactions, while other peers only contain valid transactions.
-    
+\item \emph{Committing peer (or simply peer)}. Each peer maintains the current snapshot of the current state of the ledger as a key-value store. Such peers cannot invoke chaincode functions.
+\item \emph{Endorser peer}. Endorser peers have chaincode installed. When they receive a transaction proposal, they simulate the transaction execution on isolated containers. Based on that simulation, such peers prepare a transaction proposal sent to the orderer peer. The existence of endorser peers avoids sequential execution of transactions by all peers.
+\item \emph{Orderer peer}. Orderers receive endorsed transactions and assemble them into blocks. After grouping transactions, orderers assure consensus by propagating such blocks to committing peers. They are validated and then committed to the shared ledger. Orderer peers record valid and invalid transactions, while other peers only contain valid transactions.
+
 \end{itemize}
 
 \begin{figure}[h]
 
-    \includegraphics[scale=1]{figures/peer_nodes.png}
-    \centering
- \caption{Example of each node role \cite{peer_nodes}}
-    \label{fig:hf}
+\includegraphics[scale=1]{figures/peer_nodes.png}
+\centering
+\caption{Example of each node role \cite{peer_nodes}}
+\label{fig:hf}
 \end{figure}
 
-Additionally, Fabric defines \emph{anchor peers} and \emph{leader peers}. Anchor peers serve as an intermediary between peers from its organisation and peers from an external one. Leader peers take the responsibility of distributing the transactions from the orderer to committing peers. 
+Additionally, Fabric defines \emph{anchor peers} and \emph{leader peers}. Anchor peers serve as an intermediary between peers from its organization and peers from an external one. Leader peers take the responsibility of distributing the transactions from the orderer to committing peers.
 
 
 \subsection{Channels}
-Channels allow participants to establish a communication path between the subset of participants that have permissions to visualize a subset of transactions. For instance, in the same network, there can be a subset of peers that have access to only a certain kind of transactions.  In addition to channels, Fabric supports \textit{private data}, which allows a defined subset of organizations on a channel to isolate their data from others. For example, when several traders engage in a blockchain ecosystem, it might be desirable for a seller to hide the price of their items from buyers\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/private-data/private-data.html}. In specific, organizations with permissions can endorse, commit, or query private data, which is logically separated from channel ledger data.  In case of a dispute, private data can be shared and shown. For further privacy, hashes of private data go through the orderer, instead of the data itself. This is, the orderer does not access the transactional data to orderer it into blocks - but only its hash. It is disseminated peer-to-peer rather than via blocks. When transaction data must be kept confidential from ordering service nodes, it is a solution to use private data collections, rather than channels. 
+Channels allow participants to establish a communication path between the subset of participants who can visualize a subset of transactions. For instance, there can be a subset of peers in the same network that have access to only a certain kind of transaction.  In addition to channels, Fabric supports \textit{private data}, which allows a defined subset of organizations on a channel to isolate their data from others. For example, when several traders engage in a blockchain ecosystem, it might be desirable for a seller to hide the price of their items from buyers\footnote{https://hyperledger-fabric.readthedocs.io/en/release-2.2/private-data/private-data.html}. In specific, organizations with permissions can endorse, commit, or query private data, which is logically separated from channel ledger data.  In case of a dispute, private data can be shared and shown. For further privacy, hashes of private data go through the orderer instead of the data itself. The orderer does not access the transactional data to orderer it into blocks - but only its hash. It is disseminated peer-to-peer rather than via blocks. When transaction data must be kept confidential from ordering service nodes, it can use private data collections rather than channels.
 
 \begin{figure}[H]
 
-    \includegraphics[scale=0.3]{figures/channel.png}
-    \centering
- \caption{A simple Fabric network}
-    \label{fig:channel}
+\includegraphics[scale=0.3]{figures/channel.png}
+\centering
+\caption{A simple Fabric network}
+\label{fig:channel}
 \end{figure}
 
 
@@ -222,158 +222,158 @@ For example, Figure \ref{fig:channel}\footnote{https://medium.com/@kctheservant/
 The transaction flow, which follows the execute-order-validate paradigm, is depicted in Figure \ref{fig: Fabric's Transaction Flow}, is as it follows:
 
 \begin{figure}[]
-    \includegraphics[scale=0.85]{figures/back_hf_transaction_flow.png}
-    \centering
+\includegraphics[scale=0.85]{figures/back_hf_transaction_flow.png}
+\centering
 \caption{Transaction Flow \cite{fabric}}
-    \label{fig: Fabric's Transaction Flow}
+\label{fig: Fabric's Transaction Flow}
 \end{figure}
 
 \begin{figure}[h]
 
-    \includegraphics[scale=0.5]{figures/transaction_flow.png}
-    \centering
- \caption{Transaction Flow \cite{transaction_flow}}
-    \label{fig: Fabric's Transaction Flow}
+\includegraphics[scale=0.5]{figures/transaction_flow.png}
+\centering
+\caption{Transaction Flow \cite{transaction_flow}}
+\label{fig: Fabric's Transaction Flow}
 \end{figure}
 
 \begin{itemize}
-    \item \emph{Transaction proposal}. A blockchain client, which represents an organisation, creates a transaction proposal, and sends it to endorsement peers, as defined in the endorsement policy. The proposal contains information regarding the identity of the proposer, the transaction payload, a nonce, and a transaction identifier.
-    \item \emph{{Execute} (endorsement)}: the endorsement consists in the simulation of the transaction. The endorsers produce a write-set,  containing the keys and their modified values, and a read-set.  The endorsement peers execute the transactions, in an isolated environment. The endorsement is sent as the proposal response and contains the write-set, read-set, the transaction ID, endorser's ID, and the endorser's signature. When the client collects enough endorsements (which need to have the same execution result), it creates the transaction and sends it to the ordering service. The endorsement phase eliminates any eventual non-determinism.
+\item \emph{Transaction proposal}. A blockchain client, which represents an organization, creates a transaction proposal and sends it to endorsement peers, as defined in the endorsement policy. The proposal contains information regarding the proposer's identity, the transaction payload, a nonce, and a transaction identifier.
+\item \emph{{Execute} (endorsement)}: the endorsement consists in the simulation of the transaction. The endorsers produce a write-set,  containing the keys and their modified values, and a read-set.  The endorsement peers execute the transactions in an isolated environment. The endorsement is sent as the proposal response. It contains the write-set, read-set, the transaction ID, endorser's ID, and the endorser's signature. When the client collects enough endorsements (which need to have the same execution result), it creates the transaction and sends it to the ordering service. The endorsement phase eliminates any eventual non-determinism.
 
-\item \emph{{Order}}: after the endorsement, there is the ordering phase, performed by orderers. The ordering service checks if the blockchain client that submitted the transaction proposal has appropriate permissions (broadcast and receiving permissions), on a given channel. Ordering produces blocks containing endorsed transactions, in an ordered sequence, per channel. The ordering allows the network to achieve consensus. The orderer broadcasts transaction's outputs to all the peers. For a correct ordering, there are some properties that the system must comply to, defined as:
-    
-     \begin{mydef}{Hash chain integrity:}
-    For any two blocks B delivered with sequence number s, and B' delivered with s' at correct peers such that s = s',
-    it holds B = B'.
-    \end{mydef}
+\item \emph{{Order}}: after the endorsement, there is the ordering phase, performed by orderers. The ordering service checks if the blockchain client that submitted the transaction proposal has appropriate permissions (broadcast and receiving permissions) on a given channel. Ordering produces blocks containing endorsed transactions, in an ordered sequence, per channel. The ordering allows the network to achieve consensus. The orderer broadcasts the transaction's outputs to all the peers. For correct ordering, there are some properties that the system must comply with, defined as:
 
-    \begin{mydef}{Hash chain integrity:}
-    If some correct peer delivers a block B
+\begin{mydef}{Hash chain integrity:}
+For any two blocks, B delivered with sequence number s, and B' delivered with s' at correct peers such that s = s',
+it holds B = B'.
+\end{mydef}
+
+\begin{mydef}{Hash chain integrity:}
+If some correct peer delivers a block B
 with number s and another correct peer delivers block B' =
 ([tx 1 , . . . , tx k ], h' ) with number s+1, then it holds h' = H (B),
 where H (·) denotes the cryptographic hash function.
-    \end{mydef}
-    
-    \begin{mydef}{No skipping:}
+\end{mydef}
+
+\begin{mydef}{No skipping:}
 if a correct peer p delivers a block with number s $>$ 0
 then peer p has already delivered all blocks with number < s.
-    \end{mydef}
-    
-        \begin{mydef}{No creation:}
+\end{mydef}
+
+\begin{mydef}{No creation:}
 When a correct peer delivers block B with number s,
-then for every tx $\in$ B some client has already broadcast tx.
-    \end{mydef}
-    
-    The ordering step assures all the above properties for each channel. The ordering service broadcasts blocks to the peers that maintain the state of the ledgers, via the ordering service or gossip protocol.
+then for every tx $\in$ B, some client has already broadcast tx.
+\end{mydef}
+
+The ordering step assures all the above properties for each channel. The ordering service broadcasts blocks to the peers that maintain the ledgers' state via the ordering service or gossip protocol.
 
 
-            \begin{mydef}{Validity:}
+\begin{mydef}{Validity:}
 If a correct client invokes \textit{broadcast(tx)}, then every correct peer eventually delivers a block B that includes \textit{tx}, with
 some sequence number.    \end{mydef}
-    
-    There is the need to note that the ordering service aims to achieve consensus and therefore prevents the network from forks. Consensus in Fabric encompasses the whole transaction flow, from the transaction proposal to the committing.  It happens at the transaction level, where not all nodes need to engage in the consensus mechanism.  Channels ensure that messages are delivered in the same logical order to committing peers.  The ordering service achieves consensus in a deterministic way. As the ordering is deterministic, and not probabilistic, as in Bitcoin, forks do not occur.  Permissioned blockchains which rely on the BFT replication protocols to achieve consensus can only support \textit{f} faulty nodes out of \textit{3f+1} nodes. This assumption may not match the trust model idealised for a specific application. The endorsement policy establishes the trust model, which is decoupled from the consensus mechanism, allowing developers to reason about the trust model independently of the consensus algorithm.
 
-  \item \emph{{Validate}}. Firstly, each peer validates the received transactions by checking if a transaction follows the correspondent endorsement policy. After that, a read-write conflict check is run against all transactions in the block, sequentially. For each transaction, it compares the versions of the keys in the read-set with those currently on the ledger. In case they do not match, the peers discard the transaction. Finally, the ledger is updated, in which the ledger appends the created block to its head. The ledger appends the results of the validity checks, including the invalid transactions.
- 
+There is the need to note that the ordering service aims to achieve consensus and prevents the network from forks. Consensus in Fabric encompasses the whole transaction flow, from the transaction proposal to the committing.  It happens at the transaction level, where not all nodes need to engage in the consensus mechanism.  Channels ensure that messages are delivered in the same logical order to committing peers.  The ordering service achieves consensus in a deterministic way. As the ordering is deterministic and not probabilistic, as in Bitcoin, forks do not occur.  Permissioned blockchains that rely on the BFT replication protocols to achieve consensus can only support \textit{f} faulty nodes out of \textit{3f+1} nodes. This assumption may not match the trust model idealized for a specific application. The endorsement policy establishes the trust model, decoupled from the consensus mechanism, allowing developers to reason about the trust model independently of the consensus algorithm.
+
+\item \emph{{Validate}}. Firstly, each peer validates the received transactions by checking if a transaction follows the corresponding endorsement policy. After that, a read-write conflict check is run against all transactions in the block sequentially. It compares the versions of the keys in the read-set with those currently on the ledger for each transaction. In case they do not match, the peers discard the transaction. Finally, the ledger is updated, in which the ledger appends the created block to its head. The ledger appends the results of the validity checks, including the invalid transactions.
+
 \end{itemize}
 
 
 
 \begin{figure}[ht]
 
-    \includegraphics[scale=.5]{figures/back_fabric_example_network.png}
-    \centering
-    \caption{Example of a Fabric's network}
-    \label{fig: Fabric's example network}
+\includegraphics[scale=.5]{figures/back_fabric_example_network.png}
+\centering
+\caption{Example of a Fabric's network}
+\label{fig: Fabric's example network}
 \end{figure}
 
 %COmponents
 Fabric has the following architectural components that support the transaction lifecycle:
 \begin{itemize}
-    \item \emph{Membership Service Provider}: the goal of this service is to identify participants (authentication) in the network uniquely. Public key infrastructure (\textit{PKI}) is used to generate certificates which are tied to members and organisations. Each organisation issues identities to its members and every peer recognise the members of the organisation. The identification is made through the association of a given peer to a cryptographic entity (i.e., digital certificate). Different identity management protocols can manage the identity of participants, such as LDAP and OpenID.
-    \item \emph{Ordering Service}: it manages multiple channels and comprises orderers and their processes. The batching process occurs in this phase, in which validated transactions are received and grouped into blocks. For each channel, after the transaction validation by the orderer, it broadcasts state updates to the ledger, in an atomic way, following a consensus algorithm. The ordering service can reconfigure channels and restrict broadcasting of transactions if needed. 
-    \item \emph{Peer Gossip}: the peer gossip is responsible for broadcasting the results of the ordering phase, as well as \textit{transfer state} for unsynched peers (recently joined, after a downtime, or a peer is slower at validating the blocks before committing). Gossip data dissemination helps to achieve consistency and data integrity across nodes. Since blocks are signed and numbered, after a peer receives them, it can reconstruct the blockchain and verify its integrity. Thus, the gossip protocol manages peer discovery and channel membership and disseminates ledger data across peers on a channel. 
+\item \emph{Membership Service Provider}: This service aims to identify participants (authentication) in the network uniquely. Public key infrastructure (\textit{PKI}) is used to generate certificates that are tied to members and organizations. Each organization issues identities to its members, and every peer recognizes the members of the organization. The identification is made by associating a given peer to a cryptographic entity (i.e., digital certificate). Different identity management protocols can manage the identity of participants, such as LDAP and OpenID.
+\item \emph{Ordering Service}: it manages multiple channels and comprises orderers and their processes. The batching process occurs in this phase, in which validated transactions are received and grouped into blocks. After the transaction validation by the orderer, it broadcasts state updates to the ledger, in an atomic way, following a consensus algorithm for each channel. The ordering service can reconfigure channels and restrict the broadcasting of transactions if needed.
+\item \emph{Peer Gossip}: the peer gossip is responsible for broadcasting the results of the ordering phase, as well as \textit{transfer state} for unsynched peers (recently joined, after a downtime, or a peer is slower at validating the blocks before committing). Gossip data dissemination helps to achieve consistency and data integrity across nodes. Since blocks are signed and numbered, it can reconstruct the blockchain and verify its integrity after a peer receives them. Thus, the gossip protocol manages peer discovery and channel membership and disseminates ledger data across peers on a channel.
 
 \end{itemize}
 
 
 \subsection{Replication Model}
-Fabric introduces a hybrid replication model, combining active and passive replication (primary-backup-replication, ported to the untrusted environment). Concerning active replication or state machine replication, the ledger state only reflects the transactions after these are validated and the consensus is reached, concerning their ordering.  Passive replication happens as endorsers send the result of the transaction processing to commit nodes. Fabric comprises three main elements around data: \emph{world state}, a versioned key-value store which corresponds to the distributed ledger; the \emph{transaction log}, stores the history of all transactions (PTM); and a NoSQL database, such as CouchDB, stores the world state. It is possible to restrict users' access to view and edit specific fields and only authorising the read-only permissions.  CouchDB supports complex data queries, comparatively to LevelDB, against the whole blockchain data, making it a suitable solution when it comes to data analysis and auditing. \emph{LevelDB} is the other built-in option for storing the world state. It is a simple, fast key-value storage library that provides an ordered mapping from string keys to string values.
+Fabric introduces a hybrid replication model, combining active and passive replication (primary-backup-replication, ported to the untrusted environment). Concerning active replication or state machine replication, the ledger state only reflects the transactions after they are validated. The consensus is reached concerning their ordering.  Passive replication happens as endorsers send the result of the transaction processing to commit nodes. Fabric comprises three main elements around data: \emph{world state}, a versioned key-value store which corresponds to the distributed ledger; the \emph{transaction log}, stores the history of all transactions (PTM); and a NoSQL database, such as CouchDB, stores the world state. It is possible to restrict users' access to view and edit specific fields and only authorizing the read-only permissions.  CouchDB supports complex data queries, comparatively to LevelDB, against the whole blockchain data, making it a suitable solution for data analysis and auditing. \emph{LevelDB} is the other built-in option for storing the world state. It is a simple, fast key-value storage library that provides an ordered mapping from string keys to string values.
 
 
-\section{Blockchain4Students - Hyperledger Fabric Version}
- Education is a sector that may benefit greatly from blockchain. Today, most blockchain-based applications for eduation are directed towards supporting academic degree management and evaluation for learning outcomes, explored in projects such as Qualichain\footnote{https://qualichain-project.eu/}. QualiChain is a project funded by the EC under the Horizon 2020 program. The project aims to propose a blockchain-based approach for disrupting the archiving, management, and verification of educational and employment qualifications. In particular, QualiChain will support the storage,  sharing, and verification of academic and other qualifications along with several additional services, provided by the platform.
+\section{Blockchain4Students QUC - Hyperledger Fabric Version}
+Education is a sector that may benefit greatly from the blockchain. Today, most blockchain-based applications for education are directed towards supporting academic degree management and evaluation for learning outcomes, explored in projects such as Qualichain\footnote{https://qualichain-project.eu/}. QualiChain is a project funded by the EC under the Horizon 2020 program. The project aims to propose a blockchain-based approach for disrupting the archiving, management, and verification of educational and employment qualifications. In particular, QualiChain will support the storage,  sharing, and verification of academic and other qualifications and several additional services provided by the platform.
 
-Besides credential management, blockchain can help streamlining formative and qualitative evaluation processes, by tracking details of teaching and learning, in a transparent way. In particular, formal education produces a lot of data, coming from several parties: student records, in-class data (attendance, grades), course data, payments, diplomas, and so on. %Challenges?
-%Aggregating this information in a private way constitutes a challenge, and furthermore the data belongs to the school and not to the student. 
+Besides credential management, blockchain can streamline formative and qualitative evaluation processes by tracking teaching and learning details in a transparent way. In particular, formal education produces a lot of data, coming from several parties: student records, in-class data (attendance, grades), course data, payments, diplomas, and so on. %Challenges?
+%Aggregating this information in a private way constitutes a challenge, and furthermore, the data belongs to the school and not to the student.
 
-We now introduce a use case for education, \emph{Transparent Curricular Unit Quality System}, that serves as the basis for this course. This system is designed to improve the teaching conditions at universities, by enforcing accountability and transparency relatively to student's feedback on courses and its teaching staff. 
+We now introduce a use case for education, \emph{Transparent Curricular Unit Quality System}, that serves as the basis for this course. This system is designed to improve universities' teaching conditions by enforcing accountability and transparency relatively to students' feedback on courses and its teaching staff.
 
 \subsection{Transparent Curricular Unit Quality System}
-Técnico Lisboa is a Portuguese  public school of engineering and technology, part of University of Lisbon. University of Lisbon promotes continuous improvement via questionnaires, and the Course Unit Quality System (QUC) \cite{quc}.
+Técnico Lisboa is a Portuguese public school of engineering and technology, part of the University of Lisbon. Unrelativef Lisbon promotes continuous improvement via questionnaires and the Course Unit Quality System (QUC) \cite{quc}.
 
 
 \begin{figure}
-    \centering
-    \includegraphics[scale=0.8]{figures/quc_3_1.PNG}
-    \caption{Questionnare to Técnico's Lisboa PhD students (in Portuguese): number of participants}
-    \label{fig:quc_3_1}
+\centering
+\includegraphics[scale=0.8]{figures/quc_3_1.PNG}
+\caption{Questionnare to Técnico's Lisboa PhD students (in Portuguese): number of participants}
+\label{fig:quc_3_1}
 \end{figure}
 
 \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{figures/quc_3_2.PNG}
-    \caption{Questionnare to Técnico's Lisboa PhD students (in Portuguese): development of scientific skills, and work and well-being management}
-    \label{fig:quc_3_1}
+\centering
+\includegraphics[scale=0.6]{figures/quc_3_2.PNG}
+\caption{Questionnare to Técnico's Lisboa PhD students (in Portuguese): development of scientific skills, and work and well-being management}
+\label{fig:quc_3_1}
 \end{figure}
 
-Regarding questionnaires, Figures \ref{fig:quc_3_1} depicts a questionnaire answered by 36 PhD students on their experience at the same university. After processing, the questionnaires yield a list of action items aiming to improve the current status of the processes: propose a process that evaluates the quality of the theses' advising. This could be done via the QUCs.
+Regarding questionnaires, Figures \ref{fig:quc_3_1} depicts a questionnaire answered by 36 Ph.D. students on their experience at the same university. After processing, the questionnaires yield a list of action items aiming to improve the processes' current status: propose a process that evaluates the quality of the theses' advising. This could be done via the QUCs.
 
-QUCs are aimed at following up the functioning of each course unit, by promoting responsible involvement of students and teachers in the teaching, learning and assessment process. Students classify courses (and professors), in a scale from 1 to 9. The overall classification for both courses and professors is yielded. If professors or courses have low classifications, an audit can occur.  
+QUCs aim to follow up each course unit's functioning by promoting responsible involvement of students and teachers in the teaching, learning, and assessment process. Students classify courses (and professors) on a scale from 1 to 9. The overall classification for both courses and professors is yielded. If professors or courses have low classifications, an audit can occur.
 
 
 \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{figures/audits.PNG}
-    \caption{Audit timeline to the Artificial Intelligence course in the masters (MEIC) and bachelor (LEIC). The yellow square indicates that the course had a bad performance on QUC scores. The red box indicates that the course was audited.}
-    \label{fig:quc_3_1}
+\centering
+\includegraphics[scale=0.6]{figures/audits.PNG}
+\caption{Audit timeline to the Artificial Intelligence course in the masters (MEIC) and bachelor (LEIC). The yellow square indicates that the course had a bad performance on QUC scores. The red box indicates that the course was audited.}
+\label{fig:quc_3_1}
 \end{figure}
 
-In the end of each semester, and for each Curricular Unit under an audit process, there will be presented the analysis of the process with the main conclusions, the suggested correction and implemented methods.
+At the end of each semester, and for each Curricular Unit under an audit process, the analysis of the process will be presented with the main conclusions, the suggested correction, and implemented methods.
 
-A professor or course should improve if their QUC median results is lower than 5. A professor is considered excellent if the median of their assessment factors is 9. Figure \ref{fig:quc1} depicts some questions appearing on the QUC questionnaires.
+A professor or course should improve if their QUC median results are lower than 5. A professor is considered excellent if the median of their assessment factors is 9. Figure \ref{fig:quc1} depicts some questions appearing on the QUC questionnaires.
 
 \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{figures/quc_1.PNG}
-    \caption{Example of a section in a QUC questionnaire (in Portuguese). There are questions regarding the importance of different study materials in a specific course.}
-    \label{fig:quc1}
+\centering
+\includegraphics[scale=0.6]{figures/quc_1.PNG}
+\caption{Example of a section in a QUC questionnaire (in Portuguese). There are questions regarding the importance of different study materials in a specific course.}
+\label{fig:quc1}
 \end{figure}
 
-This system aggregates feedback from both students and professors on the functioning of course units, providing a holistic view on the performance of universities, professors, and students. Students and professors are required to fill QUCs at the end of each semester. When a course or professor have a low classification, derived from students feedback, the university can intervene (audits/corrective measures). Such a system allows to continuous improvement, leading to a better educational system.
+This system aggregates feedback from both students and professors on the functioning of course units, providing a holistic view of universities, professors, and students' performance. Students and professors are required to fill QUCs at the end of each semester. When a course or professor has a low classification, derived from students' feedback, the university can intervene (audits/corrective measures). Such a system allows for continuous improvement, leading to a better educational system.
 
 %problems
-However, some problems arise: first of all, not all universities employ such a system. As such, consequences of bad teaching are often left unresolved, leading to a loss of human potential. Secondly, universities can tamper/hide QUC results, as they are the centralized party processing them. Having a common, global, QUC system that is able to make universities comparable in terms of course unit quality needs to be decentralized. If students directly vote on such platform, maintained by a consortium of high education institutions (such as Qualichain), the resiliency to the data greatly increases. Finally, the criteria and scoring result may not be transparent, in order universities to manipulate the perception about their quality. Therefore, there is the need for a standardized system that is clear, transparent, and simple.
+However, some problems arise: first of all, not all universities employ such a system. As such, bad teaching consequences are often left unresolved, leading to a loss of human potential. Secondly, universities can tamper/hide QUC results, as they are the centralized party processing them. Having a common, global, QUC system that can make universities comparable in terms of course unit quality needs to be decentralized. If students directly vote on such a platform, maintained by a consortium of high education institutions (such as Qualichain), the resiliency to the data dramatically increases. Finally, the criteria and scoring result may not be transparent for universities to manipulate the perception about their quality. Therefore, there is a need for a standardized system that is clear, transparent, and simple.
 
-\section{Blockchain4Students QUC - Fabric Version}
+\section{Blockchain4Students QUC Implementation}
 To address those needs, we leverage the B4S-QUC system, based on Hyperledger Fabric. This system contains three stakeholders: universities, professors, and students.
 
 \begin{itemize}
-    \item Students vote on the parameters of teaching quality and course organization, via their local students group or association.
-    \item Professors give feedback on the course they taught via the professors department. 
-    \item Universities analyze the results and apply corrective measures to courses.
+\item Students vote on the parameters of teaching quality and course organization via their local student's group or association.
+\item Professors give feedback on the course they taught via the professors' department.
+\item Universities analyze the results and apply corrective measures to courses.
 
-\end{itemize} 
+\end{itemize}
 
-Feedback is collected from different questions, called \emph{feedback items}. The result of a set of questions towards a specific course is called a \emph{feedback entry}. Several feedback entries on a specific course compose the \emph{course feedback}, which is later analyzed to produce the QUC score (1-9). The score is applicable to the course and to the teaching staff of that course.
+Feedback is collected from different questions, called \emph{feedback items}. The result of a set of questions towards a specific course is called a \emph{feedback entry}. Several feedback entries on a specific course compose the \emph{course feedback}, which is later analyzed to produce the QUC score (1-9). The score applies to the course and to the teaching staff of that course.
 
-Let us think about a possible implementation. B4S QUC should implement a Transparent Curricular Unit Quality System, in which students give their feedback on courses/professors of their university through a students group. Schools and universities are rewarded reputation tokens based on the quality of their students' feedback. This allows to make professors directly accountable for their students -- yielding incentives for the universities to provide support for their improvement.  However, some issues must be dealt with. 
+Let us think about possible implementation. B4S QUC should implement a Transparent Curricular Unit Quality System. Students give their feedback on courses/professors of their university through a student group. Schools and universities are rewarded reputation tokens based on the quality of their students' feedback. This allows making professors directly accountable for their students, yielding incentives for the universities to support their improvement.  However, some issues must be dealt with.
 
 
 
-\subsection{Exercises: B4S QUC} 
+\subsection{Exercises: B4S QUC}
 
-Consider the Fabric version of Blockchain4Students - a blockchain dedicated to improve continuous improvement at education.
+Consider the Fabric version of Blockchain4Students - a blockchain dedicated to improving continuous improvement in education.
 
 \subsubsection{Threats to Privacy}
 
@@ -391,29 +391,29 @@ Consider the Fabric version of Blockchain4Students - a blockchain dedicated to i
 
 \subsubsection{Data Integrity Threats}
 \label{sec: threat_model}
-In order to mitigate the data integrity threats, it is important to perform an analysis of current challenges and risks.
-We provide a general threat model with regard to data integrity in information systems and data integrity threats on the blockchain. Threats related to the blockchain, are based on our previous work \cite{belchior2019_audits}.
+To mitigate data integrity threats, it is important to perform an analysis of current challenges and risks.
+We provide a general threat model concerning data integrity in information systems and data integrity threats on the blockchain. Threats related to the blockchain are based on our previous work \cite{belchior2019_audits}.
 %reescrever
 
 
-This section presents the threats to which data is exposed (in this case the 'feedback entries). The threat model will focus on three factors: i) internal access attacks ii) remote attacks and iii) Hyperledger Fabric blockchain attacks.
+This section presents the threats to which data is exposed (in this case, the 'feedback entries). The threat model will focus on three factors: i) internal access attacks ii) remote attacks, and iii) Hyperledger Fabric blockchain attacks.
 
-We assume that there are two types of adversaries. A third-party adversary, \emph{Adversary A$_{t}$}, can access the trusted computing base and remotely penetrate the system, by exploiting security flaws or by hijacking root user credentials. Stemming from this, A$_{t}$ might tamper data to compromise auditing and forensic procedures or tamper system data to cause damage to the organization. On the other hand, an adversary from within the organization, \emph{Adversary A$_{o}$} can be an employee with root privileges. Such a person can access the databases and can be motivated to tamper data for personal gains. Such adversaries can tamper data to hide their traces or tamper data to aid third-parties illegally.
+We assume that there are two types of adversaries. A third-party adversary, \emph{Adversary A$_{t}$}, can access the trusted computing base and remotely penetrate the system by exploiting security flaws or by hijacking root user credentials. Stemming from this, A$_{t}$ might tamper data to compromise auditing and forensic procedures or tamper system data to damage the organization. On the other hand, an adversary from within the organization, \emph{Adversary A$_{o}$} can be an employee with root privileges. Such a person can access the databases and can be motivated to tamper with data for personal gains. Such adversaries can tamper with data to hide their traces or tamper data to aid third-parties illegally.
 
-There can be two main types of attacks to data integrity: the \emph{physical access attack} and the \emph{remote vulnerability attack}. In the physical access attack, the adversary \emph{Adversary A$_{t}$} or \emph{Adversary A$_{o}$} have access to the critical system components. The attacker generates transactions to change the current values of the objects held in a database. As objects are being updated, the database generates an audit log, tracking the changes made by the attacker. The attacker then focuses on deleting the evidence by deleting the generated audit logs or changing its content. The attacker can manipulate the auditing process by modifying the history maintained by the audit log.
+There can be two main types of attacks to data integrity: the \emph{physical access attack} and the \emph{remote vulnerability attack}. In the physical access attack, the adversary \emph{Adversary A$_{t}$} or \emph{Adversary A$_{o}$} has access to the critical system components. The attacker generates transactions to change the current values of the objects held in a database. As objects are being updated, the database generates an audit log, tracking the attacker's changes. The attacker then focuses on deleting the evidence by deleting the generated audit logs or changing its content. The attacker can manipulate the auditing process by modifying the history maintained by the audit log.
 
-As a consequence, the obfuscation of illegal activities and impersonating someone's actions can occur. In remote vulnerability attacks, the attacker exploits default vulnerabilities on systems, such as software malfunctions and security vulnerabilities (e.g., SQL-injection). Although such attacks are common, corporate organizations have their systems and databases secure against conventional attacks. The research is focused on the physical access attacks. Five threats compose the threat model \cite{belchior2019_audits}, which are distributed through the various exercises:
+As a consequence, the obfuscation of illegal activities and impersonating someone's actions can occur. In remote vulnerability attacks, the attacker exploits default vulnerabilities on systems, such as software malfunctions and security vulnerabilities (e.g., SQL-injection). Although such attacks are common, corporate organizations have their systems and databases secure against conventional attacks. The research is focused on physical access attacks. Five threats compose the threat model \cite{belchior2019_audits}, which are distributed through the various exercises:
 
 \subsubsection*{Exercise 5: Elaborate on the following threats:}
 
-\begin{threat}{Feedback item tampering from an external element:} An attacker violates the integrity of the 'feedback entries, by editing them. 
+\begin{threat}{Feedback item tampering from an external element:} An attacker violates the integrity of the 'feedback entries by editing them.
 \end{threat}
 
-\begin{threat}{Feedback item tampering from an internal adversary:} An attacker from one of the stakeholders violates the integrity of the 'feedback entries, by editing them directly.
+\begin{threat}{Feedback item tampering from an internal adversary:} An attacker from one of the stakeholders violates the integrity of the 'feedback entries by editing them directly.
 \end{threat}
 
 
-\begin{threat}{Feedback item tampering by the system administrator:} The administrator of the system, with the highest permissions, violates the integrity of the 'feedback entries, by editing them. There is the possibility of obfuscating activity traces by deleting evidence on other systems
+\begin{threat}{Feedback item tampering by the system administrator:} The administrator of the system, with the highest permissions, violates the integrity of the 'feedback entries by editing them. There is the possibility of obfuscating activity traces by deleting evidence on other systems
 \end{threat}
 
 
