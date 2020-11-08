@@ -1,80 +1,122 @@
 # Enterprise Blockchain Technologies
-##A Hyperledger Fabric's v2.x University Course 🎓
+![](https://img.shields.io/github/issues/hyperledger-labs/university-course)
+![](https://img.shields.io/github/issues-raw/hyperledger-labs/university-course/help%20wanted)
+![](https://img.shields.io/github/forks/hyperledger-labs/university-course)
+![](https://img.shields.io/github/stars/hyperledger-labs/university-course)
+![](https://img.shields.io/github/license/hyperledger-labs/university-course)
+![](https://img.shields.io/github/v/release/hyperledger-labs/university-course)
 
 <img src="./ebt.png" width="1000">
 
-## At the end of this course I will:
+Welcome to Enterprise Blockchain Technologies, a **flexible, extensible, open-source university course** 🎓
 
-1.  Understand theory on blockchain: what is it (<b>Lab 1, Lab2</b>), and which problems it can solve (<b>Lab 3</b>)
-3. Know Hyperledeger Fabric's components in detail, as well as its architecture and transactional model (<b>Lab 4</b>)
-4. Be able to write Hyperledger Fabric chaincode, and bootstrap a Hyperledger Fabric network running those contracts (<b>Lab 5</b>)
-4. Provision a Hyperledger Fabric network, and to develop full-stack blockchain decentralized applications (<b>Lab 6</b>)
-5. Understand advanced concepts on the area of consensus, using Hyperledger Umbra (<b>Lab 7, Lab 8</b>)
+This course aims at providing a reliable basis for university students to get started in enterprise blockchain.
 
-This course aims at providing a reliable basis for university students to get started into enterprise blockchain.
-Currently, this course supports Hyperledger Fabric and Hyperledger Umbra.
-
-## Table of Contents
-| Module 	| Lab Number 	| Topic                                     	| Contents                                                                                                                                                                                       	| Support files       	|
-|:------:	|:----------:	|-------------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|---------------------	|
-|    I   	|   [Lab 01](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab01)   	|    Fundamentals on Distributed Systems    	| -Introduction on distributed systems<br><br>-Introduction on state machine replication<br><br>-Introduction on consensus<br><br>-RAFT algorithm                                                	|                     	|
-|    I   	|   [Lab 02](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab02)   	| Fundamentals on Cryptography and Security 	| -Background on Cryptography: symmetric and asymmetric cryptography, and digital signatures<br><br>-Background on Security: authentication, authorization, accountability<br><br>-RSA algorithm 	| [RSA implementation](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab02)  	|
-|    I   	|   [Lab 03](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab03)   	|           A Primer on Blockchain          	| -Introduction to blockchain<br><br>-Public vs private blockchains                                                                                                                            	| [Blockchain4Students](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab03) 	|
-|    I      |  [Lab 04](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab04)     | Introduction to Hyperledger Fabric            | -The Hyperledger Ecosystem <br><br> -A Technical Viewpoint on Fabric <br><br> -A Use Case for Education: Blockchain4Students QUC ||
-|    II      |  [Lab 05](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab05)     | Hyperledger Fabric: Infrastructure and Chaincode            | - The B4S QUC System <br><br> - Smart Contracts & Chaincode <br><br> -  Setting up B4S | [Blockchain4Students Fabric Version](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab05) 	|
-|    II      |  [Lab 06](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab06)     | Hyperledger Fabric: Full-stack dApp            | -Blockchain Network <br><br> -B4S Web App 6 User interface | [Blockchain4Students Fabric Version + Blockchain Client](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab06) 	|
-|    II      |  [Lab 07](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab07)     | Hyperledger Umbra: Introduction            | -Introduction to Hyperledger Umbra <br>-Simple scenario setting | [Support Code](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab07) 	|
-|    II      |  [Lab 08](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab08)     | TBD            | TBD | [Support Code](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab08) 	|
-
-## Course Overview
 This course contains the practical part of a university course on enterprise blockchain technologies.
-Typically, a university course is divided into theory and laboratories. Theory explains the theoretical foundations behind what is learned on the Laboratories.
-Currently, this course only contains the laboratory classes.
+Typically, a university course is divided into **theory** and **laboratory** classes. The theory explains the theoretical foundations behind what is learned in the Laboratories.
 
-This course is suited to be a 7.5 ECTS master level course, that assumes 3 hours of theory per week + 1.5 hours of practice (1 Lab) per week.
+
+## At the end of this course, I will:
+
+✅ Understand theory on blockchain: what is it (<b>Lab 1, Lab2</b>), and which problems it can solve (<b>Lab 3</b>)
+
+✅  Get to know Hyperledeger Fabric's components in detail, such as architecture and transactional model (<b>Lab 4</b>), chaincode (<b>Lab 5</b>), network, and how to develop an enterprise full-stack blockchain decentralized application (<b>Lab 6</b>)
+
+✅ Understand advanced concepts on the area of consensus, using Hyperledger Umbra (<b>Lab 7, Lab 8</b>)
+
 
 ## Course Organization
 
-The course is divided into two modules:
+The course is currently divided into two modules:
 
 * Module I introduces enterprise blockchain (labs 1-4)
 * Module II focuses on Hyperledger Fabric (labs 5-8).
 
-For universities using trimesters, the course can be separated into the two modules (1 per trimester).
+For universities using trimesters, a course on enterprise technologies uses 1 module.
 
-For universities using semesters, the whole course (labs 1-9) can be taught in one semester.
+For universities using semesters, a course on enterprise technologies uses 2 modules.
 
+This course is flexible because you can pick the laboratories you wish to complete across modules.
+Currently, this course supports Hyperledger Fabric and Hyperledger Umbra but can be easily extended by adding modules.
+
+## Table of Contents
+| Module   | Lab Number   | Topic                                        | Contents                                                                                                                                                                                         | Support files        | Public Mirror |
+|:------:  |:----------:  |-------------------------------------------   |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |--------------------- | -------------------- |
+|    I     |   [Lab 01](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab01)       |    Fundamentals on Distributed Systems       | ➡️ Introduction on distributed systems<br><br>➡️Introduction on state machine replication<br><br>➡️Introduction on consensus<br><br>➡️RAFT algorithm                                                 |                      |  [Guide](https://www.overleaf.com/read/cmbrrpxctmqy) <br><br> [Instructor's Guide](https://www.overleaf.com/read/rzykfxvkcddk) |
+|    I     |   [Lab 02](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab02)       | Fundamentals on Cryptography and Security    | ➡️Background on Cryptography: symmetric and asymmetric cryptography, and digital signatures<br><br>➡️Background on Security: authentication, authorization, accountability<br><br>➡️RSA algorithm    | [RSA implementation](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab02)  |  [Guide](https://www.overleaf.com/read/ryynpwswvjby) <br><br> [Instructor's Guide](https://www.overleaf.com/read/rhtrpttqnvrf) |
+|    I     |   [Lab 03](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab03)       |           A Primer on Blockchain             | ➡️Introduction to blockchain<br><br>➡️Public vs private blockchains                                                                                                                              | [Blockchain4Students](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab03)   |  [Guide](https://www.overleaf.com/read/dhgvmqcmbvqs) <br><br> [Instructor's Guide](https://www.overleaf.com/read/ckwpzxwfknhd) |
+|    I      |  [Lab 04](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab04)     | Introduction to Hyperledger Fabric            | ➡️The Hyperledger Ecosystem <br><br> ➡️A Technical Viewpoint on Fabric <br><br> ➡️A Use Case for Education: Blockchain4Students QUC | |  [Guide](https://www.overleaf.com/read/hmbwtzrttdss) <br><br> [Instructor's Guide](https://www.overleaf.com/read/jrgktympsxgp) ||
+|    II      |  [Lab 05](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab05)     | Hyperledger Fabric: Infrastructure and Chaincode            | ➡️ The B4S QUC System <br><br> ➡️ Smart Contracts & Chaincode <br><br> ➡️  Setting up B4S | [Blockchain4Students Fabric Version](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab05)     |  [Guide](https://www.overleaf.com/read/chgphhmydmsp) <br><br> [Instructor's Guide](https://www.overleaf.com/read/qpynfjfnvyts) |
+|    II      |  [Lab 06](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab06)     | Hyperledger Fabric: Full-stack dApp            | ➡️Blockchain Network <br><br> ➡️B4S Web App 6 User interface | [Blockchain4Students Fabric Version + Blockchain Client](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab06)   | [Guide](https://www.overleaf.com/read/fxmnckhwqjqs) <br><br> [Instructor's Guide](https://www.overleaf.com/read/gsqjghvfdcsg) |
+|    II      |  [Lab 07](https://github.com/hyperledger-labs/university-course/tree/master/source/Lab07)     | Hyperledger Umbra: Introduction            | ➡️Introduction to Hyperledger Umbra <br>➡️Simple scenario setting | [Support Code](https://github.com/hyperledger-labs/university-course/tree/master/support/Lab07)    | [Guide](https://www.overleaf.com/read/sjxvntvwzpvg) <br><br> [Instructor's Guide](https://www.overleaf.com/read/nxygmpvkzjmr) |
+|    II      |  Lab 08     | TBD            | TBD | Support Code |  Guide <br><br> Instructor's Guide|
+|    MODULE C     |  LAB X    | CLASS ON Y            | CONTENTS Z |  SUPPORT MATERIALS W   | Guides |
 
 ## Folder organization
 `docs` - contains rendered labs
 
-`source` - contains the LaTeX sources for the labs
+`source` - contains the LaTeX sources for the labs and theory classes.
 
-`support` - contains the support files for the labs
+`support` - contains the support files for the labs.
 
-## Contribute
+## I want to attend this course
+To participate in the course, do the following steps:
+1. Fork this repository via Github UI.
+2. Clone the repository to your machine: git clone https://github.com/YOUR_USERNAME/university-course
+2. Access the guides (Guide and Instructor's Guide) either by:
+    1. Public Mirrors (see the table of contents)
+    3. Compile them at Overleaf. Create a .zip for the lab you want to attend. Upload that .zip to Overleaf [following these instructions](https://www.overleaf.com/learn/how-to/Uploading_a_project).
+    3. Release files (contain compiled PDFs)
 
-Your contributions are very welcome! 🎉🎉
+3. Do the lab. In case of doubts, open an issue [at the official repository](https://github.com/hyperledger-labs/university-course/issues) with the label "lab-question." In case of bugs, open an issue with the "bug."
+4. The solutions are in the Instructors Guide file, available via step 3.
+5. Share with your colleagues and provide feedback!
 
-Contributions are not only code! You can help to improve this project in the following ways:
-1. Extend the course to other enterprise blockchain technologies. This can be done by adding a new Module. Since this course is modular, universities and other learning institutions can build a customized course using a combination of the available modules.
-Examples of Modules that would be desirable: Corda, Hyperledger Besu, Hyperledger Cactus, Hyperledger Sawtooth, Hyperledger Iroha, Cosmos, Polkadot, DAML.
 
-2. Complete the current laboratories. Some improvement options are present on the [issues page](https://github.com/hyperledger-labs/university-course/issues). For time limitations, some labs are not final (chaincode can be extended, the full stack application functionalities can be extended, their frontends as well). Contributions on finishing those would be welcome.
 
-3. Help improve the design of the lab guides.
+## I want to teach this course
+To teach this course, do the following steps:
+1. Fork this repository via Github UI.
+2. Clone the repository to your machine: git clone https://github.com/YOUR_USERNAME/university-course
+2. Access the guides (Guide and Instructor's Guide):
+    1. Using Overleaf. Create a .zip for the lab you want to attend. Upload that .zip to Overleaf [following these instructions](https://www.overleaf.com/learn/how-to/Uploading_a_project).
+    2. Change the guides as needed (e.g., university logo, course's name, dates, etc.).
+    3. Compile and download.
 
-4. Maintaining and disseminating this project. Contributions to disseminate and manage this project are welcome. Please contact Rafael Belchior <rafael.belchior (at) tecnico (dot) ulisboa (dot) pt>.
+3. You can also leverage the support files for your students to experiment. In case of doubts, open an issue [at the official repository](https://github.com/hyperledger-labs/university-course/issues) with the label "lab-question". In case of bugs, open an issue with the "bug."
+5. Share with your students and provide feedback!
 
-5. Contribute with technical expertise in the form of small articles, such as this [introduction to the Libra Blockchain](https://towardsdatascience.com/the-libra-blockchain-technical-overview-part-i-5e872b0369c) or this [2020 review on blockchain interoperability](https://medium.com/coinmonks/blockchain-interoperability-in-2020-a-4-minute-review-e9589b1b1808). Such articles can be added to a special module, in which students read and discuss them.
 
-To contribute code, please check the [contributing guide](https://github.com/hyperledger-labs/university-course/blob/master/CONTRIBUTING.md).
+## I want to create my own materials and contribute to this course
+This course is not a finished product and needs contributions. Your contributions are very welcome! 🎉🎉
+
+Note that contributions are not only code! There are a lot of tasks to build a successful open-source course for everyone. Generally, look for [issues tagged with **help-wanted**](https://github.com/hyperledger-labs/university-course/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22). You can help to improve this project in the following ways:
+
+1. Extend the course to other enterprise blockchain technologies. This can be done by adding a new Module. Since this course is modular, people, universities, and other learning institutions can build a customized course using various modules.
+Examples: Corda, Hyperledger Besu, Hyperledger Cactus, Hyperledger Sawtooth, Hyperledger Iroha, Cosmos, Polkadot, DAML.
+
+2. Visually teach this course (e.g., YouTube tutorials, crash courses, Posters, flyers). You can use these materials for that!
+
+3. Complete the current laboratories, as some labs are not 100% finalized. Some improvement options are present on the [issues page](https://github.com/hyperledger-labs/university-course/issues).
+
+4. Help improve the design of the lab guides.
+
+5. Maintaining and disseminating this project. Contributions to disseminate and manage this project are welcome. Please contact Rafael Belchior <rafael.belchior (at) tecnico (dot) ulisboa (dot) pt>.
+
+6. Contribute with technical expertise in the form of small articles, such as this [introduction to the Libra Blockchain](https://towardsdatascience.com/the-libra-blockchain-technical-overview-part-i-5e872b0369c) or this [2020 review on blockchain interoperability](https://medium.com/coinmonks/blockchain-interoperability-in-2020-a-4-minute-review-e9589b1b1808). Such articles can be added to a special module, in which students read and discuss them.
+
+7. Add theory (slides, presentations, small videos) that can be used to complement the labs
+
+To contribute code, documentation, and others, please check the [contributing guide](https://github.com/hyperledger-labs/university-course/blob/master/CONTRIBUTING.md).
+
 
 ## List of contributors
 * Rafael Belchior <rafael.belchior (at) tecnico (dot) ulisboa (dot) pt>
 * Catarina Pedreira <catarina.pedreira (at) tecnico (dot) ulisboa (dot) pt>
 * Iulia Mihaiu <iulia.mihaiu (at) student (dot) unitbv (dot) ro>
 * Rafael Soares <joao.rafael.pinto.soares (at) tecnico (dot) ulisboa (dot) pt>
+* Raphael Rosa (Raphaelvrosa) via the Hyperledger Umbra project
+* banoris via the Hyperledger Umbra project
 
 
 ## Acknowledgements
