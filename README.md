@@ -22,8 +22,7 @@ Typically, a university course is divided into **theory** and **laboratory** cla
 
 ✅ Get to know Hyperledger Fabric's components in detail, such as architecture and transactional model (<b>Lab 4</b>), chaincode (<b>Lab 5</b>), network, and how to develop an enterprise full-stack blockchain decentralized application (<b>Lab 6</b>)
 
-✅ Understand advanced concepts on the area of consensus, using Hyperledger Umbra (<b>Lab 7, Lab 8</b>)
-<!-- MP: this one is more vague. It should be more specific. -->
+✅ Leverage Hyperledger Umbra to study advanced topics on Fabric (<b>Lab 7, Lab 8</b>)
 
 ## Course Organization
 
@@ -32,11 +31,13 @@ The course is divided into two modules:
 * Module I introduces enterprise blockchain (labs 1-4)
 * Module II focuses on Hyperledger Fabric (labs 5-8).
 
-For universities using trimesters, a course on enterprise technologies uses 1 module.
+Each laboratory is assumed to take 1.5h, supported by a teaching assistant. All laboratories assume 3h of theory classes. Thus, this course could be organized as a 7.5 ECTS university course.
 
-For universities using semesters, a course on enterprise technologies uses 2 modules.
+For example:
+* Universities using trimesters, a course on enterprise technologies uses 1 module (4.5 weekly hours for \~ 3 months).
 
-<!-- MP replace these trimester and semester proposals with a duration number (hours) that can then be fitted to a teaching calendar -->
+For universities using semesters, a course on enterprise technologies uses 2 modules (4.5 weekly hours for \~ 5 months).
+
 
 This course is flexible because you can pick the laboratories you wish to complete across modules.
 Currently, this course supports Hyperledger Fabric and Hyperledger Umbra but can be easily extended by adding modules.
@@ -87,8 +88,6 @@ To teach this course, do the following steps:
 
 3. You can also leverage the support files for your students to experiment. In case of doubts, open an issue [at the official repository](https://github.com/hyperledger-labs/university-course/issues) with the label "lab-question". In case of bugs, open an issue with the "bug."
 5. Share with your students and provide feedback!
-
-<!-- MP Using Overleaf and LaTeX here unnecessarily complicates the process. Why not use Markdown for the labs? It would be much easier to generate and to receive feedback, because of the GitHub collaboration flows. -->
 
 ## I want to create my own materials and contribute to this course
 This course is not a finished product and needs contributions. Your contributions are very welcome! 🎉🎉
