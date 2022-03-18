@@ -127,6 +127,20 @@ To contribute code, documentation, and others, please check the [contributing gu
 | Private  	| Enterprise Blockchain Technologies              	| Técnico Lisboa*           	| Portugal 🇵🇹  	|
 | Public   	| [CS 481A3 BLOCKCHAIN PRINCIPLES AND APPLICATIONS](https://www.cs.colostate.edu/~cs458/#/) 	| Colorado State University 	| USA 🇺🇸       	|
 |     Public                	|       [Blockchain-based Systems Engineering](https://github.com/sebischair/bbse)                                          	|    Technical University of Munich                        	|    Germany 🇩🇪          	|
+| Public | [Blockchain-based Systems Engineering](https://github.com/sebischair/bbse)                                          	| 
+|        | [BLOCKCHAIN AND CRYPTOCURRENCIES](https://www.unibo.it/en/teaching/course-unit-catalogue/course-unit/2020/448362)  | Alma Mater Studiorum - Università di Bologna  |  Italy <sub> IT </sub>|
+|        |  [Web3MOOC: Web3 Foundation’s “Blockchain for Beginners”](https://medium.com/web3foundation/learn-how-to-build-a-blockchain-from-start-to-finish-free-e726fdc8f0be)| Web3 Foundation | Switzerland | 
+| Private| [Hyperledger Besu Essentials: Creating a Private Blockchain Network](https://www.edx.org/course/hyperledger-besu-essentials-creating-a-private-blockchain-network) |  LinuxFoundationX | USA
+|        | [Blockchain-based Systems Engineering ](https://github.com/sebischair/bbse)| Technical University of Munich | Germany
+|        | [Blockchain Developer Online Bootcamp 2021 with Certification](https://courses.consensys.net/courses/blockchain-developer-bootcamp-registration-2021) | ConsenSys Academy| |
+|        | [PG Diploma in Blockchain Technology](https://mitfutureskills.org/post-graduate-programme-in-blockchain-technology/) | MIT, University | India
+|        | [MIPT Blockchain Master’s Program](https://blockchain.mipt.ru/en) | Moscow Institute of Physics and Technology | Russia
+|        | [Solidity, Blockchain, and Smart Contract Course – Beginner to Expert Python Tutorial](https://www.youtube.com/watch?v=M576WGiDBdQ) | freeCodeCamp.org | 
+|        | [Cryptocourse](https://github.com/Spider333/Cryptocourse) | Slovak University of Technology in Bratislava | Slovakia |
+|        | [Cryptocurrency Class 2019](https://blockchain.kcl.ac.uk/cryptocurrencyclass/)| King's College London | England|
+|        | [Blockchain Courses](https://github.com/AbsoluteVirtueXI/blockchain-courses)  |  | |
+|        | [Web3 Courses](https://www.useweb3.xyz/courses) | Web3 | |
+
 
 Legend:
 
